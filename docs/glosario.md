@@ -1,0 +1,63 @@
+# Glosario
+
+Estas son las palabras del proyecto. Se usan igual al hablar, al escribir
+documentación y al programar. Si en el código aparece otro nombre para lo mismo,
+es un error que hay que corregir.
+
+---
+
+**Interés**
+Un tema que sigues. Tiene nombre y peso.
+*Ejemplos: IA, arquitectura de software, integración sensorial.*
+
+**Ámbito**
+Un grupo de intereses que comparten fuentes, ritmo de publicación y cupo.
+*Hay dos: Técnico y Clínico.*
+
+**Fuente**
+De dónde sale el contenido. No es solo una dirección web: tiene ámbito,
+autoridad, histórico de aciertos y un estado — *candidata*, *aprobada*,
+*en cuarentena* o *descartada*.
+
+**Hallazgo**
+Algo que una fuente ha ofrecido y que todavía no se ha evaluado. Materia bruta,
+sin limpiar y posiblemente repetida.
+
+**Huella**
+La identidad real de un contenido: su DOI, su dirección canónica, su
+identificador de vídeo. Sirve para saber que algo ya lo tenemos aunque haya
+llegado por tres caminos distintos.
+
+**Pieza**
+Un hallazgo ya limpio, identificado por su huella y listo para competir por
+entrar en la edición. Es el concepto central del proyecto.
+
+**Destilado**
+La versión de una pieza que se lee en diez segundos, en español, escrita por
+nosotras con IA. Lleva marcadas las palabras clave.
+*Es obra nuestra, no del autor original. Esa distinción importa legalmente.*
+
+**Ampliación**
+Un segundo nivel de texto, más largo, para cuando una pieza interesa de verdad.
+Se abre sin salir de la aplicación.
+
+**Valoración**
+El resultado de aplicar los criterios a una pieza en un momento dado. Lleva
+fecha, porque la frescura caduca: la misma pieza no vale lo mismo hoy que dentro
+de una semana.
+
+**Edición**
+El conjunto de piezas seleccionadas para un día. Tiene fecha, tiene cupos por
+ámbito y **no cambia una vez publicada**.
+
+**Feed**
+Tu orden personal sobre la edición. Es privado, vive en tu dispositivo y se
+recalcula cada vez que abres la aplicación.
+
+**Señal de interés**
+Lo que haces con una pieza: verla pasar, abrirla, guardarla, saltártela,
+marcarla como muy o poco relevante. Es lo único que el sistema aprende de ti.
+
+**Cuarentena**
+El estado de una fuente que ha dejado de merecer la pena y deja de aportar
+piezas hasta nueva orden.
