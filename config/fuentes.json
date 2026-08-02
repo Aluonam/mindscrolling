@@ -1,0 +1,70 @@
+{
+  "cupos": {
+    "tecnico": 3,
+    "clinico": 2
+  },
+  "fuentes": [
+    {
+      "id": "arxiv-ai",
+      "nombre": "arXiv · cs.AI",
+      "ambito": "tecnico",
+      "estado": "aprobada",
+      "autoridad": 1.6,
+      "rss": "http://export.arxiv.org/rss/cs.AI"
+    },
+    {
+      "id": "arxiv-se",
+      "nombre": "arXiv · cs.SE",
+      "ambito": "tecnico",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "rss": "http://export.arxiv.org/rss/cs.SE"
+    },
+    {
+      "id": "biorxiv-neuro",
+      "nombre": "bioRxiv · neurociencia",
+      "ambito": "clinico",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "rss": "http://connect.biorxiv.org/biorxiv_xml.php?subject=neuroscience"
+    }
+  ],
+  "intereses": [
+    {
+      "nombre": "IA",
+      "ambito": "tecnico",
+      "peso": 1,
+      "terminos": ["language model", "llm", "neural", "transformer", "inference", "agent", "reasoning"]
+    },
+    {
+      "nombre": "Arquitectura de software",
+      "ambito": "tecnico",
+      "peso": 1,
+      "terminos": ["architecture", "design", "microservice", "modular", "coupling", "domain"]
+    },
+    {
+      "nombre": "Modelos de software",
+      "ambito": "tecnico",
+      "peso": 1,
+      "terminos": ["model-driven", "abstraction", "specification", "formal", "verification"]
+    },
+    {
+      "nombre": "Integración sensorial",
+      "ambito": "clinico",
+      "peso": 1,
+      "terminos": ["sensory", "vestibular", "proprioception", "somatosensory", "multisensory"]
+    },
+    {
+      "nombre": "Anatomía y fisiología",
+      "ambito": "clinico",
+      "peso": 1,
+      "terminos": ["motor control", "posture", "cortex", "physiology", "neuromuscular"]
+    },
+    {
+      "nombre": "Terapia ocupacional",
+      "ambito": "clinico",
+      "peso": 1,
+      "terminos": ["occupational", "rehabilitation", "daily living", "fine motor", "children"]
+    }
+  ]
+}
