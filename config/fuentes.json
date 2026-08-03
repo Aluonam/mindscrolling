@@ -1,0 +1,1344 @@
+{
+  "cupos": {
+    "tecnico": 4,
+    "clinico": 3,
+    "gestion": 1
+  },
+  "fuentes": [
+    {
+      "id": "pubmed",
+      "nombre": "PubMed",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "aprobada",
+      "autoridad": 1.9,
+      "web": "https://pubmed.ncbi.nlm.nih.gov",
+      "consulta": "SRC:MED AND (\"occupational therapy\" OR \"sensory integration\" OR \"sensory processing\" OR \"motor control\" OR neurorehabilitation)",
+      "nota": "No tiene RSS: es un buscador. Se lee por Europe PMC, que indexa PubMed entero (SRC:MED). Unas 550 entradas al mes con esta consulta."
+    },
+    {
+      "id": "pmc",
+      "nombre": "PubMed Central",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.8,
+      "web": "https://www.ncbi.nlm.nih.gov/pmc",
+      "nota": "Se probo por Europe PMC con SRC:PMC: 0 entradas en 30 dias y 170 en 120. Casi todo lo suyo ya viene por SRC:MED, asi que anadirla solo duplicaria. Se queda candidata a proposito."
+    },
+    {
+      "id": "cochrane",
+      "nombre": "Cochrane Library",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.9,
+      "web": "https://www.cochranelibrary.com",
+      "nota": "Probadas dos direcciones de feed: 404 y 412. Protegida contra robots."
+    },
+    {
+      "id": "google-scholar",
+      "nombre": "Google Scholar",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://scholar.google.com",
+      "nota": "Sin API ni feed. Solo alertas por correo. Rasparlo va contra sus condiciones de uso."
+    },
+    {
+      "id": "sciencedirect",
+      "nombre": "ScienceDirect",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://www.sciencedirect.com",
+      "nota": "Los feeds son por revista, no globales. La API de Elsevier requiere clave institucional."
+    },
+    {
+      "id": "scopus",
+      "nombre": "Scopus",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://www.scopus.com",
+      "nota": "De pago y con login. Sirve para buscar a mano, no para automatizar."
+    },
+    {
+      "id": "web-of-science",
+      "nombre": "Web of Science",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://www.webofscience.com",
+      "nota": "De pago y con login, igual que Scopus."
+    },
+    {
+      "id": "researchgate",
+      "nombre": "ResearchGate",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.1,
+      "web": "https://www.researchgate.net",
+      "nota": "Bloquea el acceso automatico de forma agresiva."
+    },
+    {
+      "id": "scielo",
+      "nombre": "SciELO",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://scielo.org",
+      "nota": "El buscador responde 403. Probadas ademas cuatro direcciones de OAI-PMH (scielo.org, scielo.br, old.scielo.br, search.scielo.org): dos 404, un 403 y un certificado invalido. Ninguna sirve. Sigue interesando por el peso iberoamericano."
+    },
+    {
+      "id": "semantic-scholar",
+      "nombre": "Semantic Scholar",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.semanticscholar.org",
+      "nota": "Su API es abierta pero el cupo sin clave esta agotado de forma permanente: 6 de 6 llamadas rechazadas con 429 esperando 4 segundos entre una y otra. Sirve si se pide una clave gratuita; sin ella no se puede usar."
+    },
+    {
+      "id": "bmc",
+      "nombre": "BioMed Central",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.biomedcentral.com",
+      "nota": "Los feeds por revista dan HTML o error 500. Por Europe PMC con PUBLISHER:\"BioMed Central\" salen 357 al ano pero 0 en los ultimos 120 dias: el campo de editorial va con demasiado retraso. La via buena es revista a revista, como se hizo con jneuroengrehab."
+    },
+    {
+      "id": "nejm",
+      "nombre": "New England Journal of Medicine",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "aprobada",
+      "autoridad": 1.9,
+      "web": "https://www.nejm.org",
+      "rss": "https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss",
+      "nota": "El feed da titular y resumen; el texto completo esta tras muro de pago."
+    },
+    {
+      "id": "lancet",
+      "nombre": "The Lancet",
+      "ambito": "clinico",
+      "categoria": "Bases de datos y revistas generales",
+      "estado": "aprobada",
+      "autoridad": 1.9,
+      "web": "https://www.thelancet.com",
+      "rss": "https://www.thelancet.com/rssfeed/lancet_current.xml",
+      "nota": "Igual que NEJM: titulares abiertos, texto completo de pago."
+    },
+
+    {
+      "id": "aota",
+      "nombre": "AOTA",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.7,
+      "web": "https://www.aota.org",
+      "nota": "Sin feed. Mucho contenido reservado a personas asociadas."
+    },
+    {
+      "id": "ajot",
+      "nombre": "American Journal of Occupational Therapy",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "aprobada",
+      "autoridad": 1.9,
+      "web": "https://ajot.aota.org",
+      "consulta": "JOURNAL:\"The American journal of occupational therapy\"",
+      "diasAtras": 150,
+      "nota": "Su web responde 403 al robot, pero Europe PMC la indexa: por ahi si se llega. Necesita ventana ancha porque tarda de uno a tres meses en aparecer indexada: con 30 dias devolvia 0 y con 120 devuelve 38. Aqui no hay novedad del dia, hay la revista de referencia de la profesion."
+    },
+    {
+      "id": "wfot",
+      "nombre": "WFOT",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://wfot.org",
+      "nota": "Sin feed."
+    },
+    {
+      "id": "otseeker",
+      "nombre": "OTseeker",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.7,
+      "web": "https://www.otseeker.com",
+      "nota": "Base de datos de evidencia especifica en TO. Solo buscador, sin feed."
+    },
+    {
+      "id": "star-institute",
+      "nombre": "STAR Institute for Sensory Processing",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "aprobada",
+      "autoridad": 1.7,
+      "web": "https://sensoryhealth.org",
+      "rss": "https://sensoryhealth.org/rss.xml",
+      "nota": "Heredera del trabajo de Ayres. El feed vivo es /rss.xml, no /feed."
+    },
+    {
+      "id": "si-education",
+      "nombre": "Sensory Integration Education",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.sensoryintegration.org.uk",
+      "nota": "Sin feed localizado."
+    },
+    {
+      "id": "ot-potential",
+      "nombre": "OT Potential",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.2,
+      "web": "https://otpotential.com",
+      "nota": "El feed de Squarespace devuelve HTML. Tiene podcast: quiza haya feed de audio."
+    },
+    {
+      "id": "ot-toolbox",
+      "nombre": "The OT Toolbox",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "aprobada",
+      "autoridad": 1.0,
+      "web": "https://www.theottoolbox.com",
+      "rss": "https://www.theottoolbox.com/feed/",
+      "nota": "Practico y pediatrico, pero no es evidencia: autoridad baja a proposito."
+    },
+    {
+      "id": "nbcot",
+      "nombre": "NBCOT",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.3,
+      "web": "https://www.nbcot.org",
+      "nota": "Organismo certificador. Publica poco contenido de lectura."
+    },
+    {
+      "id": "your-therapy-source",
+      "nombre": "Your Therapy Source",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "aprobada",
+      "autoridad": 1.0,
+      "web": "https://www.yourtherapysource.com",
+      "rss": "https://www.yourtherapysource.com/blog1/feed/"
+    },
+    {
+      "id": "canchild",
+      "nombre": "CanChild",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "aprobada",
+      "autoridad": 1.7,
+      "web": "https://www.canchild.ca",
+      "rss": "https://canchild.ca/feed/",
+      "nota": "Investigacion en discapacidad infantil, muy citada en TO pediatrica."
+    },
+    {
+      "id": "harkla",
+      "nombre": "Harkla",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 0.8,
+      "web": "https://harkla.co/blogs/special-needs",
+      "nota": "Blog de una tienda: hay conflicto de interes comercial. Autoridad baja."
+    },
+    {
+      "id": "autism-speaks",
+      "nombre": "Autism Speaks",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.1,
+      "web": "https://www.autismspeaks.org",
+      "nota": "Sin feed util. Organizacion discutida dentro de la comunidad autista: conviene contrastarla."
+    },
+    {
+      "id": "pediatric-therapy-network",
+      "nombre": "Pediatric Therapy Network",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.1,
+      "web": "https://pediatrictherapynetwork.org",
+      "nota": "No respondio a la peticion."
+    },
+    {
+      "id": "ot-practice",
+      "nombre": "OT Practice (AOTA)",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.aota.org/publications/ot-practice",
+      "nota": "Reservada a personas asociadas de AOTA."
+    },
+    {
+      "id": "physiopedia",
+      "nombre": "Physiopedia",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.3,
+      "web": "https://www.physio-pedia.com",
+      "nota": "Los feeds de MediaWiki responden 403. Ademas es enciclopedia, no publicacion: encaja mal con la idea de edicion diaria."
+    },
+
+    {
+      "id": "ninds",
+      "nombre": "NINDS",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "candidata",
+      "autoridad": 1.8,
+      "web": "https://www.ninds.nih.gov",
+      "nota": "Responde 403 al robot."
+    },
+    {
+      "id": "aan",
+      "nombre": "American Academy of Neurology",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "candidata",
+      "autoridad": 1.7,
+      "web": "https://www.aan.com",
+      "nota": "Sin feed localizado."
+    },
+    {
+      "id": "neurology",
+      "nombre": "Neurology (AAN)",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.9,
+      "web": "https://www.neurology.org",
+      "rss": "https://www.neurology.org/action/showFeed?ui=0&mi=0&ai=0&jc=wnl&type=etoc&feed=rss",
+      "nota": "Feed de sumario: pocas entradas y solo cuando sale numero."
+    },
+    {
+      "id": "frontiers-neurology",
+      "nombre": "Frontiers in Neurology",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://www.frontiersin.org/journals/neurology",
+      "rss": "https://www.frontiersin.org/journals/neurology/rss"
+    },
+    {
+      "id": "frontiers-human-neuro",
+      "nombre": "Frontiers in Human Neuroscience",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://www.frontiersin.org/journals/human-neuroscience",
+      "rss": "https://www.frontiersin.org/journals/human-neuroscience/rss"
+    },
+    {
+      "id": "jneuroengrehab",
+      "nombre": "Journal of NeuroEngineering and Rehabilitation",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.6,
+      "web": "https://jneuroengrehab.biomedcentral.com",
+      "consulta": "JOURNAL:\"Journal of neuroengineering and rehabilitation\"",
+      "nota": "Sus feeds de BMC dan HTML y error 500, pero Europe PMC la indexa al dia. Unas 19 al mes."
+    },
+    {
+      "id": "neurorehabilitation-ios",
+      "nombre": "NeuroRehabilitation (IOS Press)",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://www.iospress.com/catalog/journals/neurorehabilitation",
+      "nota": "Sin feed. Ojo: la revista de nombre parecido de SAGE, Neurorehabilitation and Neural Repair, si tiene feed vivo, pero es otra publicacion distinta."
+    },
+    {
+      "id": "sralab",
+      "nombre": "Shirley Ryan AbilityLab",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://www.sralab.org",
+      "nota": "Sin feed localizado. Su Rehabilitation Measures Database es oro para valoracion."
+    },
+    {
+      "id": "neuroscience-news",
+      "nombre": "Neuroscience News",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.1,
+      "web": "https://neurosciencenews.com",
+      "rss": "https://neurosciencenews.com/feed/",
+      "nota": "Divulgacion, no fuente primaria: tiende a exagerar los titulares."
+    },
+    {
+      "id": "biausa",
+      "nombre": "Brain Injury Association of America",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://www.biausa.org",
+      "nota": "El feed devuelve HTML."
+    },
+    {
+      "id": "ibro",
+      "nombre": "IBRO",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://ibro.org",
+      "rss": "https://ibro.org/feed/"
+    },
+    {
+      "id": "ndta",
+      "nombre": "NDTA (Bobath / NDT)",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.ndta.org",
+      "nota": "Sin feed."
+    },
+    {
+      "id": "bobath-uk",
+      "nombre": "Bobath Centre (Reino Unido)",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://www.bobath.org.uk",
+      "nota": "El feed devuelve HTML."
+    },
+    {
+      "id": "sfari",
+      "nombre": "SFARI (Simons Foundation)",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.7,
+      "web": "https://www.sfari.org",
+      "rss": "https://www.sfari.org/feed/"
+    },
+    {
+      "id": "child-mind",
+      "nombre": "Child Mind Institute",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://childmind.org",
+      "rss": "https://childmind.org/feed/"
+    },
+    {
+      "id": "sciencedaily-neuro",
+      "nombre": "ScienceDaily - Neurociencia",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.0,
+      "web": "https://www.sciencedaily.com/news/mind_brain/neuroscience",
+      "rss": "https://www.sciencedaily.com/rss/mind_brain/neuroscience.xml",
+      "nota": "Reescribe notas de prensa universitarias. Util para enterarse, flojo como evidencia."
+    },
+    {
+      "id": "biorxiv-neuro",
+      "nombre": "bioRxiv - neurociencia",
+      "ambito": "clinico",
+      "categoria": "Neurodesarrollo y neurorehabilitacion",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "web": "https://www.biorxiv.org",
+      "rss": "http://connect.biorxiv.org/biorxiv_xml.php?subject=neuroscience",
+      "nota": "Ya estaba en el proyecto antes de este catalogo. Preprints sin revision por pares."
+    },
+
+    {
+      "id": "martin-fowler",
+      "nombre": "Martin Fowler",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.8,
+      "web": "https://martinfowler.com",
+      "rss": "https://martinfowler.com/feed.atom"
+    },
+    {
+      "id": "infoq",
+      "nombre": "InfoQ",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://www.infoq.com",
+      "rss": "https://feed.infoq.com/"
+    },
+    {
+      "id": "high-scalability",
+      "nombre": "High Scalability",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "web": "https://highscalability.com",
+      "rss": "https://highscalability.com/rss/",
+      "nota": "La direccion que circula por ahi, highscalability.com/rss.xml, esta muerta. Esta es la buena."
+    },
+    {
+      "id": "aws-architecture",
+      "nombre": "AWS Architecture Blog",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://aws.amazon.com/blogs/architecture",
+      "rss": "https://aws.amazon.com/blogs/architecture/feed/"
+    },
+    {
+      "id": "azure-architecture",
+      "nombre": "Azure Architecture Center",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.2,
+      "web": "https://learn.microsoft.com/azure/architecture",
+      "rss": "https://learn.microsoft.com/api/search/rss?search=architecture&locale=en-us",
+      "nota": "No es el feed del centro de arquitectura: es una busqueda de 'architecture' en Microsoft Learn. Trae ruido, por eso la autoridad es media."
+    },
+    {
+      "id": "gcp-architecture",
+      "nombre": "Google Cloud Architecture Center",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "web": "https://cloud.google.com/architecture",
+      "rss": "https://cloudblog.withgoogle.com/topics/developers-practitioners/rss/",
+      "nota": "El centro de arquitectura no tiene feed. Este es el blog de Developers & Practitioners, lo mas cercano."
+    },
+    {
+      "id": "thoughtworks-radar",
+      "nombre": "ThoughtWorks Technology Radar",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://www.thoughtworks.com/radar",
+      "rss": "https://www.thoughtworks.com/rss/insights.xml",
+      "nota": "Devuelve el archivo entero de Insights, mas de 2700 entradas. Habra que filtrar por fecha."
+    },
+    {
+      "id": "netflix-tech",
+      "nombre": "Netflix Tech Blog",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://netflixtechblog.com",
+      "rss": "https://netflixtechblog.com/feed"
+    },
+    {
+      "id": "uber-eng",
+      "nombre": "Uber Engineering Blog",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://www.uber.com/blog/engineering",
+      "nota": "Probadas tres direcciones de feed, todas 404. Parece que lo retiraron."
+    },
+    {
+      "id": "github-eng",
+      "nombre": "GitHub Engineering Blog",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "web": "https://github.blog/engineering",
+      "rss": "https://github.blog/engineering/feed/",
+      "nota": "La direccion antigua /category/engineering/feed/ redirige aqui."
+    },
+    {
+      "id": "c4model",
+      "nombre": "C4 Model (Simon Brown)",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://c4model.com",
+      "nota": "Es documentacion estable, no publicacion periodica: no tiene sentido leerla cada dia."
+    },
+    {
+      "id": "se-daily",
+      "nombre": "Software Engineering Daily",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.2,
+      "web": "https://softwareengineeringdaily.com",
+      "rss": "https://softwareengineeringdaily.com/feed/"
+    },
+    {
+      "id": "dzone",
+      "nombre": "DZone",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.0,
+      "web": "https://dzone.com",
+      "rss": "https://feeds.dzone.com/home",
+      "nota": "El feed por tema de arquitectura da 404; este es el general. Calidad muy desigual."
+    },
+    {
+      "id": "pragmatic-engineer",
+      "nombre": "The Pragmatic Engineer",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://blog.pragmaticengineer.com",
+      "rss": "https://blog.pragmaticengineer.com/rss/",
+      "nota": "Parte del contenido es solo para suscriptoras."
+    },
+    {
+      "id": "stackoverflow-blog",
+      "nombre": "Stack Overflow Blog",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.1,
+      "web": "https://stackoverflow.blog",
+      "rss": "https://stackoverflow.blog/feed/"
+    },
+    {
+      "id": "arxiv-se",
+      "nombre": "arXiv - cs.SE",
+      "ambito": "tecnico",
+      "categoria": "Arquitectura de software",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://arxiv.org/list/cs.SE/recent",
+      "rss": "https://export.arxiv.org/rss/cs.SE",
+      "nota": "Ya estaba en el proyecto antes de este catalogo. Preprints sin revision por pares."
+    },
+
+    {
+      "id": "arxiv-ai",
+      "nombre": "arXiv - cs.AI",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.6,
+      "web": "https://arxiv.org/list/cs.AI/recent",
+      "rss": "https://export.arxiv.org/rss/cs.AI",
+      "nota": "Preprints sin revision por pares. Mas de 250 al dia: el filtro tiene que ser duro."
+    },
+    {
+      "id": "arxiv-lg",
+      "nombre": "arXiv - cs.LG",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.6,
+      "web": "https://arxiv.org/list/cs.LG/recent",
+      "rss": "https://export.arxiv.org/rss/cs.LG",
+      "nota": "Preprints sin revision por pares."
+    },
+    {
+      "id": "mit-tech-review",
+      "nombre": "MIT Technology Review",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://www.technologyreview.com",
+      "rss": "https://www.technologyreview.com/feed/",
+      "nota": "Muro de pago blando."
+    },
+    {
+      "id": "anthropic-news",
+      "nombre": "Anthropic Blog",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://www.anthropic.com/news",
+      "nota": "Probadas tres direcciones de feed, todas 404. No publica RSS."
+    },
+    {
+      "id": "openai-blog",
+      "nombre": "OpenAI Blog",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://openai.com/blog",
+      "rss": "https://openai.com/news/rss.xml",
+      "nota": "La direccion antigua /blog/rss.xml redirige aqui."
+    },
+    {
+      "id": "deepmind",
+      "nombre": "Google DeepMind Blog",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.6,
+      "web": "https://deepmind.google/discover/blog",
+      "rss": "https://deepmind.google/blog/rss.xml"
+    },
+    {
+      "id": "google-ai-blog",
+      "nombre": "Google AI Blog",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://blog.google/technology/ai",
+      "rss": "https://blog.google/innovation-and-ai/technology/ai/rss/"
+    },
+    {
+      "id": "huggingface",
+      "nombre": "Hugging Face Blog",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "web": "https://huggingface.co/blog",
+      "rss": "https://huggingface.co/blog/feed.xml",
+      "nota": "Mas de 800 entradas, muchas de la comunidad y de calidad desigual."
+    },
+    {
+      "id": "papers-with-code",
+      "nombre": "Papers with Code",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://paperswithcode.com",
+      "nota": "El feed devuelve HTML. El proyecto lleva tiempo sin mantenerse."
+    },
+    {
+      "id": "towards-data-science",
+      "nombre": "Towards Data Science",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 0.9,
+      "web": "https://towardsdatascience.com",
+      "rss": "https://towardsdatascience.com/feed/",
+      "nota": "Blog colaborativo sin revision seria. Autoridad baja."
+    },
+    {
+      "id": "kdnuggets",
+      "nombre": "KDnuggets",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.0,
+      "web": "https://www.kdnuggets.com",
+      "rss": "https://www.kdnuggets.com/feed"
+    },
+    {
+      "id": "wired",
+      "nombre": "Wired",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 0.9,
+      "web": "https://www.wired.com",
+      "rss": "https://www.wired.com/feed/rss",
+      "nota": "Divulgacion generalista: mucho ruido para los temas del proyecto."
+    },
+    {
+      "id": "techcrunch",
+      "nombre": "TechCrunch",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 0.8,
+      "web": "https://techcrunch.com",
+      "rss": "https://techcrunch.com/feed/",
+      "nota": "Sobre todo rondas de financiacion. Aporta poco a los temas del proyecto."
+    },
+    {
+      "id": "the-verge",
+      "nombre": "The Verge",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 0.8,
+      "web": "https://www.theverge.com",
+      "rss": "https://www.theverge.com/rss/index.xml",
+      "nota": "Mucho producto de consumo."
+    },
+    {
+      "id": "ars-technica",
+      "nombre": "Ars Technica",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.1,
+      "web": "https://arstechnica.com",
+      "rss": "https://feeds.arstechnica.com/arstechnica/index"
+    },
+    {
+      "id": "ieee-spectrum",
+      "nombre": "IEEE Spectrum",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e inteligencia artificial",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://spectrum.ieee.org",
+      "rss": "https://spectrum.ieee.org/feeds/feed.rss"
+    },
+
+    {
+      "id": "scrum-org",
+      "nombre": "Scrum.org",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "candidata",
+      "autoridad": 1.7,
+      "web": "https://www.scrum.org",
+      "nota": "Responde 403 al robot."
+    },
+    {
+      "id": "scrum-org-recursos",
+      "nombre": "Scrum.org - Recursos y blog",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://www.scrum.org/resources",
+      "nota": "Misma casa que scrum-org y mismo 403. Se mantiene aparte porque venia asi en el listado de partida."
+    },
+    {
+      "id": "scrum-alliance",
+      "nombre": "Scrum Alliance",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.scrumalliance.org",
+      "nota": "Sin feed localizado."
+    },
+    {
+      "id": "scrum-alliance-recursos",
+      "nombre": "Scrum Alliance - Biblioteca de recursos",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://resources.scrumalliance.org",
+      "nota": "Sin feed localizado."
+    },
+    {
+      "id": "agile-alliance",
+      "nombre": "Agile Alliance",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.agilealliance.org",
+      "nota": "Las dos direcciones de feed devuelven HTML."
+    },
+    {
+      "id": "mountain-goat",
+      "nombre": "Mountain Goat Software (Mike Cohn)",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://www.mountaingoatsoftware.com",
+      "rss": "https://www.mountaingoatsoftware.com/blog/rss"
+    },
+    {
+      "id": "atlassian-agile",
+      "nombre": "Atlassian Agile Coach",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "candidata",
+      "autoridad": 1.3,
+      "web": "https://www.atlassian.com/agile",
+      "nota": "Son guias estables, no publicacion periodica. Ademas el feed del blog devuelve HTML."
+    },
+    {
+      "id": "age-of-product",
+      "nombre": "Age of Product",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "web": "https://age-of-product.com",
+      "rss": "https://age-of-product.com/feed/"
+    },
+    {
+      "id": "scrum-inc",
+      "nombre": "Scrum Inc. (Jeff Sutherland)",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://www.scruminc.com",
+      "rss": "https://www.scruminc.com/feed/"
+    },
+    {
+      "id": "crisp-blog",
+      "nombre": "Crisp Blog",
+      "ambito": "gestion",
+      "categoria": "Scrum y agilidad",
+      "estado": "aprobada",
+      "autoridad": 1.4,
+      "web": "https://blog.crisp.se",
+      "rss": "https://blog.crisp.se/feed",
+      "nota": "Publica poco, pero cuando publica suele merecer la pena."
+    },
+
+    {
+      "id": "pmi",
+      "nombre": "PMI (Project Management Institute)",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "candidata",
+      "autoridad": 1.8,
+      "web": "https://www.pmi.org",
+      "nota": "Responde 403 al robot."
+    },
+    {
+      "id": "projectmanagement-com",
+      "nombre": "ProjectManagement.com",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "candidata",
+      "autoridad": 1.2,
+      "web": "https://www.projectmanagement.com",
+      "nota": "Responde 403 al robot y buena parte pide cuenta."
+    },
+    {
+      "id": "project-times",
+      "nombre": "Project Times",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "aprobada",
+      "autoridad": 1.0,
+      "web": "https://www.projecttimes.com",
+      "rss": "https://www.projecttimes.com/feed/"
+    },
+    {
+      "id": "mindtools",
+      "nombre": "MindTools",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "candidata",
+      "autoridad": 1.1,
+      "web": "https://www.mindtools.com",
+      "nota": "El feed devuelve HTML. Casi todo tras suscripcion."
+    },
+    {
+      "id": "hbr",
+      "nombre": "Harvard Business Review",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://hbr.org",
+      "nota": "El feed clasico de feeds.hbr.org ya no devuelve XML valido. Muro de pago duro."
+    },
+    {
+      "id": "wrike-blog",
+      "nombre": "Wrike Blog",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "descartada",
+      "autoridad": 0.9,
+      "web": "https://www.wrike.com/blog",
+      "rss": "https://www.wrike.com/blog/feed/",
+      "nota": "El feed funciona y publica mucho: 11 entradas en 30 dias, de las que mas. Justo por eso se descarta. Es marketing de producto, escrito para vender Wrike, y con el cupo de gestion en 1 se comeria el hueco de Age of Product todos los dias."
+    },
+    {
+      "id": "asana-resources",
+      "nombre": "Asana Resources",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "candidata",
+      "autoridad": 0.9,
+      "web": "https://asana.com/resources",
+      "nota": "Sin feed. Tambien es contenido de producto."
+    },
+    {
+      "id": "smartsheet",
+      "nombre": "Smartsheet Content Center",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "candidata",
+      "autoridad": 0.9,
+      "web": "https://www.smartsheet.com/content-center",
+      "nota": "Sin feed. Contenido de producto."
+    },
+    {
+      "id": "teamgantt",
+      "nombre": "TeamGantt Blog",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "descartada",
+      "autoridad": 0.9,
+      "web": "https://www.teamgantt.com/blog",
+      "rss": "https://www.teamgantt.com/blog/rss.xml",
+      "nota": "El feed funciona, 4 entradas en 30 dias. Se descarta por lo mismo que Wrike: es marketing de producto."
+    },
+    {
+      "id": "apm-uk",
+      "nombre": "APM (Association for Project Management)",
+      "ambito": "gestion",
+      "categoria": "Gestion de proyectos",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.apm.org.uk",
+      "nota": "El feed devuelve HTML."
+    },
+
+    {
+      "id": "coursera",
+      "nombre": "Coursera",
+      "ambito": "gestion",
+      "categoria": "Formacion",
+      "estado": "aprobada",
+      "autoridad": 1.0,
+      "web": "https://www.coursera.org",
+      "rss": "https://blog.coursera.org/feed/",
+      "nota": "El feed es el del blog corporativo, no el catalogo de cursos."
+    },
+    {
+      "id": "edx",
+      "nombre": "edX",
+      "ambito": "gestion",
+      "categoria": "Formacion",
+      "estado": "candidata",
+      "autoridad": 1.1,
+      "web": "https://www.edx.org",
+      "nota": "Los feeds del blog devuelven HTML."
+    },
+    {
+      "id": "linkedin-learning",
+      "nombre": "LinkedIn Learning",
+      "ambito": "gestion",
+      "categoria": "Formacion",
+      "estado": "candidata",
+      "autoridad": 0.9,
+      "web": "https://www.linkedin.com/learning",
+      "nota": "Requiere suscripcion y login. No se puede automatizar."
+    },
+    {
+      "id": "nlm-training",
+      "nombre": "NIH National Library of Medicine - Formacion",
+      "ambito": "gestion",
+      "categoria": "Formacion",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.nlm.nih.gov/education",
+      "nota": "Sin feed localizado. Utilisimo para aprender a buscar bibliografia, pero no es contenido diario."
+    },
+    {
+      "id": "medbridge",
+      "nombre": "MedBridge",
+      "ambito": "gestion",
+      "categoria": "Formacion",
+      "estado": "candidata",
+      "autoridad": 1.3,
+      "web": "https://www.medbridgeeducation.com",
+      "nota": "Sin feed y de pago. Formacion continua acreditada en TO y neurorehabilitacion."
+    },
+
+    {
+      "id": "consejo-to",
+      "nombre": "Consejo General de Colegios de Terapeutas Ocupacionales de Espana",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.8,
+      "web": "https://www.consejo-to.org",
+      "nota": "El dominio no resuelve. Hay que localizar la web vigente."
+    },
+    {
+      "id": "coptocam",
+      "nombre": "COPTOCAM - Madrid",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.5,
+      "web": "https://www.coptocam.es",
+      "nota": "El dominio resuelve pero falla el handshake TLS. Puede ser un certificado caducado."
+    },
+    {
+      "id": "cotoc",
+      "nombre": "COTOC - Catalunya",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://www.cotoc.cat",
+      "rss": "https://www.cotoc.cat/feed/",
+      "nota": "El unico colegio autonomico con feed vivo. Publica en catalan."
+    },
+    {
+      "id": "coptoa",
+      "nombre": "COPTOA - Andalucia",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "candidata",
+      "autoridad": 1.5,
+      "web": "https://www.coptoa.es",
+      "nota": "La web responde, pero no tiene feed."
+    },
+    {
+      "id": "coptocv",
+      "nombre": "COPTOCV - Comunitat Valenciana",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.5,
+      "web": "https://www.coptocv.org",
+      "nota": "El dominio no resuelve."
+    },
+    {
+      "id": "cotoga",
+      "nombre": "COTOGA - Galicia",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.5,
+      "web": "https://www.cotoga.org",
+      "nota": "El dominio no resuelve."
+    },
+    {
+      "id": "coptocyl",
+      "nombre": "COPTOCYL - Castilla y Leon",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.5,
+      "web": "https://www.coptocyl.org",
+      "nota": "El dominio no resuelve."
+    },
+    {
+      "id": "eoteo",
+      "nombre": "EOTEO - Pais Vasco",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.5,
+      "web": "https://www.eoteo.org",
+      "nota": "El dominio no resuelve."
+    },
+    {
+      "id": "coptoar",
+      "nombre": "COPTOAR - Aragon",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.5,
+      "web": "https://www.coptoaragon.org",
+      "nota": "El dominio no resuelve."
+    },
+    {
+      "id": "coptomu",
+      "nombre": "COPTOMU - Region de Murcia",
+      "ambito": "clinico",
+      "categoria": "Colegios y organizaciones de TO en Espana",
+      "estado": "cuarentena",
+      "autoridad": 1.5,
+      "web": "https://www.coptomurcia.es",
+      "nota": "El dominio no resuelve."
+    },
+
+    {
+      "id": "xataka",
+      "nombre": "Xataka",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 0.9,
+      "web": "https://www.xataka.com",
+      "rss": "https://www.xataka.com/feedburner.xml",
+      "nota": "Generalista y muy de consumo. Autoridad baja."
+    },
+    {
+      "id": "genbeta",
+      "nombre": "Genbeta",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 0.9,
+      "web": "https://www.genbeta.com",
+      "rss": "https://www.genbeta.com/feedburner.xml"
+    },
+    {
+      "id": "hipertextual",
+      "nombre": "Hipertextual",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 0.9,
+      "web": "https://hipertextual.com",
+      "rss": "https://hipertextual.com/feed/"
+    },
+    {
+      "id": "bsc",
+      "nombre": "Barcelona Supercomputing Center",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 1.6,
+      "web": "https://www.bsc.es",
+      "rss": "https://www.bsc.es/rss.xml",
+      "nota": "Investigacion de verdad y en Espana. La direccion buena es /rss.xml, no /news/feed."
+    },
+    {
+      "id": "sepln",
+      "nombre": "SEPLN",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 1.5,
+      "web": "https://www.sepln.org",
+      "rss": "https://www.sepln.org/rss.xml",
+      "nota": "Procesamiento del lenguaje natural en espanol. Publica poco pero muy pertinente."
+    },
+    {
+      "id": "incibe",
+      "nombre": "INCIBE",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 1.3,
+      "web": "https://www.incibe.es",
+      "rss": "https://www.incibe.es/rss.xml"
+    },
+    {
+      "id": "digital-gob",
+      "nombre": "Secretaria de Estado de Digitalizacion e IA",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://digital.gob.es",
+      "nota": "Los feeds probados devuelven HTML. Importa por la normativa y la ENIA."
+    },
+    {
+      "id": "ametic",
+      "nombre": "AMETIC",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 1.1,
+      "web": "https://ametic.es",
+      "rss": "https://ametic.es/feed/",
+      "nota": "Patronal del sector: escribe defendiendo los intereses de sus empresas."
+    },
+    {
+      "id": "adigital",
+      "nombre": "Adigital",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 1.1,
+      "web": "https://www.adigital.org",
+      "rss": "https://www.adigital.org/feed/",
+      "nota": "Asociacion sectorial: mismo sesgo que AMETIC."
+    },
+    {
+      "id": "codemotion-es",
+      "nombre": "Codemotion Espana",
+      "ambito": "tecnico",
+      "categoria": "Tecnologia e IA en Espana",
+      "estado": "aprobada",
+      "autoridad": 1.1,
+      "web": "https://www.codemotion.com/es",
+      "rss": "https://www.codemotion.com/magazine/feed/"
+    }
+  ],
+  "intereses": [
+    {
+      "nombre": "IA",
+      "ambito": "tecnico",
+      "peso": 1,
+      "terminos": ["language model", "llm", "neural", "transformer", "inference", "agent", "reasoning"]
+    },
+    {
+      "nombre": "Arquitectura de software",
+      "ambito": "tecnico",
+      "peso": 1,
+      "terminos": ["architecture", "design", "microservice", "modular", "coupling", "domain"]
+    },
+    {
+      "nombre": "Modelos de software",
+      "ambito": "tecnico",
+      "peso": 1,
+      "terminos": ["model-driven", "abstraction", "specification", "formal", "verification"]
+    },
+    {
+      "nombre": "Integración sensorial",
+      "ambito": "clinico",
+      "peso": 1,
+      "terminos": ["sensory", "vestibular", "proprioception", "somatosensory", "multisensory"]
+    },
+    {
+      "nombre": "Anatomía y fisiología",
+      "ambito": "clinico",
+      "peso": 1,
+      "terminos": ["motor control", "posture", "cortex", "physiology", "neuromuscular"]
+    },
+    {
+      "nombre": "Terapia ocupacional",
+      "ambito": "clinico",
+      "peso": 1,
+      "terminos": ["occupational", "rehabilitation", "daily living", "fine motor", "children"]
+    },
+    {
+      "nombre": "Scrum y agilidad",
+      "ambito": "gestion",
+      "peso": 1,
+      "terminos": ["scrum", "agile", "sprint", "backlog", "kanban", "retrospective", "product owner"]
+    },
+    {
+      "nombre": "Gestión de proyectos",
+      "ambito": "gestion",
+      "peso": 1,
+      "terminos": ["project management", "stakeholder", "roadmap", "estimation", "risk", "delivery", "portfolio"]
+    },
+    {
+      "nombre": "Equipos y liderazgo",
+      "ambito": "gestion",
+      "peso": 1,
+      "terminos": ["team", "leadership", "culture", "remote work", "mentoring", "onboarding", "burnout"]
+    }
+  ]
+}
