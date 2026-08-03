@@ -12,12 +12,15 @@ Un tema que sigues. Tiene nombre y peso.
 
 **Ámbito**
 Un grupo de intereses que comparten fuentes, ritmo de publicación y cupo.
-*Hay dos: Técnico y Clínico.*
+*Hay tres: Técnico, Clínico y Gestión.*
+Que sean ámbitos distintos y no una sola lista es lo que impide que lo técnico
+—que publica cien veces más— se coma la edición entera.
 
 **Fuente**
 De dónde sale el contenido. No es solo una dirección web: tiene ámbito,
 autoridad, histórico de aciertos y un estado — *candidata*, *aprobada*,
 *en cuarentena* o *descartada*.
+Ver el [catálogo](fuentes.md).
 
 **Hallazgo**
 Algo que una fuente ha ofrecido y que todavía no se ha evaluado. Materia bruta,
@@ -60,4 +63,14 @@ marcarla como muy o poco relevante. Es lo único que el sistema aprende de ti.
 
 **Cuarentena**
 El estado de una fuente que ha dejado de merecer la pena y deja de aportar
-piezas hasta nueva orden.
+piezas hasta nueva orden. También el de una fuente que sigue mereciendo la pena
+pero ya no se puede alcanzar: una web que se cayó, un dominio que cambió.
+*La diferencia con* candidata *importa: una candidata nunca ha llegado a
+aportar; una fuente en cuarentena aportaba y dejó de hacerlo.*
+
+**Descartada**
+El estado de una fuente que funciona perfectamente y que aun así no queremos.
+No es un fallo técnico, es un juicio: publica de más, escribe para vender algo,
+o su sitio lo ocupa mejor otra.
+*Se queda en el catálogo con el motivo escrito. Borrarla haría que dentro de un
+año alguien la volviera a proponer sin saber que ya se miró.*
