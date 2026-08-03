@@ -10,10 +10,11 @@
       "nombre": "PubMed",
       "ambito": "clinico",
       "categoria": "Bases de datos y revistas generales",
-      "estado": "candidata",
+      "estado": "aprobada",
       "autoridad": 1.9,
       "web": "https://pubmed.ncbi.nlm.nih.gov",
-      "nota": "No tiene RSS general, solo feeds de busquedas guardadas. Si tiene API abierta (E-utilities), verificada y funcionando: es la via buena. Necesita adaptador propio."
+      "consulta": "SRC:MED AND (\"occupational therapy\" OR \"sensory integration\" OR \"sensory processing\" OR \"motor control\" OR neurorehabilitation)",
+      "nota": "No tiene RSS: es un buscador. Se lee por Europe PMC, que indexa PubMed entero (SRC:MED). Unas 550 entradas al mes con esta consulta."
     },
     {
       "id": "pmc",
@@ -23,7 +24,7 @@
       "estado": "candidata",
       "autoridad": 1.8,
       "web": "https://www.ncbi.nlm.nih.gov/pmc",
-      "nota": "Texto completo gratuito. Mismo caso que PubMed: se llega por E-utilities, no por RSS."
+      "nota": "Se probo por Europe PMC con SRC:PMC: 0 entradas en 30 dias y 170 en 120. Casi todo lo suyo ya viene por SRC:MED, asi que anadirla solo duplicaria. Se queda candidata a proposito."
     },
     {
       "id": "cochrane",
@@ -93,7 +94,7 @@
       "estado": "candidata",
       "autoridad": 1.4,
       "web": "https://scielo.org",
-      "nota": "El buscador responde 403 al robot. Interesa por el peso iberoamericano: merece un intento por OAI-PMH."
+      "nota": "El buscador responde 403. Probadas ademas cuatro direcciones de OAI-PMH (scielo.org, scielo.br, old.scielo.br, search.scielo.org): dos 404, un 403 y un certificado invalido. Ninguna sirve. Sigue interesando por el peso iberoamericano."
     },
     {
       "id": "semantic-scholar",
@@ -103,7 +104,7 @@
       "estado": "candidata",
       "autoridad": 1.5,
       "web": "https://www.semanticscholar.org",
-      "nota": "Sin RSS, pero tiene API publica y gratuita. Buena candidata a adaptador propio."
+      "nota": "Su API es abierta pero el cupo sin clave esta agotado de forma permanente: 6 de 6 llamadas rechazadas con 429 esperando 4 segundos entre una y otra. Sirve si se pide una clave gratuita; sin ella no se puede usar."
     },
     {
       "id": "bmc",
@@ -113,7 +114,7 @@
       "estado": "candidata",
       "autoridad": 1.5,
       "web": "https://www.biomedcentral.com",
-      "nota": "Los feeds por revista devolvieron HTML o error 500. Habria que ir revista a revista."
+      "nota": "Los feeds por revista dan HTML o error 500. Por Europe PMC con PUBLISHER:\"BioMed Central\" salen 357 al ano pero 0 en los ultimos 120 dias: el campo de editorial va con demasiado retraso. La via buena es revista a revista, como se hizo con jneuroengrehab."
     },
     {
       "id": "nejm",
@@ -153,10 +154,12 @@
       "nombre": "American Journal of Occupational Therapy",
       "ambito": "clinico",
       "categoria": "Terapia ocupacional e integracion sensorial",
-      "estado": "candidata",
+      "estado": "aprobada",
       "autoridad": 1.9,
       "web": "https://ajot.aota.org",
-      "nota": "Responde 403 al robot. Es la revista de referencia de la profesion: vale la pena insistir por otra via."
+      "consulta": "JOURNAL:\"The American journal of occupational therapy\"",
+      "diasAtras": 150,
+      "nota": "Su web responde 403 al robot, pero Europe PMC la indexa: por ahi si se llega. Necesita ventana ancha porque tarda de uno a tres meses en aparecer indexada: con 30 dias devolvia 0 y con 120 devuelve 38. Aqui no hay novedad del dia, hay la revista de referencia de la profesion."
     },
     {
       "id": "wfot",
@@ -358,10 +361,11 @@
       "nombre": "Journal of NeuroEngineering and Rehabilitation",
       "ambito": "clinico",
       "categoria": "Neurodesarrollo y neurorehabilitacion",
-      "estado": "candidata",
+      "estado": "aprobada",
       "autoridad": 1.6,
       "web": "https://jneuroengrehab.biomedcentral.com",
-      "nota": "Los dos feeds de BMC probados dieron HTML y error 500."
+      "consulta": "JOURNAL:\"Journal of neuroengineering and rehabilitation\"",
+      "nota": "Sus feeds de BMC dan HTML y error 500, pero Europe PMC la indexa al dia. Unas 19 al mes."
     },
     {
       "id": "neurorehabilitation-ios",
