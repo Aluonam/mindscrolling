@@ -101,9 +101,9 @@ Pero la edición salió así:
 del código: es lo que pasa cuando una fuente publica 250 cosas al día y las
 demás cinco. arXiv gana por volumen, no por ser mejor.
 
-Con 61 fuentes esto ya no es teórico. Falta una regla de variedad —como máximo
-una pieza por fuente y día, o algo parecido— pero eso es cambiar cómo se
-selecciona, y va en su propia rama.
+*Resuelto.* La selección ahora reparte por rondas: primero la mejor pieza de
+cada fuente, después la segunda de cada una. La misma edición pasó a salir con
+ocho piezas de ocho fuentes distintas. Ver `construirEdicion.ts`.
 
 ## Preguntar en vez de leer: Europe PMC
 

@@ -125,6 +125,55 @@ export function puntuar(
 // ---------------------------------------------------------------------------
 
 /**
+ * Reparte por fuentes antes de repartir por puntuación: primero la mejor pieza
+ * de cada fuente, después la segunda de cada una, y así.
+ *
+ * Es el mismo problema que resuelven los cupos por ámbito, un piso más abajo.
+ * arXiv publica 250 trabajos al día y un blog publica uno a la semana; si se
+ * ordena solo por puntuación, arXiv se lleva los cuatro huecos técnicos sin
+ * ser mejor, solo por ser más. Y una edición de cuatro piezas del mismo sitio
+ * no es una edición, es un listado.
+ *
+ * Ojo con lo que NO hace: no reserva hueco a nadie ni penaliza a las fuentes
+ * prolíficas. Si un día solo publica arXiv, arXiv llena el cupo entero. Solo
+ * cambia el orden en que se sirven, no quién puede entrar.
+ */
+function repartirEntreFuentes(
+  ordenadas: readonly PiezaValorada[],
+  cupo: number,
+): PiezaValorada[] {
+  const porFuente = new Map<string, PiezaValorada[]>();
+
+  // Se conserva el orden de llegada, que ya viene por puntuación: la primera
+  // de cada lista es la mejor de esa fuente.
+  for (const pieza of ordenadas) {
+    const cola = porFuente.get(pieza.fuente.id);
+    if (cola) cola.push(pieza);
+    else porFuente.set(pieza.fuente.id, [pieza]);
+  }
+
+  const elegidas: PiezaValorada[] = [];
+  const colas = [...porFuente.values()];
+
+  // Una vuelta por ronda: en la primera entra la mejor de cada fuente, en la
+  // segunda la siguiente de cada una. Se para cuando el cupo se llena o cuando
+  // ya no queda nada que repartir.
+  for (let ronda = 0; elegidas.length < cupo; ronda++) {
+    const deEstaRonda = colas
+      .map(cola => cola[ronda])
+      .filter((pieza): pieza is PiezaValorada => pieza !== undefined)
+      // Dentro de una misma ronda sí manda la puntuación.
+      .sort((a, b) => b.puntuacion - a.puntuacion);
+
+    if (deEstaRonda.length === 0) break;
+
+    elegidas.push(...deEstaRonda.slice(0, cupo - elegidas.length));
+  }
+
+  return elegidas;
+}
+
+/**
  * Se compite DENTRO del ámbito, nunca entre ámbitos.
  *
  * Si esto fuera un ranking único, lo técnico se comería la edición entera: no
@@ -140,10 +189,9 @@ export function seleccionar(
   for (const ambito of Object.keys(cupos) as Ambito[]) {
     const delAmbito = valoradas
       .filter(p => p.fuente.ambito === ambito)
-      .sort((a, b) => b.puntuacion - a.puntuacion)
-      .slice(0, cupos[ambito]);
+      .sort((a, b) => b.puntuacion - a.puntuacion);
 
-    elegidas.push(...delAmbito);
+    elegidas.push(...repartirEntreFuentes(delAmbito, cupos[ambito]));
   }
 
   return elegidas;
