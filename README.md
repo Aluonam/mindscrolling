@@ -11,14 +11,19 @@ aprender y enterarte de lo que importa en tus temas.
 
 ## Estado
 
-En diseño. Todavía no hay código.
+El circuito completo está montado —leer, deduplicar, puntuar, resumir,
+publicar— y el catálogo tiene 123 fuentes, 61 de ellas leyéndose ya.
 
 ## Temas que cubre
 
-| Ámbito | Temas |
-|---|---|
-| Técnico | IA, arquitectura de software, modelos de software |
-| Clínico | Terapia ocupacional, integración sensorial, anatomía y fisiología |
+| Ámbito | Temas | Cupo diario |
+|---|---|---|
+| Técnico | IA, arquitectura de software, modelos de software | 4 |
+| Clínico | Terapia ocupacional, integración sensorial, anatomía y fisiología | 3 |
+| Gestión | Scrum y agilidad, gestión de proyectos, equipos y liderazgo | 2 |
+
+Se compite dentro del ámbito, nunca entre ámbitos. Un cupo que no se llena no
+se cede: la edición sale más corta y ya.
 
 ## Cómo funciona, en corto
 
@@ -32,3 +37,5 @@ En diseño. Todavía no hay código.
 
 - [Glosario](docs/glosario.md) — las palabras que usamos y qué significa cada una.
 - [Decisiones](docs/decisiones.md) — qué decidimos, por qué, y qué descartamos.
+- [Estructura](docs/estructura.md) — cómo está organizado el código y por qué.
+- [Fuentes](docs/fuentes.md) — el catálogo, qué se lee y qué no, y por qué.

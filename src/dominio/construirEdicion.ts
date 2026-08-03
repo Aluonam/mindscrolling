@@ -88,6 +88,10 @@ export function afinidad(pieza: Pieza, intereses: readonly Interes[]): number {
 const VIDA_MEDIA_HORAS: Record<Ambito, number> = {
   tecnico: 48,
   clinico: 24 * 30,
+  // La gestión envejece por el medio: un artículo sobre retrospectivas no
+  // caduca en dos días como una noticia técnica, pero tampoco aguanta años
+  // como un trabajo clínico. Una semana.
+  gestion: 24 * 7,
 };
 
 export function frescura(pieza: Pieza, ahora: Date): number {
