@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["es2023", "dom"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Node ejecuta los .ts directamente quitando los tipos, sin compilar nada.
+    // Estas dos opciones son las que hacen que eso funcione: permiten importar
+    // con extensión .ts y prohíben la sintaxis que no se puede borrar sin más
+    // (enum, namespace, parámetros con modificador).
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+
+    // No generamos nada: tsc solo se usa para comprobar los tipos.
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"]
+}
