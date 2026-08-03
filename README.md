@@ -12,7 +12,7 @@ aprender y enterarte de lo que importa en tus temas.
 ## Estado
 
 El circuito completo está montado —leer, deduplicar, puntuar, resumir,
-publicar— y el catálogo tiene 123 fuentes, 64 de ellas leyéndose ya: 61 por RSS
+publicar— y el catálogo tiene 123 fuentes, 62 de ellas leyéndose ya: 59 por RSS
 y 3 preguntándole a Europe PMC, que es como se llega a PubMed y a AJOT.
 
 ## Temas que cubre
@@ -21,7 +21,7 @@ y 3 preguntándole a Europe PMC, que es como se llega a PubMed y a AJOT.
 |---|---|---|
 | Técnico | IA, arquitectura de software, modelos de software | 4 |
 | Clínico | Terapia ocupacional, integración sensorial, anatomía y fisiología | 3 |
-| Gestión | Scrum y agilidad, gestión de proyectos, equipos y liderazgo | 2 |
+| Gestión | Scrum y agilidad, gestión de proyectos, equipos y liderazgo | 1 |
 
 Se compite dentro del ámbito, nunca entre ámbitos. Un cupo que no se llena no
 se cede: la edición sale más corta y ya.
