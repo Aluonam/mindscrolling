@@ -47,7 +47,13 @@ function fechaDe(bloque: string): Date {
 }
 
 export class BuscadorRss implements BuscadorDeHallazgos {
-  constructor(private readonly direcciones: Record<string, string>) {}
+  // Ver la nota de publicadorFichero.ts: las propiedades de parámetro no
+  // sobreviven al modo "quitar tipos y ejecutar" de Node.
+  private readonly direcciones: Record<string, string>;
+
+  constructor(direcciones: Record<string, string>) {
+    this.direcciones = direcciones;
+  }
 
   async buscar(fuente: Fuente): Promise<Hallazgo[]> {
     const direccion = this.direcciones[fuente.id];
