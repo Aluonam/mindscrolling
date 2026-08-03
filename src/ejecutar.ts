@@ -6,14 +6,17 @@
 
 import { readFile } from 'node:fs/promises';
 import { construirEdicion } from './dominio/construirEdicion.ts';
-import type { Cupos, Edicion, Fuente, Hallazgo, Interes, PiezaPublicada } from './dominio/tipos.ts';
+import type {
+  Cupos, Edicion, FuenteCatalogada, Hallazgo, Interes, PiezaPublicada,
+} from './dominio/tipos.ts';
 import { BuscadorRss } from './infraestructura/buscadorRss.ts';
+import { BuscadorEuropePmc } from './infraestructura/buscadorEuropePmc.ts';
 import { ResumidorClaude } from './infraestructura/resumidorClaude.ts';
 import { PublicadorFichero } from './infraestructura/publicadorFichero.ts';
 
 type Configuracion = {
   cupos: Cupos;
-  fuentes: (Fuente & { rss: string })[];
+  fuentes: FuenteCatalogada[];
   intereses: Interes[];
 };
 
@@ -25,16 +28,46 @@ async function main() {
     await readFile(new URL('../config/fuentes.json', import.meta.url), 'utf8'),
   );
 
-  const fuentes = config.fuentes.filter(f => f.estado === 'aprobada');
-  const direcciones = Object.fromEntries(config.fuentes.map(f => [f.id, f.rss]));
+  // Solo se lee lo aprobado. Las candidatas están en el catálogo esperando a
+  // que alguien les escriba un adaptador; las de cuarentena, a que su web
+  // vuelva a existir. Ninguna de las dos aporta piezas hoy.
+  const aprobadas = config.fuentes.filter(f => f.estado === 'aprobada');
 
-  const buscador = new BuscadorRss(direcciones);
+  // Cada fuente aprobada dice cómo se la lee: `rss` si publica un feed,
+  // `consulta` si es un buscador al que hay que preguntar. Una de las dos.
+  //
+  // La comprobación no es paranoia: una fuente aprobada sin ninguna de las dos
+  // sería un fallo silencioso — no daría error, solo dejaría de aparecer.
+  const mudas = aprobadas.filter(f => !f.rss && !f.consulta);
+  if (mudas.length > 0) {
+    throw new Error(
+      'Hay fuentes aprobadas sin forma de leerlas: ' +
+        mudas.map(f => f.id).join(', ') +
+        '. O se les pone rss o consulta, o vuelven a candidatas.',
+    );
+  }
+
+  const conFeed = aprobadas.filter(f => f.rss);
+  const conConsulta = aprobadas.filter(f => !f.rss && f.consulta);
+
+  const buscadorRss = new BuscadorRss(
+    Object.fromEntries(conFeed.map(f => [f.id, f.rss!])),
+  );
+  const buscadorPmc = new BuscadorEuropePmc(
+    Object.fromEntries(
+      conConsulta.map(f => [f.id, { consulta: f.consulta!, diasAtras: f.diasAtras }]),
+    ),
+  );
+
   const resumidor = new ResumidorClaude();
   const publicador = new PublicadorFichero(new URL('../ediciones/', import.meta.url).pathname);
 
   // 1. Recolectar. Las fuentes se consultan a la vez, no en fila.
-  console.log(`Leyendo ${fuentes.length} fuentes...`);
-  const porFuente = await Promise.all(fuentes.map(f => buscador.buscar(f)));
+  console.log(`Leyendo ${conFeed.length} feeds y ${conConsulta.length} buscadores...`);
+  const porFuente = await Promise.all([
+    ...conFeed.map(f => buscadorRss.buscar(f)),
+    ...conConsulta.map(f => buscadorPmc.buscar(f)),
+  ]);
   const hallazgos: Hallazgo[] = porFuente.flat();
   console.log(`  ${hallazgos.length} hallazgos en bruto`);
 

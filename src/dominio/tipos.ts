@@ -5,7 +5,7 @@
 // Este fichero no importa nada. Ni red, ni ficheros, ni librerías. Es la
 // definición del problema, no de la solución.
 
-export type Ambito = 'tecnico' | 'clinico';
+export type Ambito = 'tecnico' | 'clinico' | 'gestion';
 
 export type Interes = {
   nombre: string;
@@ -25,6 +25,36 @@ export type Fuente = {
   estado: EstadoFuente;
   /** Cuánto confiamos en ella. Entre 0 y 2, empieza en 1. */
   autoridad: number;
+};
+
+/**
+ * Lo que el catálogo guarda de una fuente además de lo que el dominio necesita.
+ *
+ * Nada de esto entra en la puntuación: son datos para las personas que
+ * mantienen el catálogo. La dirección web sirve para volver a mirarla cuando
+ * una fuente cambia de sitio, y la nota explica por qué una fuente está
+ * candidata o en cuarentena en lugar de aprobada.
+ */
+export type FuenteCatalogada = Fuente & {
+  /** El grupo temático con el que llegó al catálogo. Documenta, no decide. */
+  categoria?: string;
+  /** Dónde vive la fuente para una persona, no para el robot. */
+  web?: string;
+  /** Qué se leería cada madrugada, si la fuente publica un feed. */
+  rss?: string;
+  /**
+   * Qué se le preguntaría a Europe PMC, si la fuente es un buscador y no una
+   * publicación. Una fuente aprobada necesita `rss` o `consulta`: una de las
+   * dos, nunca ninguna.
+   */
+  consulta?: string;
+  /**
+   * Cuántos días hacia atrás pregunta esa consulta. Solo hace falta cuando la
+   * fuente tarda en aparecer indexada y la ventana normal la dejaría muda.
+   */
+  diasAtras?: number;
+  /** Por qué está en el estado en el que está. */
+  nota?: string;
 };
 
 /** Lo que una fuente ofrece, todavía sin limpiar ni evaluar. */
