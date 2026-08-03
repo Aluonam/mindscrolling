@@ -5,12 +5,13 @@ red antes de darles estado: ninguna está aprobada de oído.
 
 | Estado | Cuántas | Qué significa |
 |---|---|---|
-| aprobada | 64 | Se lee cada madrugada: 61 por RSS verificado, 3 preguntando a Europe PMC. |
+| aprobada | 62 | Se lee cada madrugada: 59 por RSS verificado, 3 preguntando a Europe PMC. |
 | candidata | 51 | Está en el catálogo, no aporta piezas. Falta un adaptador o una vía de acceso. |
 | cuarentena | 8 | Merece la pena pero ahora mismo no se puede alcanzar. |
+| descartada | 2 | Funciona, pero no la queremos. |
 
 Por ámbito: 56 clínicas, 42 técnicas, 25 de gestión. Aprobadas, el reparto es
-más desigual: 37 técnicas, 19 clínicas, 8 de gestión. Lo técnico publica mucho
+más desigual: 37 técnicas, 19 clínicas, 6 de gestión. Lo técnico publica mucho
 más y con mejores canales, y por eso los cupos son por ámbito y no un ranking
 único — sin esa separación, la edición sería técnica todos los días.
 
@@ -53,6 +54,33 @@ caído dice bastante del estado de la digitalización del sector. Es exactamente
 el hueco que este proyecto mira de reojo.
 
 Hay que localizar las webs vigentes a mano, colegio por colegio.
+
+## El caso de gestión: por qué su cupo es 1
+
+De las ocho fuentes de gestión aprobadas, esto es lo que publican de verdad:
+
+| Publican a diario | Publican poco | Dormidas |
+|---|---|---|
+| Age of Product (10/mes), Wrike (11), TeamGantt (4), Coursera (4) | Mountain Goat (2), Project Times (1) | Scrum Inc (68 días), Crisp (46 días) |
+
+El problema no es que sean guías estáticas, como parecía. Es peor y más sutil:
+**las buenas publican despacio y las que publican a diario son marketing.**
+Wrike y TeamGantt escriben para vender su propia herramienta, y eran justo las
+que más entradas soltaban.
+
+Con un cupo de 2, la edición se habría llenado de anuncios todos los días
+—no por un fallo, sino porque ganaban por volumen, igual que arXiv—. Así que:
+
+- El cupo de gestión baja a **1**.
+- Wrike y TeamGantt pasan a **descartadas**. Funcionan; no las queremos.
+
+Quedan Age of Product, Mountain Goat, Scrum Inc, Crisp, Project Times y
+Coursera. Publican poco, pero un hueco al día lo llenan de sobra, y cuando no
+lo llenen la edición saldrá más corta — que es exactamente lo que dice la regla
+de los cupos.
+
+Coursera sigue aprobada aunque también sea blog corporativo: no vende una
+herramienta de gestión, y su cupo lo tiene que pelear contra Age of Product.
 
 ## Lo que se vio al probarlo
 

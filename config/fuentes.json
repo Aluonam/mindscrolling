@@ -2,7 +2,7 @@
   "cupos": {
     "tecnico": 4,
     "clinico": 3,
-    "gestion": 2
+    "gestion": 1
   },
   "fuentes": [
     {
@@ -977,11 +977,11 @@
       "nombre": "Wrike Blog",
       "ambito": "gestion",
       "categoria": "Gestion de proyectos",
-      "estado": "aprobada",
+      "estado": "descartada",
       "autoridad": 0.9,
       "web": "https://www.wrike.com/blog",
       "rss": "https://www.wrike.com/blog/feed/",
-      "nota": "Blog de producto: escribe para vender su herramienta."
+      "nota": "El feed funciona y publica mucho: 11 entradas en 30 dias, de las que mas. Justo por eso se descarta. Es marketing de producto, escrito para vender Wrike, y con el cupo de gestion en 1 se comeria el hueco de Age of Product todos los dias."
     },
     {
       "id": "asana-resources",
@@ -1008,11 +1008,11 @@
       "nombre": "TeamGantt Blog",
       "ambito": "gestion",
       "categoria": "Gestion de proyectos",
-      "estado": "aprobada",
+      "estado": "descartada",
       "autoridad": 0.9,
       "web": "https://www.teamgantt.com/blog",
       "rss": "https://www.teamgantt.com/blog/rss.xml",
-      "nota": "Blog de producto."
+      "nota": "El feed funciona, 4 entradas en 30 dias. Se descarta por lo mismo que Wrike: es marketing de producto."
     },
     {
       "id": "apm-uk",
