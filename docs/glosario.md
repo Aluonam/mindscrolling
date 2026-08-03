@@ -67,3 +67,10 @@ piezas hasta nueva orden. También el de una fuente que sigue mereciendo la pena
 pero ya no se puede alcanzar: una web que se cayó, un dominio que cambió.
 *La diferencia con* candidata *importa: una candidata nunca ha llegado a
 aportar; una fuente en cuarentena aportaba y dejó de hacerlo.*
+
+**Descartada**
+El estado de una fuente que funciona perfectamente y que aun así no queremos.
+No es un fallo técnico, es un juicio: publica de más, escribe para vender algo,
+o su sitio lo ocupa mejor otra.
+*Se queda en el catálogo con el motivo escrito. Borrarla haría que dentro de un
+año alguien la volviera a proponer sin saber que ya se miró.*
