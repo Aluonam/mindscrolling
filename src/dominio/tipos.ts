@@ -40,8 +40,19 @@ export type FuenteCatalogada = Fuente & {
   categoria?: string;
   /** Dónde vive la fuente para una persona, no para el robot. */
   web?: string;
-  /** Qué se leería cada madrugada. Si no hay, la fuente no puede estar aprobada. */
+  /** Qué se leería cada madrugada, si la fuente publica un feed. */
   rss?: string;
+  /**
+   * Qué se le preguntaría a Europe PMC, si la fuente es un buscador y no una
+   * publicación. Una fuente aprobada necesita `rss` o `consulta`: una de las
+   * dos, nunca ninguna.
+   */
+  consulta?: string;
+  /**
+   * Cuántos días hacia atrás pregunta esa consulta. Solo hace falta cuando la
+   * fuente tarda en aparecer indexada y la ventana normal la dejaría muda.
+   */
+  diasAtras?: number;
   /** Por qué está en el estado en el que está. */
   nota?: string;
 };

@@ -12,7 +12,8 @@ aprender y enterarte de lo que importa en tus temas.
 ## Estado
 
 El circuito completo está montado —leer, deduplicar, puntuar, resumir,
-publicar— y el catálogo tiene 123 fuentes, 61 de ellas leyéndose ya.
+publicar— y el catálogo tiene 123 fuentes, 64 de ellas leyéndose ya: 61 por RSS
+y 3 preguntándole a Europe PMC, que es como se llega a PubMed y a AJOT.
 
 ## Temas que cubre
 
