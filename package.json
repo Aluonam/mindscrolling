@@ -9,6 +9,7 @@
   },
   "scripts": {
     "edicion": "node src/ejecutar.ts",
+    "servir": "node servir.mjs",
     "tipos": "tsc --noEmit",
     "test": "node --test \"src/**/*.prueba.ts\""
   },

@@ -239,3 +239,32 @@ movimiento" del sistema.
 
 **Por qué.** No es un extra. Es el requisito de la persona que la va a usar cada
 día.
+
+---
+
+## 16. Un color por ámbito, y el tercero es verde
+
+**Qué.** Cada ámbito tiñe la pieza entera: azul `#5AB4FF` lo técnico, ámbar
+`#FFB454` lo clínico, verde `#6FDCA0` lo de gestión.
+
+**Por qué.** El color dice de qué va la pieza antes de leer una palabra, y es
+lo que hace visible que la aplicación cruza dos mundos que normalmente no se
+tocan.
+
+**Por qué verde y no violeta.** El prototipo solo tenía dos ámbitos. Al añadir
+el tercero, el violeta era la opción bonita, pero se confunde con el azul en
+una pantalla oscura y con más razón si quien mira no distingue bien esos tonos.
+El verde se separa de los otros dos por sí solo.
+
+---
+
+## 17. Ampliar enseña el resumen del autor, no otro destilado nuestro
+
+**Qué.** El segundo nivel de lectura muestra el título y el resumen originales
+del trabajo, marcados como suyos y no como nuestros.
+
+**Por qué.** Es el escalón que faltaba entre nuestro destilado de diez segundos
+y el trabajo entero. Escribir un segundo resumen propio costaría otra llamada a
+la IA para decir con nuestras palabras algo que el autor ya dijo con las suyas
+— y va en la misma dirección que la decisión 12: cuanto más te acercas, más se
+oye al autor y menos nosotras.

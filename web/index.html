@@ -3,154 +3,73 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0D14">
 <title>MindScrolling</title>
-<style>
-  /*
-    Lector mínimo del esqueleto. Su único trabajo es demostrar que la edición
-    publicada se puede leer. El diseño de verdad vendrá en su propia rama.
-  */
-  :root {
-    --fondo: #0A0D14;
-    --texto: #EDF1FA;
-    --tenue: #7D89A6;
-    --dormido: #2E3852;
-    --tecnico: #5AB4FF;
-    --clinico: #FFB454;
-    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--fondo);
-    color: var(--texto);
-    font-family: Verdana, Geneva, sans-serif;
-    overflow: hidden;
-  }
-  #carril {
-    height: 100dvh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scrollbar-width: none;
-  }
-  #carril::-webkit-scrollbar { display: none; }
-
-  .pieza {
-    height: 100dvh;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 24px;
-    padding: 40px 24px;
-    max-width: 560px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .pieza[data-ambito="tecnico"] { --acento: var(--tecnico); }
-  .pieza[data-ambito="clinico"] { --acento: var(--clinico); }
-
-  .fuente {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--acento);
-  }
-  .destilado {
-    font-size: clamp(19px, 4.9vw, 25px);
-    line-height: 1.66;
-    word-spacing: .16em;
-    margin: 0;
-  }
-  .destilado w { color: var(--dormido); transition: color .3s ease; }
-  .destilado w.viva { color: var(--texto); }
-  .destilado w.clave { font-weight: 800; }
-  .destilado w.clave.viva { color: var(--acento); }
-
-  .pie { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
-  .pie a { color: var(--acento); }
-  .aviso { padding: 40px 24px; text-align: center; color: var(--tenue); line-height: 1.7; }
-</style>
+<link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-<main id="carril"></main>
 
-<script type="module">
-  const carril = document.getElementById('carril');
+<div class="grano" aria-hidden="true"></div>
 
-  const respuesta = await fetch('../ediciones/ultima.json', { cache: 'no-store' });
-  if (!respuesta.ok) {
-    carril.innerHTML = '<p class="aviso">Todavía no hay ninguna edición publicada.<br>Ejecuta <code>npm run edicion</code> primero.</p>';
-  } else {
-    const edicion = await respuesta.json();
-    edicion.piezas.forEach(pieza => carril.appendChild(dibujar(pieza)));
-    arrancarRevelado();
-  }
+<header class="cabecera" id="cabecera" hidden>
+  <div class="segmentos" id="segmentos"></div>
+  <div class="marca">
+    <b>MindScrolling</b>
+    <span class="fecha-edicion" id="fechaEdicion"></span>
+    <button class="ritmo" id="sonido" type="button" aria-pressed="false" aria-label="Ondas de fondo">♪</button>
+    <button class="ritmo" id="ritmo" type="button" aria-label="Cambiar velocidad de lectura">1,0×</button>
+    <button class="ritmo" id="abrirIndice" type="button" aria-expanded="false" aria-label="Ver la edición del día">☰&nbsp;<span id="contadorBoton">0</span></button>
+  </div>
+</header>
 
-  function dibujar(pieza) {
-    const articulo = document.createElement('article');
-    articulo.className = 'pieza';
-    articulo.dataset.ambito = pieza.fuente.ambito;
+<div class="velo" id="velo"></div>
 
-    const fuente = document.createElement('div');
-    fuente.className = 'fuente';
-    fuente.textContent = pieza.fuente.nombre;
+<aside class="indice" id="indice" aria-hidden="true" aria-label="Edición del día">
+  <div class="indice-cabecera">
+    <div class="indice-titulo">
+      <b>Edición del día</b>
+      <span id="resumenUso">0 s de uso · 0 leídas</span>
+    </div>
+    <button class="cerrar" id="cerrarIndice" type="button" aria-label="Cerrar">×</button>
+  </div>
+  <div class="filtros" id="filtros" role="group" aria-label="Filtrar por ámbito"></div>
 
-    const parrafo = document.createElement('p');
-    parrafo.className = 'destilado';
-    trocear(parrafo, pieza.destilado);
+  <div class="listado" id="listado"></div>
 
-    const pie = document.createElement('div');
-    pie.className = 'pie';
-    const enlace = document.createElement('a');
-    enlace.href = pieza.enlace;
-    enlace.target = '_blank';
-    enlace.rel = 'noopener';
-    enlace.textContent = 'Abrir el original';
-    pie.appendChild(enlace);
+  <div class="ajustes">
+    <div class="ajustes-titulo">Ajustes · tipo de letra</div>
+    <div class="letras" id="letras"></div>
+  </div>
+</aside>
 
-    articulo.append(fuente, parrafo, pie);
-    return articulo;
-  }
+<section class="detalle" id="detalle" aria-hidden="true" aria-label="Pieza ampliada">
+  <div class="detalle-cabecera">
+    <div class="detalle-fuente">
+      <b>Del original</b>
+      <span id="detalleFuente"></span>
+    </div>
+    <button class="cerrar" id="cerrarDetalle" type="button" aria-label="Cerrar">×</button>
+  </div>
+  <div class="detalle-cuerpo" id="detalleCuerpo">
+    <h2 class="detalle-titulo" id="detalleTitulo"></h2>
+    <p id="detalleTexto"></p>
+  </div>
+  <div class="detalle-pie">
+    <a class="original" id="detalleEnlace" href="#" target="_blank" rel="noopener">Abrir el original</a>
+  </div>
+</section>
 
-  /** Parte el destilado en palabras y marca las que la IA señaló como clave. */
-  function trocear(parrafo, destilado) {
-    const claves = (destilado.clave ?? []).map(c => c.toLowerCase());
+<main class="carril" id="carril"></main>
 
-    destilado.texto.split(/\s+/).forEach((palabra, i, todas) => {
-      const limpia = palabra.toLowerCase().replace(/[^\wáéíóúñü-]/g, '');
-      const w = document.createElement('w');
-      w.textContent = palabra;
-      if (claves.some(c => c.split(/\s+/).includes(limpia))) w.classList.add('clave');
-      parrafo.appendChild(w);
-      if (i < todas.length - 1) parrafo.appendChild(document.createTextNode(' '));
-    });
-  }
+<div class="aviso" id="aviso" role="status" aria-live="polite"></div>
 
-  /** El texto va apareciendo al ritmo de lectura cuando la pieza entra en pantalla. */
-  function arrancarRevelado() {
-    const observador = new IntersectionObserver(entradas => {
-      entradas.forEach(entrada => {
-        if (!entrada.isIntersecting || entrada.intersectionRatio < 0.6) return;
+<nav class="valoracion" id="valoracion" aria-label="Acciones sobre la pieza actual" hidden>
+  <button class="voto" id="votoNo" type="button">Poco relevante</button>
+  <button class="voto" id="votoSi" type="button">Muy relevante</button>
+  <button class="voto enviar" id="enviar" type="button">Enviar</button>
+</nav>
 
-        const palabras = [...entrada.target.querySelectorAll('w')];
-        palabras.forEach(w => w.classList.remove('viva'));
 
-        let i = 0;
-        const siguiente = () => {
-          if (i >= palabras.length) return;
-          const w = palabras[i++];
-          w.classList.add('viva');
-          // Las primeras entran deprisa; luego baja al ritmo de lectura.
-          const gancho = i < 5 ? 0.4 : 1;
-          setTimeout(siguiente, Math.min(560, 132 + w.textContent.length * 26) * gancho);
-        };
-        siguiente();
-      });
-    }, { root: carril, threshold: [0.6] });
-
-    document.querySelectorAll('.pieza').forEach(p => observador.observe(p));
-  }
-</script>
+<script type="module" src="lector.js"></script>
 </body>
 </html>
