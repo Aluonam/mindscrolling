@@ -15,6 +15,12 @@ El circuito completo está montado —leer, deduplicar, puntuar, resumir,
 publicar— y el catálogo tiene 123 fuentes, 62 de ellas leyéndose ya: 59 por RSS
 y 3 preguntándole a Europe PMC, que es como se llega a PubMed y a AJOT.
 
+El lector ya es el de verdad, no un apaño para comprobar que la edición se lee:
+revelado palabra a palabra con control de velocidad, un color por ámbito,
+índice de la edición, selector de tipo de letra y ondas de fondo opcionales.
+
+Queda automatizarlo: hoy la edición se genera a mano con `npm run edicion`.
+
 ## Temas que cubre
 
 | Ámbito | Temas | Cupo diario |
