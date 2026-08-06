@@ -4,7 +4,8 @@
 // Aquí se enchufan las piezas concretas y se lanza el ciclo. Cambiar de RSS a
 // arXiv, o de Claude a Ollama, se hace en este fichero y en ningún otro.
 
-import { readFile } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { construirEdicion } from './dominio/construirEdicion.ts';
 import type {
   Cupos, Edicion, FuenteCatalogada, Hallazgo, Interes, PiezaPublicada,
@@ -60,7 +61,14 @@ async function main() {
   );
 
   const resumidor = new ResumidorClaude();
-  const publicador = new PublicadorFichero(new URL('../ediciones/', import.meta.url).pathname);
+  // fileURLToPath y no .pathname: en Windows .pathname devuelve «/C:/…» y el
+  // join del publicador acaba pidiendo «C:\C:\…».
+  const carpetaEdiciones = fileURLToPath(new URL('../ediciones/', import.meta.url));
+  const publicador = new PublicadorFichero(carpetaEdiciones);
+
+  // Se prepara al arrancar, no al publicar: el paso 4 va después de pagar los
+  // destilados del paso 3.
+  await mkdir(carpetaEdiciones, { recursive: true });
 
   // 1. Recolectar. Las fuentes se consultan a la vez, no en fila.
   console.log(`Leyendo ${conFeed.length} feeds y ${conConsulta.length} buscadores...`);
