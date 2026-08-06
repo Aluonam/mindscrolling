@@ -10,6 +10,34 @@ ediciones/              lo que se publica cada día
 web/                    lo que se ve en el móvil
 ```
 
+## El lector
+
+Sin dependencias, sin construir nada, sin framework: se abre y funciona. Pero
+son tres ficheros y no uno, por la misma razón por la que `dominio/` no importa
+`infraestructura/`:
+
+```
+web/
+  index.html    qué hay en la pantalla
+  estilos.css   cómo se ve
+  lector.js     qué pasa al leer
+```
+
+Ajustar el interlineado para que se lea mejor no debería obligarte a pasar por
+encima de la lógica del revelado, ni al revés.
+
+Para verlo mientras trabajas: `npm run servir`. Abrir el fichero a doble clic
+no vale — el lector pide la edición con `fetch`, y el navegador no deja hacer
+peticiones desde un `file://`.
+
+Lo único que el lector sabe del resto del proyecto es que hay un
+`ediciones/ultima.json` con una fecha y una lista de piezas. No sabe de dónde
+salieron ni quién las resumió, y por eso se puede rediseñar entero sin tocar
+una línea de `src/`.
+
+Si ese fichero todavía no existe, no falla: dice que aún no hay edición y
+recuerda cómo generarla.
+
 ## La única regla que importa
 
 **`dominio/` no puede importar nada de `infraestructura/`.**
