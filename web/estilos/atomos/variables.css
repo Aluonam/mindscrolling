@@ -1,0 +1,43 @@
+/* Los tokens del lector. Nada aquí pinta nada por sí solo. */
+
+/* OpenDyslexic si está instalada en el sistema. Si no, la nativa, pero
+   conservando el espaciado ancho. */
+@font-face {
+  font-family: "Dislexia";
+  src: local("OpenDyslexic"),
+       local("OpenDyslexic-Regular"),
+       local("Open Dyslexic"),
+       local("OpenDyslexicAlta"),
+       local("OpenDyslexic3");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dislexia";
+  src: local("OpenDyslexic-Bold"),
+       local("OpenDyslexic Bold"),
+       local("OpenDyslexicAlta-Bold");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  /* Fondo azul-negro, no negro puro: el sesgo frío es deliberado */
+  --fondo:        #0A0D14;
+  --superficie:   #141A28;
+  --borde:        #232B3D;
+  --texto:        #EDF1FA;
+  --texto-tenue:  #7D89A6;   /* gris con sesgo azul */
+  --dormido:      #2E3852;   /* palabras aún no reveladas */
+
+  --tecnico:      #5AB4FF;
+  --clinico:      #FFB454;
+  /* Verde y no violeta: violeta y azul se confunden en pantalla oscura. */
+  --gestion:      #6FDCA0;
+
+  /* Verdana por delante: x alta, letras anchas, y está en los tres sistemas. */
+  --sans: "Dislexia", Verdana, "Segoe UI", Tahoma, Geneva, -apple-system, Roboto, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --acento: var(--tecnico);
+}

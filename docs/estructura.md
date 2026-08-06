@@ -12,19 +12,35 @@ web/                    lo que se ve en el móvil
 
 ## El lector
 
-Sin dependencias, sin construir nada, sin framework: se abre y funciona. Pero
-son tres ficheros y no uno, por la misma razón por la que `dominio/` no importa
-`infraestructura/`:
+Sin dependencias, sin construir nada, sin framework: se abre y funciona.
+
+Por dentro sigue **atomic design**. Un átomo no sabe de nada; una molécula
+compone átomos; un organismo es una pieza de interfaz completa; la plantilla es
+la página.
 
 ```
 web/
-  index.html    qué hay en la pantalla
-  estilos.css   cómo se ve
-  lector.js     qué pasa al leer
+  index.html              la estructura, y el orden en que carga todo
+  estilos/
+    atomos/               variables, base, botón, palabra, enlace, grano
+    moleculas/            procedencia, destilado, pie, segmentos, fila, filtros, aviso
+    organismos/           cabecera, pieza, índice, detalle, valoración, velo, vacío
+    plantillas/           el carril y «menos movimiento»
+  guion/
+    estado.js             lo que varios organismos comparten
+    atomos/               ámbitos, palabras, texto, aviso
+    moleculas/            revelado, ritmo, segmentos, fila, velo
+    organismos/           carril, cabecera, índice, detalle, valoración, ajustes, ondas
+    lector.js             la página: carga la edición y conecta lo demás
 ```
 
-Ajustar el interlineado para que se lea mejor no debería obligarte a pasar por
-encima de la lógica del revelado, ni al revés.
+**Los organismos no se conocen entre sí.** El carril no llama al índice para
+que se repinte: cambia `estado` y avisa. Quien quiera enterarse, se suscribe
+con `alCambiar`. Lo único que conoce a todos es `lector.js`.
+
+En el CSS el orden de los `<link>` es la cascada: lo de abajo puede anular lo
+de arriba. Son enlaces sueltos y no `@import` porque así se descargan en
+paralelo y se sigue sin necesitar un paso de construcción.
 
 Para verlo mientras trabajas: `npm run servir`. Abrir el fichero a doble clic
 no vale — el lector pide la edición con `fetch`, y el navegador no deja hacer
