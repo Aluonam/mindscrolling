@@ -54,6 +54,13 @@ Dos consecuencias prácticas:
 1. Se puede probar entero, en milisegundos, sin internet y con datos inventados.
 2. El día que quieras cambiar la fórmula de puntuación, tienes red de seguridad.
 
+Eso ya no es una promesa: `npm test` corre las pruebas del dominio en menos de
+dos décimas de segundo. Están en `construirEdicion.prueba.ts`, al lado del
+fichero que prueban, y usan el corredor que trae Node — nada que instalar.
+
+Solo se prueba el dominio. La infraestructura no: probar que un RSS se lee bien
+exige el RSS, y eso ya no es una prueba, es una llamada a internet.
+
 ## Ejecutar los tipos sin compilar
 
 Node 24 ejecuta los ficheros `.ts` directamente: les quita los tipos y los
@@ -61,3 +68,16 @@ corre. No hay carpeta de compilación ni paso de construcción.
 
 `npm run tipos` llama a TypeScript solo para comprobar que todo encaja. No
 genera nada.
+
+Esa comodidad tiene una regla que no es evidente: **quitar los tipos no es
+compilar**. Las formas de TypeScript que *generan código* en lugar de solo
+describirlo no sobreviven. La que nos mordió fue la propiedad de parámetro:
+
+```ts
+constructor(private readonly carpeta: string) {}   // no arranca
+```
+
+Hay que declarar el campo y asignarlo por separado. El `tsconfig` lleva
+`erasableSyntaxOnly` justo para avisar de esto, y avisaba — pero
+`npm run tipos` estaba en rojo por otras cosas y el aviso se perdió entre el
+ruido. Mantener los tipos en verde es lo que hace que sirvan.
