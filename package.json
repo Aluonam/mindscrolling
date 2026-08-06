@@ -9,12 +9,14 @@
   },
   "scripts": {
     "edicion": "node src/ejecutar.ts",
-    "tipos": "tsc --noEmit"
+    "tipos": "tsc --noEmit",
+    "test": "node --test \"src/**/*.prueba.ts\""
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.70.0"
+    "@anthropic-ai/sdk": "^0.115.0"
   },
   "devDependencies": {
+    "@types/node": "^26.1.2",
     "typescript": "^5.9.0"
   }
 }

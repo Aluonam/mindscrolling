@@ -10,6 +10,9 @@ import type { Destilado, Pieza } from '../dominio/tipos.ts';
 /** Cambiar por 'claude-haiku-4-5' abarata mucho, a costa de algo de calidad. */
 const MODELO = 'claude-opus-5';
 
+// El SDK tiene que ser 0.115 o superior: output_config no existía en 0.70 y
+// npm run tipos fallaba por eso desde el primer commit.
+
 const INSTRUCCIONES = `Escribes los resúmenes de MindScrolling, un lector donde cada pieza se lee en una pantalla de móvil.
 
 Reglas:
