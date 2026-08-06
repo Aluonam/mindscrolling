@@ -4,7 +4,8 @@
 // Aquí se enchufan las piezas concretas y se lanza el ciclo. Cambiar de RSS a
 // arXiv, o de Claude a Ollama, se hace en este fichero y en ningún otro.
 
-import { readFile } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { construirEdicion } from './dominio/construirEdicion.ts';
 import type {
   Cupos, Edicion, FuenteCatalogada, Hallazgo, Interes, PiezaPublicada,
@@ -60,7 +61,17 @@ async function main() {
   );
 
   const resumidor = new ResumidorClaude();
-  const publicador = new PublicadorFichero(new URL('../ediciones/', import.meta.url).pathname);
+  // fileURLToPath y no .pathname: en Windows, .pathname devuelve «/C:/…» con
+  // una barra delante, y el join de dentro del publicador la convierte en
+  // «C:\C:\…», que no existe. Fallaba al escribir, no al arrancar, así que no
+  // se veía hasta el final del ciclo — con las llamadas a la IA ya pagadas.
+  const carpetaEdiciones = fileURLToPath(new URL('../ediciones/', import.meta.url));
+  const publicador = new PublicadorFichero(carpetaEdiciones);
+
+  // Se comprueba ahora que se puede escribir, antes de leer nada y sobre todo
+  // antes de pagar los destilados. Es la misma regla que ya sigue el embudo —
+  // lo caro va al final— aplicada al revés: lo que puede fallar, cuanto antes.
+  await mkdir(carpetaEdiciones, { recursive: true });
 
   // 1. Recolectar. Las fuentes se consultan a la vez, no en fila.
   console.log(`Leyendo ${conFeed.length} feeds y ${conConsulta.length} buscadores...`);
