@@ -1,0 +1,13 @@
+/* El tipo y la escala salen de los ajustes; por eso son variables. */
+/* Lectura para dislexia: texto aireado, letras sin apretar. */
+.destilado {
+  font-family: var(--letra, var(--sans));
+  font-size: calc(clamp(19px, 4.9vw, 25px) * var(--escala-letra, 1));
+  line-height: 1.66;
+  font-weight: 400;
+  letter-spacing: 0.004em;
+  word-spacing: 0.16em;
+  text-align: center;
+  text-wrap: pretty;
+  margin: 0;
+}

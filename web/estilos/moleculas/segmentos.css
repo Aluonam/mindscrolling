@@ -1,0 +1,19 @@
+/* Una barra por pieza, como en las historias. */
+
+.segmentos { display: flex; gap: 4px; }
+
+.segmento {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--dormido);
+  overflow: hidden;
+}
+
+.segmento > i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--acento);
+  transition: width .25s linear, background-color .4s ease;
+}

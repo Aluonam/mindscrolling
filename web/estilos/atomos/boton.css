@@ -1,0 +1,124 @@
+/* Los seis botones del lector. Todos toman --acento del ámbito activo. */
+
+/* Píldora de la cabecera: velocidad, sonido, índice. */
+.ritmo {
+  pointer-events: auto;
+  appearance: none;
+  background: rgba(20,26,40,.6);
+  border: 1px solid var(--borde);
+  border-radius: 5px;
+  color: var(--texto-tenue);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  padding: 3px 7px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.ritmo:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+.ritmo.activo { color: var(--acento); border-color: var(--acento); }
+
+/* Barra inferior: valorar y enviar. */
+.voto {
+  flex: 1;
+  appearance: none;
+  background: rgba(20,26,40,.5);
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  color: var(--texto-tenue);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.35;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 12px 6px;
+  min-height: 46px;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background-color .2s;
+}
+
+.voto:hover { border-color: var(--texto-tenue); color: var(--texto); }
+.voto:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+.voto.si { border-color: var(--acento); color: var(--acento); background: rgba(90,180,255,.10); }
+.voto.no { border-color: #6B4A5A; color: #C88A9E; background: rgba(200,138,158,.08); }
+
+.voto.enviar:hover { border-color: var(--acento); color: var(--acento); }
+
+/* Filtro por ámbito, dentro del índice. */
+.chip {
+  flex: 1;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--borde);
+  border-radius: 99px;
+  padding: 7px 4px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  cursor: pointer;
+  transition: border-color .18s, color .18s;
+}
+.chip:hover { color: var(--texto); border-color: var(--texto-tenue); }
+.chip:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+.chip.activa { border-color: var(--acento); color: var(--acento); }
+
+/* Cerrar un panel. */
+.cerrar {
+  margin-left: auto;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  color: var(--texto-tenue);
+  font-size: 15px;
+  line-height: 1;
+  padding: 6px 9px;
+  cursor: pointer;
+}
+.cerrar:hover { color: var(--texto); border-color: var(--texto-tenue); }
+.cerrar:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+/* Segundo nivel de lectura, en el pie de la pieza. */
+.ampliar {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--borde);
+  border-radius: 99px;
+  padding: 5px 11px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--acento);
+  cursor: pointer;
+}
+.ampliar:hover { border-color: var(--acento); }
+.ampliar:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+/* Elegir tipo de letra. */
+.letra {
+  flex: 1;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 11px 4px;
+  color: var(--texto-tenue);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .18s, color .18s, background-color .18s;
+}
+.letra:hover { border-color: var(--texto-tenue); color: var(--texto); }
+.letra:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+.letra.elegida {
+  border-color: var(--acento);
+  color: var(--acento);
+  background: rgba(255, 255, 255, .04);
+}
+
+/* Cada opción se muestra con su propia letra. */
+.letra strong { display: block; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.letra small { font-family: var(--mono); font-size: 8.5px; letter-spacing: .06em; }

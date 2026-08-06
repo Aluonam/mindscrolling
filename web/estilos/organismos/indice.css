@@ -1,0 +1,49 @@
+/* Panel lateral con la edición del día y los ajustes. */
+
+.indice {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  z-index: 41;
+  width: min(390px, 88vw);
+  background: var(--superficie);
+  border-left: 1px solid var(--borde);
+  transform: translateX(101%);
+  transition: transform .28s cubic-bezier(.22, .61, .36, 1);
+  display: flex;
+  flex-direction: column;
+}
+.indice.abierto { transform: none; }
+
+.indice-cabecera {
+  padding: 20px 18px 14px;
+  border-bottom: 1px solid var(--borde);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.indice-titulo {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  line-height: 1.7;
+}
+.indice-titulo b { display: block; color: var(--texto); font-size: 12px; letter-spacing: .1em; }
+
+.listado { overflow-y: auto; flex: 1; }
+
+.ajustes {
+  border-top: 1px solid var(--borde);
+  padding: 16px 18px calc(18px + env(safe-area-inset-bottom));
+}
+
+.ajustes-titulo {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  margin-bottom: 11px;
+}

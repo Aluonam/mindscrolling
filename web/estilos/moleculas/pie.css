@@ -1,0 +1,42 @@
+/* Debajo del destilado: tiempo, enlace y ampliar. */
+
+.pie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  color: var(--texto-tenue);
+  text-transform: uppercase;
+}
+
+/* Solo visible con el revelado detenido. */
+.pausa {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  bottom: 118px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  opacity: 0;
+  transition: opacity .25s;
+}
+.pieza.detenida .pausa { opacity: 1; }
+
+/* Cierre de la edición, solo en la última pieza. */
+.arranque {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  text-align: center;
+  padding-top: 4px;
+}

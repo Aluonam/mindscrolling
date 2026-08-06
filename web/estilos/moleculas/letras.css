@@ -1,0 +1,2 @@
+/* Las tres opciones de tipo de letra, en fila. */
+.letras { display: flex; gap: 8px; }
