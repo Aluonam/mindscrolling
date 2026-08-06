@@ -1,0 +1,60 @@
+/* Una pieza dentro del índice. */
+
+.fila {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 13px 18px;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(35, 43, 61, .55);
+  color: var(--texto);
+  font-family: var(--sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .18s;
+}
+.fila:hover { background: rgba(255, 255, 255, .035); }
+.fila:focus-visible { outline: 2px solid var(--acento); outline-offset: -2px; }
+.fila.actual { background: rgba(255, 255, 255, .06); }
+
+/* El color del ámbito, aquí reducido a un punto. */
+.punto {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex: 0 0 auto;
+}
+.fila[data-ambito="tecnico"] .punto { background: var(--tecnico); }
+.fila[data-ambito="clinico"] .punto { background: var(--clinico); }
+.fila[data-ambito="gestion"] .punto { background: var(--gestion); }
+
+.fila .fuente {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  margin-bottom: 5px;
+}
+
+.fila .avance {
+  font-size: 13px;
+  line-height: 1.45;
+  letter-spacing: .004em;
+}
+.fila.leida .avance { color: var(--texto-tenue); }
+
+/* Estrella, aspa o visto, según voto y lectura. */
+.marca-fila {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  color: var(--texto-tenue);
+  padding-top: 3px;
+  flex: 0 0 auto;
+}

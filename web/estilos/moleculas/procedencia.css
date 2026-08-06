@@ -1,0 +1,27 @@
+/* Ámbito + fuente, encima del destilado. */
+
+.procedencia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+.ambito {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--acento);
+}
+
+.ambito::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--acento);
+}

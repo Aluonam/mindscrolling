@@ -1,24 +1,19 @@
-// Abre el lector en el navegador para mirarlo mientras se trabaja.
+// Servidor estático para ver el lector en local.
 //
-// Hace falta porque `web/index.html` pide la edición con fetch, y un fichero
-// abierto a doble clic (file://) no puede pedir nada: el navegador lo bloquea.
-// Con esto se sirve por http y funciona igual que funcionará en Pages.
-//
-// No es infraestructura del proyecto: no lo usa nadie más que quien programa.
+// Hace falta porque el lector pide la edición con fetch y el navegador lo
+// bloquea desde file://. No es infraestructura del proyecto.
 
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// fileURLToPath y no .pathname: en Windows, .pathname devuelve «/C:/…», con
-// una barra delante que convierte cualquier join posterior en una ruta que no
-// existe.
+// fileURLToPath y no .pathname: en Windows .pathname devuelve «/C:/…» y el
+// join posterior da una ruta inexistente.
 const raiz = fileURLToPath(new URL('.', import.meta.url));
 const puerto = Number(process.env.PUERTO) || 8731;
 
-// El tipo importa: un CSS servido como texto plano el navegador lo ignora,
-// y la página sale sin estilos sin decir por qué.
+// El navegador ignora un CSS servido como texto plano, y no avisa.
 const tipos = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -34,7 +29,7 @@ createServer(async (peticion, respuesta) => {
     const contenido = await readFile(ruta);
     respuesta.writeHead(200, {
       'content-type': tipos[extname(ruta)] || 'application/octet-stream',
-      // Sin caché: se recarga y se ve el cambio, que es de lo que se trata.
+      // Sin caché: recargar basta para ver el cambio.
       'cache-control': 'no-store',
     });
     respuesta.end(contenido);

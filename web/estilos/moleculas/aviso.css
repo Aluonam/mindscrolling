@@ -1,0 +1,22 @@
+/* Mensaje flotante y efímero: enlace copiado, ondas activadas. */
+.aviso {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translate(-50%, 8px);
+  z-index: 30;
+  max-width: 82vw;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  color: var(--texto);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease, transform .22s ease;
+}
+.aviso.visible { opacity: 1; transform: translate(-50%, 0); }

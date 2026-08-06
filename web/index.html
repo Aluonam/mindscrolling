@@ -5,7 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0D14">
 <title>MindScrolling</title>
-<link rel="stylesheet" href="estilos.css">
+<!-- Atomic design. El orden es la cascada: lo de abajo puede anular lo de
+     arriba, nunca al revés. Enlaces sueltos y no @import: se descargan en
+     paralelo y no hay paso de construcción. -->
+
+<!-- Átomos -->
+<link rel="stylesheet" href="estilos/atomos/variables.css">
+<link rel="stylesheet" href="estilos/atomos/base.css">
+<link rel="stylesheet" href="estilos/atomos/grano.css">
+<link rel="stylesheet" href="estilos/atomos/boton.css">
+<link rel="stylesheet" href="estilos/atomos/enlace.css">
+<link rel="stylesheet" href="estilos/atomos/palabra.css">
+<link rel="stylesheet" href="estilos/atomos/separador.css">
+
+<!-- Moléculas -->
+<link rel="stylesheet" href="estilos/moleculas/procedencia.css">
+<link rel="stylesheet" href="estilos/moleculas/destilado.css">
+<link rel="stylesheet" href="estilos/moleculas/pie.css">
+<link rel="stylesheet" href="estilos/moleculas/segmentos.css">
+<link rel="stylesheet" href="estilos/moleculas/fila.css">
+<link rel="stylesheet" href="estilos/moleculas/filtros.css">
+<link rel="stylesheet" href="estilos/moleculas/letras.css">
+<link rel="stylesheet" href="estilos/moleculas/aviso.css">
+
+<!-- Organismos -->
+<link rel="stylesheet" href="estilos/organismos/cabecera.css">
+<link rel="stylesheet" href="estilos/organismos/pieza.css">
+<link rel="stylesheet" href="estilos/organismos/velo.css">
+<link rel="stylesheet" href="estilos/organismos/indice.css">
+<link rel="stylesheet" href="estilos/organismos/detalle.css">
+<link rel="stylesheet" href="estilos/organismos/valoracion.css">
+<link rel="stylesheet" href="estilos/organismos/vacio.css">
+
+<!-- Plantilla -->
+<link rel="stylesheet" href="estilos/plantillas/lector.css">
 </head>
 <body>
 
@@ -70,6 +103,6 @@
 </nav>
 
 
-<script type="module" src="lector.js"></script>
+<script type="module" src="guion/lector.js"></script>
 </body>
 </html>

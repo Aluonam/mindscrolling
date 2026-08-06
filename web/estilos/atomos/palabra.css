@@ -1,0 +1,19 @@
+/* La unidad del revelado. Nace dormida y se enciende con .viva. */
+
+.destilado w {
+  color: var(--dormido);
+  transition: color .32s ease, text-shadow .32s ease;
+}
+
+.destilado w.viva { color: var(--texto); }
+
+/* Términos clave: 400 → 800, color del ámbito y banda detrás. */
+.destilado w.clave { font-weight: 800; }
+
+.destilado w.clave.viva {
+  color: var(--acento);
+  background: rgba(var(--halo), .14);
+  border-radius: 3px;
+  /* extiende la banda sin empujar la línea */
+  box-shadow: 0 0 0 .2em rgba(var(--halo), .14);
+}

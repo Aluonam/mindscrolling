@@ -61,16 +61,13 @@ async function main() {
   );
 
   const resumidor = new ResumidorClaude();
-  // fileURLToPath y no .pathname: en Windows, .pathname devuelve «/C:/…» con
-  // una barra delante, y el join de dentro del publicador la convierte en
-  // «C:\C:\…», que no existe. Fallaba al escribir, no al arrancar, así que no
-  // se veía hasta el final del ciclo — con las llamadas a la IA ya pagadas.
+  // fileURLToPath y no .pathname: en Windows .pathname devuelve «/C:/…» y el
+  // join del publicador acaba pidiendo «C:\C:\…».
   const carpetaEdiciones = fileURLToPath(new URL('../ediciones/', import.meta.url));
   const publicador = new PublicadorFichero(carpetaEdiciones);
 
-  // Se comprueba ahora que se puede escribir, antes de leer nada y sobre todo
-  // antes de pagar los destilados. Es la misma regla que ya sigue el embudo —
-  // lo caro va al final— aplicada al revés: lo que puede fallar, cuanto antes.
+  // Se prepara al arrancar, no al publicar: el paso 4 va después de pagar los
+  // destilados del paso 3.
   await mkdir(carpetaEdiciones, { recursive: true });
 
   // 1. Recolectar. Las fuentes se consultan a la vez, no en fila.
