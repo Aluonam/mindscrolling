@@ -46,6 +46,9 @@ function fechaDe(bloque: string): Date {
   return new Date();
 }
 
+/** Lo que se espera a una fuente antes de darla por muda, en milisegundos. */
+const ESPERA_MAXIMA = 20_000;
+
 export class BuscadorRss implements BuscadorDeHallazgos {
   // Ver la nota de publicadorFichero.ts: las propiedades de parámetro no
   // sobreviven al modo "quitar tipos y ejecutar" de Node.
@@ -59,12 +62,26 @@ export class BuscadorRss implements BuscadorDeHallazgos {
     const direccion = this.direcciones[fuente.id];
     if (!direccion) return [];
 
-    const respuesta = await fetch(direccion, {
-      headers: { 'user-agent': 'MindScrolling/0.1 (+https://github.com/Aluonam/mindscrolling)' },
-    });
+    // Una fuente caída no puede tumbar la edición entera: se avisa y se sigue.
+    //
+    // El `try` no es adorno. Un 403 llega como respuesta y se maneja abajo,
+    // pero un servidor que no contesta hace que `fetch` lance, y eso subía
+    // hasta el `Promise.all` de ejecutar.ts y se llevaba las otras 61 fuentes.
+    // Pasó en la primera ejecución de la acción diaria, con www.bsc.es.
+    let respuesta: Response;
+    try {
+      respuesta = await fetch(direccion, {
+        headers: { 'user-agent': 'MindScrolling/0.1 (+https://github.com/Aluonam/mindscrolling)' },
+        // Sin esto, una fuente que acepta la conexión y luego calla deja el
+        // ciclo colgado sin límite.
+        signal: AbortSignal.timeout(ESPERA_MAXIMA),
+      });
+    } catch (error) {
+      console.warn(`  · ${fuente.nombre} no responde (${(error as Error).name}), se salta`);
+      return [];
+    }
 
     if (!respuesta.ok) {
-      // Una fuente caída no puede tumbar la edición entera: se avisa y se sigue.
       console.warn(`  · ${fuente.nombre} respondió ${respuesta.status}, se salta`);
       return [];
     }

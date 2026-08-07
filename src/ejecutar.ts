@@ -106,13 +106,33 @@ async function main() {
   await mkdir(carpetaEdiciones, { recursive: true });
 
   // 1. Recolectar. Las fuentes se consultan a la vez, no en fila.
+  //
+  // allSettled y no all: con `all`, una sola fuente que lance se lleva por
+  // delante las otras 61 y no hay edición. Los adaptadores ya capturan lo suyo,
+  // pero esto es lo que garantiza que ninguno futuro pueda tumbar el ciclo.
   console.log(`Leyendo ${conFeed.length} feeds y ${conConsulta.length} buscadores...`);
-  const porFuente = await Promise.all([
+  const porFuente = await Promise.allSettled([
     ...conFeed.map(f => buscadorRss.buscar(f)),
     ...conConsulta.map(f => buscadorPmc.buscar(f)),
   ]);
-  const hallazgos: Hallazgo[] = porFuente.flat();
-  console.log(`  ${hallazgos.length} hallazgos en bruto`);
+
+  const caidas = porFuente.filter(r => r.status === 'rejected');
+  for (const caida of caidas) {
+    console.warn(`  · una fuente falló sin capturarlo: ${caida.reason}`);
+  }
+
+  const hallazgos: Hallazgo[] = porFuente
+    .filter(r => r.status === 'fulfilled')
+    .flatMap(r => r.value);
+
+  console.log(`  ${hallazgos.length} hallazgos en bruto` +
+    (caidas.length ? ` (${caidas.length} fuentes caídas)` : ''));
+
+  // Cero hallazgos con todo el catálogo caído no es "un día tranquilo": es que
+  // algo va mal. Mejor fallar que publicar una edición vacía en silencio.
+  if (hallazgos.length === 0) {
+    throw new Error('Ninguna fuente devolvió nada. Revisa la red o el catálogo.');
+  }
 
   // 2. Decidir. Todo esto es dominio puro: sin red, sin ficheros.
   const finalistas = construirEdicion(hallazgos, config.intereses, config.cupos, ahora);
