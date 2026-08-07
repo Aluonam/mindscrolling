@@ -4,6 +4,10 @@
 .carril {
   height: 100dvh;
   overflow-y: scroll;
+  /* El carril se mueve en vertical y solo en vertical. */
+  overflow-x: hidden;
+  /* Y el gesto lateral no arrastra la página ni dispara el «atrás» del móvil. */
+  overscroll-behavior-x: none;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
 }
