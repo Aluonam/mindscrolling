@@ -11,6 +11,7 @@ import * as valoracion from './organismos/valoracion.js';
 import * as ajustes from './organismos/ajustes.js';
 import * as ondas from './organismos/ondas.js';
 import * as velo from './moleculas/velo.js';
+import { guardarParaSinConexion } from './atomos/sinConexion.js';
 
 async function cargarEdicion() {
   try {
@@ -39,6 +40,8 @@ function sinEdicion() {
   caja.append(titulo, nota);
   document.getElementById('carril').appendChild(caja);
 }
+
+guardarParaSinConexion();
 
 const edicion = await cargarEdicion();
 
