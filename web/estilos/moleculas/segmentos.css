@@ -2,6 +2,9 @@
 
 .segmentos { display: flex; gap: 4px; }
 
+/* Una sola barra cuando hay demasiadas piezas: sin hueco que repartir. */
+.segmentos.continua { gap: 0; }
+
 .segmento {
   flex: 1;
   height: 2px;

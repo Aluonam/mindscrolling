@@ -19,5 +19,16 @@ export function montar(edicion) {
     botonRitmo.textContent = siguiente();
   });
 
-  alCambiar(() => { contador.textContent = String(estado.leidas.size); });
+  // Con la barra continua no se ve cuántas quedan, así que la posición pasa a
+  // la fecha: «07/08 · 12/100». Con pocas piezas los segmentos ya lo cuentan y
+  // repetirlo sobra.
+  const muchas = edicion.piezas.length > 30;
+
+  alCambiar(() => {
+    contador.textContent = String(estado.leidas.size);
+    if (muchas) {
+      fecha.textContent =
+        `${fechaLegible(edicion.fecha)} · ${estado.actual + 1}/${estado.piezas.length}`;
+    }
+  });
 }
