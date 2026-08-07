@@ -1,0 +1,61 @@
+# La edición de cada día.
+#
+# Lee las fuentes, decide, destila con Groq y deja el resultado commiteado en
+# `ediciones/`. Pages sirve lo que hay en el repositorio, así que publicar es
+# exactamente eso: hacer commit.
+
+name: Edición diaria
+
+on:
+  schedule:
+    # 03:00 UTC — las 5 de la mañana en España en verano, las 4 en invierno.
+    # GitHub programa en UTC y no entiende de horarios de verano.
+    - cron: '0 3 * * *'
+  # Para lanzarla a mano desde la pestaña Actions sin esperar a mañana.
+  workflow_dispatch:
+
+# GitHub reintenta si dos ediciones se solapan; mejor que la segunda espere.
+concurrency:
+  group: edicion
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    permissions:
+      # Para poder commitear la edición. Nada más.
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # El proyecto ejecuta .ts sin compilar; eso pide Node 24.
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Las pruebas del dominio antes de gastar nada en la IA: si la fórmula
+      # está rota, la edición saldría mal y ya la habríamos pagado.
+      - run: npm test
+
+      - name: Generar la edición
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: npm run edicion
+
+      - name: Publicar
+        run: |
+          git config user.name 'MindScrolling'
+          git config user.email 'actions@github.com'
+          git add ediciones/
+          # Si un día no hay piezas no se publica nada, y sin esto el paso
+          # fallaría por intentar un commit vacío.
+          if git diff --cached --quiet; then
+            echo 'Sin cambios en la edición de hoy.'
+            exit 0
+          fi
+          git commit -m "Edición del $(date -u +%Y-%m-%d)"
+          git push
