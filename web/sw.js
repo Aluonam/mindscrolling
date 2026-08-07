@@ -1,11 +1,12 @@
 // Para leer la edición sin conexión, en el metro o sin datos.
 //
-// Dos estrategias, porque hay dos clases de fichero:
+// Una sola estrategia para todo: primero la red, y lo guardado como respaldo.
 //
-// - La edición cambia cada día: primero la red, y si no hay, lo guardado. Así
-//   nunca se lee la de ayer teniendo la de hoy.
-// - El lector no cambia entre ediciones: primero lo guardado, y se refresca de
-//   fondo para la próxima vez. Abre al instante.
+// Antes el lector iba «primero lo guardado» para abrir al instante, y se
+// refrescaba de fondo. Abría más rápido, sí, pero servía la versión anterior:
+// cada arreglo publicado se veía una visita tarde, y con mala suerte se juntaba
+// un lector viejo con una edición nueva. Cuesta unos milisegundos y se ve
+// siempre lo último; sin conexión no cambia nada.
 
 const VERSION = 'mindscrolling-v1';
 
@@ -22,8 +23,6 @@ const IMPRESCINDIBLE = [
   './iconos/icono-192.png',
   './iconos/icono-512.png',
 ];
-
-const esLaEdicion = url => url.pathname.includes('/ediciones/');
 
 self.addEventListener('install', evento => {
   evento.waitUntil(
@@ -51,12 +50,10 @@ self.addEventListener('fetch', evento => {
   // Lo de fuera —el enlace al original— no se toca.
   if (url.origin !== self.location.origin) return;
 
-  evento.respondWith(
-    esLaEdicion(url) ? primeroLaRed(peticion) : primeroLoGuardado(peticion),
-  );
+  evento.respondWith(primeroLaRed(peticion));
 });
 
-/** La edición del día. Si no hay red, se lee la última que se guardó. */
+/** Lo último que haya. Sin red, lo que se guardó la última vez. */
 async function primeroLaRed(peticion) {
   const cache = await caches.open(VERSION);
   try {
@@ -68,19 +65,4 @@ async function primeroLaRed(peticion) {
     if (guardada) return guardada;
     throw new Error('Sin conexión y sin edición guardada.');
   }
-}
-
-/** El lector. Responde ya con lo guardado y se actualiza para la próxima. */
-async function primeroLoGuardado(peticion) {
-  const cache = await caches.open(VERSION);
-  const guardada = await cache.match(peticion);
-
-  const desdeLaRed = fetch(peticion)
-    .then(respuesta => {
-      if (respuesta.ok) cache.put(peticion, respuesta.clone());
-      return respuesta;
-    })
-    .catch(() => guardada);
-
-  return guardada ?? desdeLaRed;
 }

@@ -1,8 +1,8 @@
 {
   "cupos": {
-    "tecnico": 4,
-    "clinico": 3,
-    "gestion": 1
+    "tecnico": 50,
+    "clinico": 37,
+    "gestion": 13
   },
   "fuentes": [
     {
@@ -138,7 +138,6 @@
       "rss": "https://www.thelancet.com/rssfeed/lancet_current.xml",
       "nota": "Igual que NEJM: titulares abiertos, texto completo de pago."
     },
-
     {
       "id": "aota",
       "nombre": "AOTA",
@@ -218,7 +217,7 @@
       "ambito": "clinico",
       "categoria": "Terapia ocupacional e integracion sensorial",
       "estado": "aprobada",
-      "autoridad": 1.0,
+      "autoridad": 1,
       "web": "https://www.theottoolbox.com",
       "rss": "https://www.theottoolbox.com/feed/",
       "nota": "Practico y pediatrico, pero no es evidencia: autoridad baja a proposito."
@@ -239,7 +238,7 @@
       "ambito": "clinico",
       "categoria": "Terapia ocupacional e integracion sensorial",
       "estado": "aprobada",
-      "autoridad": 1.0,
+      "autoridad": 1,
       "web": "https://www.yourtherapysource.com",
       "rss": "https://www.yourtherapysource.com/blog1/feed/"
     },
@@ -304,7 +303,6 @@
       "web": "https://www.physio-pedia.com",
       "nota": "Los feeds de MediaWiki responden 403. Ademas es enciclopedia, no publicacion: encaja mal con la idea de edicion diaria."
     },
-
     {
       "id": "ninds",
       "nombre": "NINDS",
@@ -464,7 +462,7 @@
       "ambito": "clinico",
       "categoria": "Neurodesarrollo y neurorehabilitacion",
       "estado": "aprobada",
-      "autoridad": 1.0,
+      "autoridad": 1,
       "web": "https://www.sciencedaily.com/news/mind_brain/neuroscience",
       "rss": "https://www.sciencedaily.com/rss/mind_brain/neuroscience.xml",
       "nota": "Reescribe notas de prensa universitarias. Util para enterarse, flojo como evidencia."
@@ -480,7 +478,6 @@
       "rss": "http://connect.biorxiv.org/biorxiv_xml.php?subject=neuroscience",
       "nota": "Ya estaba en el proyecto antes de este catalogo. Preprints sin revision por pares."
     },
-
     {
       "id": "martin-fowler",
       "nombre": "Martin Fowler",
@@ -612,7 +609,7 @@
       "ambito": "tecnico",
       "categoria": "Arquitectura de software",
       "estado": "aprobada",
-      "autoridad": 1.0,
+      "autoridad": 1,
       "web": "https://dzone.com",
       "rss": "https://feeds.dzone.com/home",
       "nota": "El feed por tema de arquitectura da 404; este es el general. Calidad muy desigual."
@@ -649,7 +646,6 @@
       "rss": "https://export.arxiv.org/rss/cs.SE",
       "nota": "Ya estaba en el proyecto antes de este catalogo. Preprints sin revision por pares."
     },
-
     {
       "id": "arxiv-ai",
       "nombre": "arXiv - cs.AI",
@@ -762,7 +758,7 @@
       "ambito": "tecnico",
       "categoria": "Tecnologia e inteligencia artificial",
       "estado": "aprobada",
-      "autoridad": 1.0,
+      "autoridad": 1,
       "web": "https://www.kdnuggets.com",
       "rss": "https://www.kdnuggets.com/feed"
     },
@@ -819,7 +815,6 @@
       "web": "https://spectrum.ieee.org",
       "rss": "https://spectrum.ieee.org/feeds/feed.rss"
     },
-
     {
       "id": "scrum-org",
       "nombre": "Scrum.org",
@@ -921,7 +916,6 @@
       "rss": "https://blog.crisp.se/feed",
       "nota": "Publica poco, pero cuando publica suele merecer la pena."
     },
-
     {
       "id": "pmi",
       "nombre": "PMI (Project Management Institute)",
@@ -948,7 +942,7 @@
       "ambito": "gestion",
       "categoria": "Gestion de proyectos",
       "estado": "aprobada",
-      "autoridad": 1.0,
+      "autoridad": 1,
       "web": "https://www.projecttimes.com",
       "rss": "https://www.projecttimes.com/feed/"
     },
@@ -1024,14 +1018,13 @@
       "web": "https://www.apm.org.uk",
       "nota": "El feed devuelve HTML."
     },
-
     {
       "id": "coursera",
       "nombre": "Coursera",
       "ambito": "gestion",
       "categoria": "Formacion",
       "estado": "aprobada",
-      "autoridad": 1.0,
+      "autoridad": 1,
       "web": "https://www.coursera.org",
       "rss": "https://blog.coursera.org/feed/",
       "nota": "El feed es el del blog corporativo, no el catalogo de cursos."
@@ -1076,7 +1069,6 @@
       "web": "https://www.medbridgeeducation.com",
       "nota": "Sin feed y de pago. Formacion continua acreditada en TO y neurorehabilitacion."
     },
-
     {
       "id": "consejo-to",
       "nombre": "Consejo General de Colegios de Terapeutas Ocupacionales de Espana",
@@ -1178,7 +1170,6 @@
       "web": "https://www.coptomurcia.es",
       "nota": "El dominio no resuelve."
     },
-
     {
       "id": "xataka",
       "nombre": "Xataka",
@@ -1290,55 +1281,118 @@
       "nombre": "IA",
       "ambito": "tecnico",
       "peso": 1,
-      "terminos": ["language model", "llm", "neural", "transformer", "inference", "agent", "reasoning"]
+      "terminos": [
+        "language model",
+        "llm",
+        "neural",
+        "transformer",
+        "inference",
+        "agent",
+        "reasoning"
+      ]
     },
     {
       "nombre": "Arquitectura de software",
       "ambito": "tecnico",
       "peso": 1,
-      "terminos": ["architecture", "design", "microservice", "modular", "coupling", "domain"]
+      "terminos": [
+        "architecture",
+        "design",
+        "microservice",
+        "modular",
+        "coupling",
+        "domain"
+      ]
     },
     {
       "nombre": "Modelos de software",
       "ambito": "tecnico",
       "peso": 1,
-      "terminos": ["model-driven", "abstraction", "specification", "formal", "verification"]
+      "terminos": [
+        "model-driven",
+        "abstraction",
+        "specification",
+        "formal",
+        "verification"
+      ]
     },
     {
       "nombre": "Integración sensorial",
       "ambito": "clinico",
       "peso": 1,
-      "terminos": ["sensory", "vestibular", "proprioception", "somatosensory", "multisensory"]
+      "terminos": [
+        "sensory",
+        "vestibular",
+        "proprioception",
+        "somatosensory",
+        "multisensory"
+      ]
     },
     {
       "nombre": "Anatomía y fisiología",
       "ambito": "clinico",
       "peso": 1,
-      "terminos": ["motor control", "posture", "cortex", "physiology", "neuromuscular"]
+      "terminos": [
+        "motor control",
+        "posture",
+        "cortex",
+        "physiology",
+        "neuromuscular"
+      ]
     },
     {
       "nombre": "Terapia ocupacional",
       "ambito": "clinico",
       "peso": 1,
-      "terminos": ["occupational", "rehabilitation", "daily living", "fine motor", "children"]
+      "terminos": [
+        "occupational",
+        "rehabilitation",
+        "daily living",
+        "fine motor",
+        "children"
+      ]
     },
     {
       "nombre": "Scrum y agilidad",
       "ambito": "gestion",
       "peso": 1,
-      "terminos": ["scrum", "agile", "sprint", "backlog", "kanban", "retrospective", "product owner"]
+      "terminos": [
+        "scrum",
+        "agile",
+        "sprint",
+        "backlog",
+        "kanban",
+        "retrospective",
+        "product owner"
+      ]
     },
     {
       "nombre": "Gestión de proyectos",
       "ambito": "gestion",
       "peso": 1,
-      "terminos": ["project management", "stakeholder", "roadmap", "estimation", "risk", "delivery", "portfolio"]
+      "terminos": [
+        "project management",
+        "stakeholder",
+        "roadmap",
+        "estimation",
+        "risk",
+        "delivery",
+        "portfolio"
+      ]
     },
     {
       "nombre": "Equipos y liderazgo",
       "ambito": "gestion",
       "peso": 1,
-      "terminos": ["team", "leadership", "culture", "remote work", "mentoring", "onboarding", "burnout"]
+      "terminos": [
+        "team",
+        "leadership",
+        "culture",
+        "remote work",
+        "mentoring",
+        "onboarding",
+        "burnout"
+      ]
     }
   ]
 }
