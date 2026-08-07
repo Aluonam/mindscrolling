@@ -107,18 +107,52 @@ gh api repos/Aluonam/mindscrolling/pages --jq .status
 
 ## Los límites reales, medidos
 
-No son estimaciones: salen de ejecuciones reales.
+Salen de contar sobre una edición publicada, no de extrapolar.
 
 | Qué | Cuánto | Margen |
 |---|---|---|
-| Tokens por edición de 100 piezas | ~100.000 | **Justo el tope diario del modelo de 70B** |
-| Tokens por edición de 8 piezas | ~5.900 | Sobrado |
+| Tokens por edición de 100 piezas | **82.110** (73.656 entrada + 8.454 salida) | Cabe en los 100.000 diarios del 70B, con un 18% de holgura |
 | Tiempo de la acción con 100 piezas | ~8 min | Sobrado (el límite son 6 h) |
-| Peticiones por minuto a Groq | 30 | Se espacian 2 s, unas 24/min |
+| Peticiones por minuto a Groq | 30 permitidas | Se espacian 2 s, unas 24/min |
 | Fuentes que responden | 59 de 62 | Los `403` son estables |
 
-**El margen más estrecho de todo el sistema es el cupo de tokens.** Al agotarse
-se pasa solo al modelo pequeño, pero conviene saberlo antes de subir cupos.
+**Lo que NO es un límite: leer las fuentes.** Traer 6.700 artículos de 62 sitios
+son peticiones HTTP normales, gratis y sin cupo. El único recurso contado son
+los tokens del modelo que escribe los destilados.
+
+### El cupo es diario y se comparte
+
+Los 100.000 tokens son de todo el día y de toda la clave, no de cada ejecución.
+Cada `npm run edicion` que lances a mano consume del mismo bote que gastará la
+acción de la madrugada.
+
+Esto ya pasó: probando el cambio a 100 piezas se agotó el cupo del 70B y la
+segunda mitad de la edición se generó con el modelo pequeño, que escribe peor.
+**No fue falta de capacidad, fue haberla gastado antes.** Si vas a probar
+mucho un día, cuenta con que esa noche la edición puede salir más floja.
+
+## Si quieres más calidad en las 100 piezas
+
+Por orden de coste. Los precios de Anthropic son por millón de tokens; el
+cálculo mensual asume una edición de 100 piezas al día, 30 días.
+
+| Opción | Coste | Qué mejora | Qué cuesta |
+|---|---|---|---|
+| **No tocar nada** | 0 € | — | La cola de la edición empeora los días que se agote el cupo |
+| **Recortar el material de entrada** a 1.200 caracteres | 0 € | El margen sube del 18% al 30%: hace falta gastar mucho más a mano para agotar el cupo | El modelo ve menos resumen original; en textos largos pierde el final |
+| **Groq de pago (plan Developer)** | Por confirmar | Sube los límites con los mismos modelos | Los valores exactos no están publicados: hay que mirarlos en la consola de la cuenta |
+| **Claude Haiku 4.5** | **3,48 $/mes** | Sigue las instrucciones bastante mejor que un 70B abierto | Deja de ser gratis y necesita tarjeta |
+| **Claude Sonnet 5** | 10,43 $/mes | Prosa notablemente mejor | Diez veces el precio de Haiku para un texto de 45 palabras |
+| **Claude Opus 5** | 17,39 $/mes | El techo de calidad | Difícil de justificar para este formato |
+
+**La recomendación, si un día quieres dar el salto: Haiku 4.5.** Por 3,48 $ al
+mes desaparecen de golpe los dos defectos que más se notan hoy —destilados
+cortados a media frase y colas que enumeran sus propias claves— porque son
+fallos de seguimiento de instrucciones, no de inteligencia.
+
+Cambiar cuesta una variable de entorno: `RESUMIDOR=claude` y una
+`ANTHROPIC_API_KEY`. El adaptador ya está escrito y comparte instrucciones con
+el de Groq, así que la comparación es justa (decisión 14).
 
 ## Qué NO hacer
 

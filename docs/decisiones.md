@@ -214,8 +214,15 @@ todavía y se puede añadir después sin tocar nada.
 Con `RESUMIDOR=claude` los escribe Claude. Ambos comparten instrucciones.
 
 **Por qué.** El plan gratuito de Groq da 100.000 tokens al día en el modelo de
-70B. Una edición de ocho piezas gasta unos 5.900, medidos sobre una edición
-real. Cabe con margen incluso multiplicando el cupo por diez.
+70B, y una edición de **100 piezas gasta 82.110** —73.656 de entrada y 8.454 de
+salida, contados sobre una edición publicada—. Cabe con un 18% de holgura.
+
+**Corrección de una cifra que estuvo mal.** Durante un tiempo aquí puso que 100
+piezas gastaban unos 100.000 tokens, «justo el tope». Era una extrapolación
+desde la edición de ocho, no una medición, y sobrestimaba en un 22%. El
+respaldo al modelo pequeño llegó a saltar, pero no por falta de capacidad: el
+cupo es diario y compartido, y se había gastado probando a mano esa misma
+tarde.
 
 **Regla de diseño.** La operación cara va al final del embudo: el proceso reduce
 cientos de candidatos con reglas gratuitas, y la IA solo resume lo que ha
