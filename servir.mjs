@@ -21,9 +21,21 @@ const tipos = {
   '.json': 'application/json; charset=utf-8',
 };
 
+const PORTADA = '/web/index.html';
+
 createServer(async (peticion, respuesta) => {
   const pedido = decodeURIComponent(peticion.url.split('?')[0]);
-  const ruta = join(raiz, pedido === '/' ? '/web/index.html' : pedido);
+
+  // Redirección y no servir el HTML aquí mismo: los enlaces del index son
+  // relativos, y desde «/» buscarían /estilos y /guion en vez de /web/estilos
+  // y /web/guion. La página salía sin estilos y sin guion.
+  if (pedido === '/' || pedido === '/web' || pedido === '/web/') {
+    respuesta.writeHead(302, { location: PORTADA });
+    respuesta.end();
+    return;
+  }
+
+  const ruta = join(raiz, pedido);
 
   try {
     const contenido = await readFile(ruta);
