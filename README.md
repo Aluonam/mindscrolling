@@ -19,7 +19,22 @@ El lector ya es el de verdad, no un apaño para comprobar que la edición se lee
 revelado palabra a palabra con control de velocidad, un color por ámbito,
 índice de la edición, selector de tipo de letra y ondas de fondo opcionales.
 
+Los destilados los escribe Groq, cuyo plan gratuito cubre el consumo real de
+una edición con mucho margen. **El proyecto no cuesta dinero.**
+
 Queda automatizarlo: hoy la edición se genera a mano con `npm run edicion`.
+
+## Para generar una edición
+
+Hace falta una clave gratuita de [Groq](https://console.groq.com):
+
+```
+GROQ_API_KEY=gsk_...   npm run edicion
+npm run servir         # y abrir http://localhost:8731
+```
+
+Con `RESUMIDOR=claude` y `ANTHROPIC_API_KEY` los escribe Claude, para comparar
+calidad (decisión 14).
 
 ## Temas que cubre
 
