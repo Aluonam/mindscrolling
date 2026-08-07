@@ -83,7 +83,9 @@ export class ResumidorGroq implements Resumidor {
         // el parámetro garantiza JSON válido, no que traiga estos campos.
         response_format: { type: 'json_object' },
         temperature: 0.4,
-        max_tokens: 500,
+        // Un destilado son ~70 tokens; el resto es margen para que el JSON
+        // cierre. Con 500 se vio alguna frase cortada a media palabra.
+        max_tokens: 900,
         messages: [
           {
             role: 'system',
