@@ -6,23 +6,13 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { Resumidor } from '../dominio/puertos.ts';
 import type { Destilado, Pieza } from '../dominio/tipos.ts';
+import { INSTRUCCIONES, materialDe, validarDestilado } from './instruccionesDestilado.ts';
 
 /** Cambiar por 'claude-haiku-4-5' abarata mucho, a costa de algo de calidad. */
 const MODELO = 'claude-opus-5';
 
 // El SDK tiene que ser 0.115 o superior: output_config no existía en 0.70 y
 // npm run tipos fallaba por eso desde el primer commit.
-
-const INSTRUCCIONES = `Escribes los resúmenes de MindScrolling, un lector donde cada pieza se lee en una pantalla de móvil.
-
-Reglas:
-- Español, entre 35 y 50 palabras. Ni una más.
-- Empieza por lo sorprendente o lo que cambia algo. Nunca por el contexto ni por "este artículo trata de".
-- Frases cortas y directas. Nada de jerga innecesaria.
-- No inventes datos, cifras ni conclusiones que no estén en el material.
-- Si el material es insuficiente, resume solo lo que se puede afirmar.
-
-Marca además entre 2 y 3 términos clave: los que, resaltados, permiten captar la idea sin leerlo todo. Deben aparecer literalmente en tu texto.`;
 
 export class ResumidorClaude implements Resumidor {
   private readonly cliente = new Anthropic();
@@ -49,15 +39,7 @@ export class ResumidorClaude implements Resumidor {
           },
         },
       },
-      messages: [{
-        role: 'user',
-        content: [
-          `Fuente: ${pieza.fuente.nombre}`,
-          `Título: ${pieza.titulo}`,
-          '',
-          pieza.resumenOriginal.slice(0, 4000),
-        ].join('\n'),
-      }],
+      messages: [{ role: 'user', content: materialDe(pieza) }],
     });
 
     if (respuesta.stop_reason === 'refusal') {
@@ -69,6 +51,6 @@ export class ResumidorClaude implements Resumidor {
       throw new Error(`Respuesta sin texto para "${pieza.titulo}"`);
     }
 
-    return JSON.parse(bloque.text) as Destilado;
+    return validarDestilado(JSON.parse(bloque.text));
   }
 }

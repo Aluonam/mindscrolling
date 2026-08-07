@@ -102,8 +102,11 @@ Eso ya no es una promesa: `npm test` corre las pruebas del dominio en menos de
 dos décimas de segundo. Están en `construirEdicion.prueba.ts`, al lado del
 fichero que prueban, y usan el corredor que trae Node — nada que instalar.
 
-Solo se prueba el dominio. La infraestructura no: probar que un RSS se lee bien
-exige el RSS, y eso ya no es una prueba, es una llamada a internet.
+La regla no es «solo el dominio», es **se prueba lo que no necesita el mundo**.
+Probar que un RSS se lee bien exige el RSS, y eso ya no es una prueba, es una
+llamada a internet. Pero `validarDestilado` no necesita nada —ni red, ni
+ficheros, ni reloj— y su fallo es silencioso: una clave que no aparece en el
+texto no da error, simplemente no resalta nada. Por eso también se prueba.
 
 ## Ejecutar los tipos sin compilar
 
