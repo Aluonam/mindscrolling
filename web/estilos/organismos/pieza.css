@@ -1,5 +1,16 @@
 /* Una pieza ocupa la pantalla entera. */
 
+/*
+ * La pieza ocupa la pantalla entera; la columna de lectura va dentro.
+ *
+ * Antes la pieza *era* la columna: 560 px de ancho como mucho. En un móvil da
+ * igual, porque 560 es más que la pantalla, pero en un ordenador el halo del
+ * fondo no podía salir de esa columna y quedaba una franja de luz en mitad de
+ * un vacío negro, con los bordes marcados.
+ *
+ * Separando las dos cosas —la pieza para el fondo, sus hijos para el texto— el
+ * fondo llena la ventana a cualquier tamaño y la línea sigue siendo corta.
+ */
 .pieza {
   height: 100dvh;
   scroll-snap-align: start;
@@ -9,15 +20,19 @@
   justify-content: center;
   gap: 26px;
   padding: 96px 24px 116px;
-  /* El ancho de línea sale del modo de lectura: más corto cuesta menos seguir. */
-  max-width: var(--ancho-lectura, 560px);
-  margin: 0 auto;
   position: relative;
 
-  /* El halo del fondo se sale un 12% por cada lado para que el desenfoque no
-     enseñe el borde. Sin esto, ese sobrante se podía arrastrar de lado y
-     asomaba una franja de fondo. Se recorta aquí, en la pieza. */
+  /* El halo se sale un 12% por cada lado para que el desenfoque no enseñe el
+     borde. Sin esto, ese sobrante se podía arrastrar de lado. */
   overflow: hidden;
+}
+
+/* Todo lo que se lee va en columna, centrado y con el ancho del modo de
+   lectura. La pausa está posicionada aparte y no le afecta el margen. */
+.pieza > * {
+  width: 100%;
+  max-width: var(--ancho-lectura, 560px);
+  margin-inline: auto;
 }
 
 /* El ámbito tiñe la pieza entera. --halo es el mismo color en RGB suelto,

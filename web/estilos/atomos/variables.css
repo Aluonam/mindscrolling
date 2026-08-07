@@ -40,4 +40,11 @@
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   --acento: var(--tecnico);
+
+  /* Dos anchos distintos, y a propósito. La lectura va estrecha porque la
+     línea larga cuesta de seguir; la interfaz va más ancha para que la
+     cabecera y la barra inferior no queden encogidas en el centro de una
+     pantalla grande. El de lectura lo reescriben los ajustes según el modo. */
+  --ancho-lectura: 560px;
+  --ancho-interfaz: 920px;
 }
