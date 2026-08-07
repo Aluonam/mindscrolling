@@ -2,7 +2,7 @@
 //
 // Existe para que el ciclo diario no cueste dinero. El plan gratuito da
 // 100.000 tokens al día en el modelo de 70B, y una edición de 100 piezas gasta
-// justo eso: por ahí anda el techo de lo que cabe gratis.
+// 82.110 medidos sobre una edición publicada. Cabe con un 18% de holgura.
 //
 // Sin SDK: la API de Groq es HTTP y Node ya trae fetch. Una dependencia menos.
 
@@ -15,10 +15,11 @@ const EXTREMO = 'https://api.groq.com/openai/v1/chat/completions';
 /**
  * El bueno primero, y uno de repuesto cuando se acaba su cupo del día.
  *
- * Una edición de 100 piezas gasta unos 100.000 tokens y el cupo gratuito del
- * 70B son exactamente 100.000: cabe justo, y cualquier reintento se sale. El
- * de 8B tiene 500.000, escribe algo peor y permite terminar la edición en vez
- * de publicarla a medias.
+ * Una edición de 100 piezas cabe en el cupo diario del 70B con holgura, pero
+ * ese cupo es de todo el día y de toda la clave: unas cuantas ejecuciones a
+ * mano lo dejan seco antes de que llegue la de la madrugada. Ahí entra el de
+ * 8B, con 500.000 al día: escribe algo peor y permite terminar la edición en
+ * vez de publicarla a medias.
  */
 const MODELO = 'llama-3.3-70b-versatile';
 const MODELO_DE_REPUESTO = 'llama-3.1-8b-instant';
