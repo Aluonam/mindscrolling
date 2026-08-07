@@ -57,6 +57,8 @@ se cede: la edición sale más corta y ya.
 
 ## Documentación
 
+- [**Índice de la documentación**](docs/README.md) — por dónde empezar según lo que busques.
+- [Operación](docs/operacion.md) — qué hacer cuando algo falla, y los límites reales medidos.
 - [Glosario](docs/glosario.md) — las palabras que usamos y qué significa cada una.
 - [Decisiones](docs/decisiones.md) — qué decidimos, por qué, y qué descartamos.
 - [Estructura](docs/estructura.md) — cómo está organizado el código y por qué.
