@@ -1,7 +1,7 @@
 # La documentación, por dónde empezar
 
-Cinco documentos, cada uno responde a una pregunta distinta. Si no sabes cuál
-abrir, busca tu pregunta aquí.
+Cada documento responde a una pregunta distinta. Si no sabes cuál abrir, busca
+tu pregunta aquí.
 
 | Tu pregunta | Documento |
 |---|---|
@@ -10,6 +10,7 @@ abrir, busca tu pregunta aquí.
 | ¿Por qué está hecho así y no de otra forma? | [decisiones.md](decisiones.md) |
 | ¿De dónde sale la información? | [fuentes.md](fuentes.md) |
 | **Algo falla, ¿qué hago?** | [operacion.md](operacion.md) |
+| ¿Qué IA usamos, qué cuesta y qué otras hay? | [alternativas-ia.md](alternativas-ia.md) |
 | ¿Qué significa esta palabra? | [glosario.md](glosario.md) |
 
 ## El orden si empiezas de cero
@@ -32,6 +33,8 @@ Cada documento tiene un dueño claro:
 - Añades, quitas o pones en cuarentena **una fuente** → `fuentes.md`.
 - Encuentras **un fallo que costó diagnosticar** → `operacion.md`, en problemas
   conocidos. Ese documento vale por los fallos que evita repetir.
+- Cambian **los cupos gratuitos o los precios por token** → `alternativas-ia.md`,
+  y actualiza la fecha de comprobación de su cabecera.
 
 Las decisiones no se borran cuando cambian: se reescriben diciendo qué se creía
 antes y qué se sabe ahora. La decisión 14 es el ejemplo — pasó de Claude a Groq

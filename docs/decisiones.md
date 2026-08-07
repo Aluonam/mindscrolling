@@ -250,6 +250,11 @@ dentro de cada adaptador — con reglas distintas, comparar no significa nada.
 Todas son piezas intercambiables detrás del mismo puerto. Probarlas no cambia
 la arquitectura: es un fichero nuevo y una línea en `ejecutar.ts`.
 
+**El catálogo completo de alternativas, con cupos gratuitos y precios medidos,
+está en [alternativas-ia.md](alternativas-ia.md).** Lo más barato pendiente:
+`openai/gpt-oss-120b` en el mismo Groq da 200.000 tokens diarios gratis en vez
+de los 100.000 del 70B, y es una constante.
+
 ---
 
 ## 15. La aplicación es accesible por defecto
