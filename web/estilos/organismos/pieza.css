@@ -9,7 +9,8 @@
   justify-content: center;
   gap: 26px;
   padding: 96px 24px 116px;
-  max-width: 560px;
+  /* El ancho de línea sale del modo de lectura: más corto cuesta menos seguir. */
+  max-width: var(--ancho-lectura, 560px);
   margin: 0 auto;
   position: relative;
 
