@@ -61,7 +61,8 @@ probabilidad:
 | `Falta GROQ_API_KEY` | El secreto no está o cambió de nombre | Settings → Secrets → `GROQ_API_KEY` |
 | `Ninguna fuente devolvió nada` | Sin red, o el catálogo entero caído | Reintentar; si persiste, revisar `config/fuentes.json` |
 | `Groq sigue limitando tras 3 intentos` | Cupo diario agotado en ambos modelos | Esperar a mañana o bajar cupos |
-| `agotado el cupo diario de llama-3.3-70b` | **No es un fallo.** Siguió con el modelo pequeño | Nada |
+| `agotado el cupo diario de openai/gpt-oss-120b` | **No es un fallo.** Siguió con el modelo pequeño | Nada |
+| `tokens per minute (TPM)` dentro de un 429 | Se pidió más de lo que cabe en un minuto | No subas `max_tokens`: se reserva entero contra ese cupo. Ver más abajo |
 
 Los `403` y `521` de fuentes sueltas **son normales**: hay medios que bloquean
 robots. Se saltan y la edición sale igual.
@@ -111,25 +112,44 @@ Salen de contar sobre una edición publicada, no de extrapolar.
 
 | Qué | Cuánto | Margen |
 |---|---|---|
-| Tokens por edición de 100 piezas | **82.110** (73.656 entrada + 8.454 salida) | Cabe en los 100.000 diarios del 70B, con un 18% de holgura |
-| Tiempo de la acción con 100 piezas | ~8 min | Sobrado (el límite son 6 h) |
-| Peticiones por minuto a Groq | 30 permitidas | Se espacian 2 s, unas 24/min |
+| Tokens por edición de 100 piezas | **~62.000** (medido sobre 5 piezas y proyectado) | Cabe tres veces en los 200.000 diarios de `gpt-oss-120b` |
+| **Tokens por minuto** | **8.000** con `gpt-oss-120b` | **Éste es el límite que aprieta.** Ver abajo |
+| Tiempo de la acción con 100 piezas | ~15 min | Sobrado (el límite son 6 h) |
+| Peticiones por minuto a Groq | 30 permitidas | Se espacian 11 s, unas 5/min — manda el cupo de tokens, no el de peticiones |
 | Fuentes que responden | 59 de 62 | Los `403` son estables |
 
 **Lo que NO es un límite: leer las fuentes.** Traer 6.700 artículos de 62 sitios
 son peticiones HTTP normales, gratis y sin cupo. El único recurso contado son
 los tokens del modelo que escribe los destilados.
 
+### El límite que de verdad aprieta es el del minuto, no el del día
+
+Una edición entera cabe tres veces en el cupo diario, pero **no cabe en un
+minuto**. El plan gratuito da 8.000 tokens por minuto con `gpt-oss-120b` y 6.000
+con el de repuesto.
+
+Y hay una trampa que costó un 429 descubrir: **Groq reserva `max_tokens` entero
+contra el cupo del minuto en el momento de pedir**, se gaste después o no. El
+error lo dice a las claras — `Limit 8000, Used 6478, Requested 3802`, donde esos
+3.802 son 796 de entrada más los 3.000 de `max_tokens` que se habían pedido.
+
+Por eso `MAXIMO_DE_SALIDA` está en 700 y no en un número cómodo: un techo
+generoso no es gratis, es el precio de entrada de cada llamada. Y por eso la
+espera entre llamadas **se calcula** a partir de ese techo en vez de fijarse a
+ojo. Si algún día subes `max_tokens`, la espera sube sola.
+
 ### El cupo es diario y se comparte
 
-Los 100.000 tokens son de todo el día y de toda la clave, no de cada ejecución.
+Los 200.000 tokens son de todo el día y de toda la clave, no de cada ejecución.
 Cada `npm run edicion` que lances a mano consume del mismo bote que gastará la
 acción de la madrugada.
 
-Esto ya pasó: probando el cambio a 100 piezas se agotó el cupo del 70B y la
-segunda mitad de la edición se generó con el modelo pequeño, que escribe peor.
-**No fue falta de capacidad, fue haberla gastado antes.** Si vas a probar
-mucho un día, cuenta con que esa noche la edición puede salir más floja.
+Esto ya pasó con el modelo anterior, que solo tenía 100.000: probando el cambio
+a 100 piezas se agotó el cupo y la segunda mitad de la edición se generó con el
+modelo pequeño, que escribe peor. **No fue falta de capacidad, fue haberla
+gastado antes.** Con 200.000 y un consumo de ~62.000 hace falta mucho más para
+llegar ahí, pero la regla no cambia: si pruebas mucho un día, cuenta con que esa
+noche la edición puede salir más floja.
 
 ## Si quieres más calidad en las 100 piezas
 

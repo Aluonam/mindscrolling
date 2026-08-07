@@ -210,12 +210,41 @@ todavía y se puede añadir después sin tocar nada.
 
 ## 14. Los resúmenes se hacen con Groq, y con Claude para comparar
 
-**Qué.** Los destilados los escribe Groq (`llama-3.3-70b-versatile`) por defecto.
+**Qué.** Los destilados los escribe Groq (`openai/gpt-oss-120b`) por defecto.
 Con `RESUMIDOR=claude` los escribe Claude. Ambos comparten instrucciones.
 
-**Por qué.** El plan gratuito de Groq da 100.000 tokens al día en el modelo de
-70B, y una edición de **100 piezas gasta 82.110** —73.656 de entrada y 8.454 de
-salida, contados sobre una edición publicada—. Cabe con un 18% de holgura.
+**Por qué.** El plan gratuito de Groq da 200.000 tokens al día en ese modelo, y
+una edición de 100 piezas gasta **unos 62.000**. Cabe tres veces.
+
+**De dónde viene el modelo actual (7 de agosto de 2026).** Antes era
+`llama-3.3-70b-versatile`, con 100.000 al día y un gasto medido de 82.110 —un
+margen del 18%, tan justo que unas pruebas a mano por la tarde dejaban la
+edición de la madrugada sin cupo—. `gpt-oss-120b` da el doble de cupo, gasta
+menos y escribe mejor.
+
+Lo de «escribe mejor» está comprobado, no supuesto: se pasaron las mismas piezas
+por los dos. El 70B devolvía cosas como «*…se busca descubrir características
+correctivas que mejoren los resultados, la integración de características y el
+modelado de errores son claves*» —34 palabras, sin punto final, dos frases
+empalmadas con una coma—. El nuevo devolvía «*Mantener el modelo congelado y
+extraer características correctivas del residual duplica la mejora del corrector
+y reduce el error hasta un 27%*». Los dos defectos que más se notaban —frases
+cortadas y colas que enumeran sus propias claves— eran fallos de seguimiento de
+instrucciones, no de inteligencia.
+
+**Lo que costó descubrir el cambio: el límite que aprieta es el del minuto.**
+`gpt-oss-120b` razona antes de responder, así que lo primero fue subir
+`max_tokens` de 900 a 3.000 para hacerle sitio. Fue un error, y el 429 lo
+explicó: `Limit 8000, Used 6478, Requested 3802`. **Groq reserva `max_tokens`
+entero contra el cupo del minuto en el momento de pedir**, se gaste o no. Con
+3.000 de techo, cada llamada reservaba 3.800 de los 8.000 del minuto y solo
+cabían dos.
+
+Medido, el razonamiento en `low` ocupa unos 40 tokens y el destilado unos 130.
+El techo quedó en 700 —cuatro veces lo que hace falta— y la espera entre
+llamadas pasó a **calcularse** desde ese techo en vez de fijarse a ojo. Sale a
+11 s: una edición de 100 piezas tarda ~15 minutos en vez de ~8, holgado frente
+al límite de 6 h de la acción.
 
 **Corrección de una cifra que estuvo mal.** Durante un tiempo aquí puso que 100
 piezas gastaban unos 100.000 tokens, «justo el tope». Era una extrapolación
