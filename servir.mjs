@@ -21,21 +21,13 @@ const tipos = {
   '.json': 'application/json; charset=utf-8',
 };
 
-const PORTADA = '/web/index.html';
-
 createServer(async (peticion, respuesta) => {
   const pedido = decodeURIComponent(peticion.url.split('?')[0]);
 
-  // Redirección y no servir el HTML aquí mismo: los enlaces del index son
-  // relativos, y desde «/» buscarían /estilos y /guion en vez de /web/estilos
-  // y /web/guion. La página salía sin estilos y sin guion.
-  if (pedido === '/' || pedido === '/web' || pedido === '/web/') {
-    respuesta.writeHead(302, { location: PORTADA });
-    respuesta.end();
-    return;
-  }
-
-  const ruta = join(raiz, pedido);
+  // Una carpeta sirve su index.html, igual que hace Pages. Antes «/» redirigía
+  // aquí mismo, y eso dejaba sin probar el index.html de la raíz, que es quien
+  // hace la redirección de verdad una vez publicado.
+  const ruta = join(raiz, pedido.endsWith('/') ? pedido + 'index.html' : pedido);
 
   try {
     const contenido = await readFile(ruta);

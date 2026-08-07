@@ -1,0 +1,213 @@
+{
+  "fecha": "2026-08-07",
+  "piezas": [
+    {
+      "titulo": "MACRO: Markov Chain Routing of Transformer Layers",
+      "resumenOriginal": "arXiv:2608.05872v1 Announce Type: cross Abstract: Standard Large Language Models (LLMs) execute layers sequentially. Dynamic layer routing, i.e. search for a different execution path through layers involving layer repetitions, skips and other moves, can improve performance. Existing routing approaches often require updating model weights, running expensive search loops per test instance, or demand ground-truth labels during inference. In this work, we propose Markov Chain Routing of Transformer Layers (MACRO), a framework that learns task-specific routes over LLM architectures without modifying underlying parameters. MACRO models layer routing as a context-dependent Markov policy conditioned on layer indices, computation budget phases, directional displacements, and operator context, supporting skip, repeat, and residual hidden-state addition operations. The Markov route distribution is updated via feedback on training data and decoded using a top-k Viterbi algorithm to isolate high-probability candidate programs. We evaluate MACRO across diverse reasoning and knowledge benchmarks on multiple open-weight LLMs. MACRO achieves a +5.0% average accuracy improvement over the unrouted baselines, with largest gains on small models. We outperform the best dynamic routing approach Dr. LLM by +7.2%, while reducing route-search time 9.4x (from 14.8 to 1.6 hours). Our code is publicly available at https://github.com/Batorskq/MACRO.",
+      "enlace": "https://arxiv.org/abs/2608.05872",
+      "publicado": "2026-08-07T04:00:00.000Z",
+      "fuente": {
+        "id": "arxiv-ai",
+        "nombre": "arXiv - cs.AI",
+        "ambito": "tecnico",
+        "categoria": "Tecnologia e inteligencia artificial",
+        "estado": "aprobada",
+        "autoridad": 1.6,
+        "web": "https://arxiv.org/list/cs.AI/recent",
+        "rss": "https://export.arxiv.org/rss/cs.AI",
+        "nota": "Preprints sin revision por pares. Mas de 250 al dia: el filtro tiene que ser duro."
+      },
+      "huella": "arxiv.org/abs/2608.05872",
+      "puntuacion": 0.8936691036028335,
+      "destilado": {
+        "texto": "Ejecutar capas secuencialmente limita los modelos de lenguaje. La ruta dinámica de capas puede mejorar el rendimiento. Se propone MACRO, un marco que aprende rutas específicas de tarea sin modificar parámetros subyacentes.",
+        "clave": [
+          "ruta dinámica",
+          "capas"
+        ]
+      }
+    },
+    {
+      "titulo": "When Do Corrective Features Help? An Agent for Corrective Feature Discovery on Black-Box Forecasters",
+      "resumenOriginal": "arXiv:2608.05207v1 Announce Type: new Abstract: Frozen pretrained forecasters often fail in structured, recurring ways that are costly to repair through fine-tuning. We study corrective feature discovery: mining interpretable features of a frozen forecaster's residual to drive a lightweight post-hoc corrector. Prior automated feature engineering models the data-generating process; corrective features instead model the model-failure process. We present CRAFTER (Corrective Residual Agent with Feature-based Temporal Exploration and Reasoning), which keeps the backbone frozen and mines its residual with two complementary generators: a compositional search over the raw input channels, and a large language model (LLM) that proposes named feature combinations, binary flags, and short executable code. A single validation-grounded gate accepts or rejects every candidate regardless of its origin, and a validation-selected corrector applies the accepted features or leaves the forecast unchanged. This source-agnostic pipeline also allows prior feature-engineering systems to be evaluated under identical conditions, making CRAFTER an instrument for attributing forecast improvements to the feature source alone. Across six public datasets and six frozen backbones, CRAFTER surpasses every dedicated feature-engineering system at every feature budget, roughly doubling the improvement achieved by the corrector alone and reducing the error of the weakest backbones by up to 27%. These gains are robust across different LLM backends and persist even when applied on top of fine-tuned backbones.",
+      "enlace": "https://arxiv.org/abs/2608.05207",
+      "publicado": "2026-08-07T04:00:00.000Z",
+      "fuente": {
+        "id": "arxiv-lg",
+        "nombre": "arXiv - cs.LG",
+        "ambito": "tecnico",
+        "categoria": "Tecnologia e inteligencia artificial",
+        "estado": "aprobada",
+        "autoridad": 1.6,
+        "web": "https://arxiv.org/list/cs.LG/recent",
+        "rss": "https://export.arxiv.org/rss/cs.LG",
+        "nota": "Preprints sin revision por pares."
+      },
+      "huella": "arxiv.org/abs/2608.05207",
+      "puntuacion": 0.8643814470658407,
+      "destilado": {
+        "texto": "Mejorar los modelos de previsión con características correctivas reduce el error en un 27%. La técnica de descubrimiento de características correctivas utiliza un agente para identificar fallos en los modelos preentrenados. La integración de características correctivas mejora la precisión de los modelos",
+        "clave": [
+          "características correctivas",
+          "integración de características",
+          "modelos de previsión"
+        ]
+      }
+    },
+    {
+      "titulo": "Agent-Based Test Assertion Generation via Diverse Perspective Aggregation",
+      "resumenOriginal": "arXiv:2608.05822v1 Announce Type: new Abstract: Test assertions are critical elements of unit tests, serving as checkpoints to validate expected behavior and ensure software correctness. Numerous techniques have been proposed to automate assertion generation, with recent progress notably driven by large language models (LLMs). Despite the promise, existing approaches such as ChatAssert suffer from modest accuracy, heavy reliance on oversampling, and vulnerability to model randomness due to one-shot prompting. To address these limitations, we propose AssertMate, a novel agent-based assertion generation framework that enhances the quality and reliability of LLM-generated assertions through three key components: (1) actual value construction that identifies assertion targets via static analysis and type-aware heuristics; (2) multi-perspective expected value prediction using code generation, retrieval-augmented generation (RAG), and chain-of-thought (CoT) reasoning agents; and (3) an LLM-as-a-Judge collaboration mechanism to select the most appropriate assertion. Evaluation on the Defects4J benchmark demonstrates that AssertMate significantly outperforms state-of-the-art techniques in compilation success and pass rates, along with substantially higher bug detection capabilities. Integration with EvoSuite further validates AssertMate's practicality, yielding superior mutation coverage and kill counts. Ablation studies reveal that each of the three components makes a significant and complementary contribution to the overall performance. This work affirms the great potential of aggregating diverse perspectives to enhance the effectiveness of LLM-based assertion generation.",
+      "enlace": "https://arxiv.org/abs/2608.05822",
+      "publicado": "2026-08-07T04:00:00.000Z",
+      "fuente": {
+        "id": "arxiv-se",
+        "nombre": "arXiv - cs.SE",
+        "ambito": "tecnico",
+        "categoria": "Arquitectura de software",
+        "estado": "aprobada",
+        "autoridad": 1.5,
+        "web": "https://arxiv.org/list/cs.SE/recent",
+        "rss": "https://export.arxiv.org/rss/cs.SE",
+        "nota": "Ya estaba en el proyecto antes de este catalogo. Preprints sin revision por pares."
+      },
+      "huella": "arxiv.org/abs/2608.05822",
+      "puntuacion": 0.8543814470658407,
+      "destilado": {
+        "texto": "Generar aserciones de prueba con precisión deja fuera enfoques anteriores, la agregación de perspectivas diversas mejora la calidad y la confiabilidad, la integración de técnicas como la generación de código y el razonamiento en cadena de pensamiento son clave",
+        "clave": [
+          "agregación de perspectivas",
+          "integración de técnicas"
+        ]
+      }
+    },
+    {
+      "titulo": "IEEE Course Teaches How to Use AI to Modernize Power Grids",
+      "resumenOriginal": "Today’s U.S. electrical grid, among the largest, most complex systems ever built, is operating at its limit. The combination of rapid industrial growth, more frequent extreme weather, and a record surge in electricity use has pushed the grid to its breaking point , according to the U.S. Department of Energy . Built decades ago for a more predictable world in which power came mostly from centralized coal or gas plants and electricity use grew at a steady pace, the grid faces unanticipated strain due in part to growing demand from data centers. The jobs of professionals managing the infrastructure have evolved from traditional engineering tasks to complex, fast-moving challenges. Industry reports show that millions of modern digital sensors, smart meters, and grid monitors are generating nonstop waves of information. The sheer volume of data requires instant, automated computer analysis because human operators cannot process it fast enough. Pressure on utilities stems from two sources: a spike in electricity demand and a shift in how power is generated. An example of the operational strain can be seen at the regional level. With the recent deployment of artificial intelligence tools and high-performance computing, data centers require immense amounts of energy to operate. The largest power transmission utility in Texas recently reported a staggering 220 gigawatts of new connection requests, driven largely by a surge in AI and cloud-computing facilities, according to a CNBC report. Alongside the rise in regional demand, global energy networks are absorbing an unpredictable variety of weather-dependent renewable energy such as wind and solar. The switch creates a volatile operating environment wherein supply and demand are balanced, second by second, to prevent blackouts. The challenges are compounded by the vulnerability of the grid’s physical and digital framework. More-frequent severe weather events cause costly disruptions, such as the devastating winter freeze that crippled the Texas grid and record-breaking heat waves that have overloaded transformers. Simultaneously, the energy networks’ digital architecture faces threats. As utilities replace outdated analog equipment with smart meters and control systems, they are increasingly vulnerable to cyberattacks . To overcome physical and digital vulnerabilities, grid reliability organizations, such as those conducting North American security simulations like GridEx , emphasize that the grid must become smarter, more agile, and completely automated. Energy researchers are noting that the key to this change lies in integrating AI across every layer of utilities’ operations. The AI imperative According to energy industry experts, using AI to manage power systems is no longer a futuristic research project; it has become a baseline operational necessity. Grid analysts emphasize that traditional grid-planning methods are too slow to handle rapid energy dynamics or to balance volatile renewable energy in real time within decentralized power systems such as microgrids. AI can fill the gap by processing vast amounts of data instantly. Machine learning algorithms can quickly analyze information from thousands of sensors, historical usage patterns, and weather forecasts to predict issues before they happen. An industrial digitization study conducted by McKinsey & Co. indicated that integrating advanced data and automation across infrastructure networks could reduce system design errors, decrease equipment downtime by up to 50 percent through predictive maintenance, and extend the lifespan of power machinery by up to 40 percent. From forecasting energy spikes to automatically fixing localized voltage drops, AI acts as the digital backbone of a self-healing grid, experts say. Deploying the complex systems requires a new workforce: power engineers who understand data science, as well as data scientists who understand electricity. Upgrading the Workforce To bridge the gap between groundbreaking AI research and practical field deployment, IEEE Educational Activities , in partnership with the IEEE Power & Energy Society , has launched the online Artificial Intelligence for Power and Energy Systems course program. The program explores core challenges threatening modern utilities. Rather than treating AI as an unverified black box that operates without human supervision, the curriculum focuses on safety, asset preservation, and strict reliability standards. The curriculum is designed to educate power system engineers, utility managers, and data scientists tasked with modernizing the grid. The program was developed by Fangxing “Fran” Li , professor of electrical engineering and computer science at the University of Tennessee in Knoxville and chair of the IEEE Working Group on Machine Learning for Power Systems . Five learning modules The program breaks down the technical transition into five modules that bridge high-level theory with real-world solutions: AI fundamentals. This module teaches engineers how basic machine learning models apply to power grids. It discusses how specialized neural networks solve complex power-flow calculations and how AI models can safely transition from computer simulations to physical, high-voltage equipment. Accelerating grid control. Learners are taught to leverage deep reinforcement learning, an AI approach that uses trial and error, to accelerate automated grid adjustments during emergency power events. Forecasting and data analytics. Using predictive modeling, engineers learn how to predict sudden demand surges, variable wind and solar outputs, and fluctuating wholesale electricity market prices to keep power affordable and available. Physics-informed and safe AI. To address trust—a barrier to utility AI adoption—this course covers AI models hard-coded to obey the laws of physics. The approach is designed to ensure that automated algorithms never make erratic choices that damage grid equipment. Generative AI and next-generation tech. Learners can explore the frontier of utility technology, including graph neural networks and large language models. This module highlights how generative AI can process complex, interdisciplinary data to streamline utility planning, emergency responses, and regulatory reporting. The algorithmic literacy and practical execution tools provided by the course program can help convert systemic risks into grid resilience. For individual access, visit the IEEE Learning Network . If you are looking for customized organizational options, contact a content specialist to discuss volume pricing.",
+      "enlace": "https://spectrum.ieee.org/ieee-course-ai-power-grids",
+      "publicado": "2026-08-05T18:00:03.000Z",
+      "fuente": {
+        "id": "ieee-spectrum",
+        "nombre": "IEEE Spectrum",
+        "ambito": "tecnico",
+        "categoria": "Tecnologia e inteligencia artificial",
+        "estado": "aprobada",
+        "autoridad": 1.4,
+        "web": "https://spectrum.ieee.org",
+        "rss": "https://spectrum.ieee.org/feeds/feed.rss"
+      },
+      "huella": "spectrum.ieee.org/ieee-course-ai-power-grids",
+      "puntuacion": 0.679964004229106,
+      "destilado": {
+        "texto": "La red eléctrica actual está operando al límite debido al crecimiento industrial y el aumento en el uso de electricidad. La integración de inteligencia artificial y la automatización son clave para modernizar la red. La inteligencia artificial puede procesar grandes cantidades de datos instantáneamente.",
+        "clave": [
+          "inteligencia artificial",
+          "automatización",
+          "red eléctrica"
+        ]
+      }
+    },
+    {
+      "titulo": "Impact of Physiotherapist and Occupational Therapist Allocation in Adult Day Services (ADS) on 24-Month ADL Trajectories Among Community-Dwelling Older Adults.",
+      "resumenOriginal": "Objectives To examine whether the presence of physical therapists (PTs) and occupational therapists (OTs) in adult day services (ADS) is associated with differences in 24-month trajectories of activities of daily living among community-dwelling older adults. Design Retrospective longitudinal observational study using propensity score-matched analysis. Setting and participants A total of 1908 community-dwelling older adults aged ≥65 years who continuously used ADS for at least 24 months in Japan were included. Participants were enrolled in the Tsukui Ordered Useful Care for Health program and were divided into PT/OT-staffed ADS facilities (PTOT group) and facilities without rehabilitation professionals (control group). Methods After propensity score matching, 954 participants in the PTOT group were compared with 954 participants in the control group. Motor Functional Independence Measure (mFIM) scores were assessed at baseline and at 6, 12, 18, and 24 months. Longitudinal changes were analyzed using repeated-measures analysis of variance. Minimal detectable change thresholds were calculated to determine clinically meaningful decline. Results Both groups showed significant declines in mFIM and transfer scores over 24 months. However, deterioration occurred earlier in the control group than in the PTOT group. At 24 months, the PTOT group demonstrated significantly smaller declines in mFIM and transfer scores compared with the control group (P Conclusions and implications The presence of PTs and OTs in ADS was associated with a slower rate of activities of daily living decline, particularly in transfer ability, among community-dwelling older adults. Integrating rehabilitation professionals into ADS may contribute to safer mobility, maintenance of functional independence, and potentially reduced risk of falls and hospitalization. Further research is needed to clarify intervention mechanisms and long-term outcomes.",
+      "enlace": "https://doi.org/10.1016/j.jamda.2026.106399",
+      "publicado": "2026-08-05T00:00:00.000Z",
+      "fuente": {
+        "id": "pubmed",
+        "nombre": "PubMed",
+        "ambito": "clinico",
+        "categoria": "Bases de datos y revistas generales",
+        "estado": "aprobada",
+        "autoridad": 1.9,
+        "web": "https://pubmed.ncbi.nlm.nih.gov",
+        "consulta": "SRC:MED AND (\"occupational therapy\" OR \"sensory integration\" OR \"sensory processing\" OR \"motor control\" OR neurorehabilitation)",
+        "nota": "No tiene RSS: es un buscador. Se lee por Europe PMC, que indexa PubMed entero (SRC:MED). Unas 550 entradas al mes con esta consulta."
+      },
+      "huella": "doi.org/10.1016/j.jamda.2026.106399",
+      "puntuacion": 0.8484905889077559,
+      "destilado": {
+        "texto": "La presencia de fisioterapeutas y terapeutas ocupacionales en servicios diurnos ralentiza el declive de las actividades cotidianas en adultos mayores. La integración de profesionales de rehabilitación en estos servicios puede contribuir a una mayor seguridad y mantenimiento de la independencia funcional. La terapia ocupacional es clave para esto",
+        "clave": [
+          "terapia ocupacional",
+          "rehabilitación",
+          "independencia funcional"
+        ]
+      }
+    },
+    {
+      "titulo": "From scribbling to painting: children’s drawing as an evolutionary laboratory for multisensory and sensorimotor integration",
+      "resumenOriginal": "Adult painting emerges from a sophisticated multisensory integration between vision, touch, proprioception, and motor control, taking shape as a form of active Bayesian inference about the external environment. The evolutionary origins (and survival value) of such embodied coordination, however, remain poorly explored. Traditional literature views children’s drawing as a passive output of perceptual-motor-cognitive development. This work proposes the opposite hypothesis: that drawing acts as an active form of natural training, serving as an evolutionary laboratory for sensorimotor calibration. Through a parallel analysis between graphic stages and neuroscientific milestones, we propose that each stroke provides persistent and informative feedback. The kinematic parameters of the gesture (velocity, curvature, pressure) are linked to stable visuo-tactile outcomes on the page, surpassing the effectiveness of other traceless motor experiences. Bayesian modeling suggests that drawing may involve iterative active experiments in which predictions about gestural outcomes are generated, compared with observed feedback, and used to update generative models that align internal and external sensory maps. This ecological process could help to learn eye-hand coordination and to update the formation of spatial-bodily representations in a period of life characterized by a fast physical growth of the body parts and maturation of the motor plant. By redefining drawing as developmental training in perceptual and creative growth, the hypothesis opens new perspectives on early multisensory plasticity.",
+      "enlace": "https://www.frontiersin.org/articles/10.3389/fnhum.2026.1876364",
+      "publicado": "2026-08-04T00:00:00.000Z",
+      "fuente": {
+        "id": "frontiers-human-neuro",
+        "nombre": "Frontiers in Human Neuroscience",
+        "ambito": "clinico",
+        "categoria": "Neurodesarrollo y neurorehabilitacion",
+        "estado": "aprobada",
+        "autoridad": 1.5,
+        "web": "https://www.frontiersin.org/journals/human-neuroscience",
+        "rss": "https://www.frontiersin.org/journals/human-neuroscience/rss"
+      },
+      "huella": "www.frontiersin.org/articles/10.3389/fnhum.2026.1876364",
+      "puntuacion": 0.800910552129999,
+      "destilado": {
+        "texto": "El dibujo infantil emerge como un laboratorio evolutivo para la integración sensorimotora y multisensorial, permitiendo la calibración de la coordinación viso-manual y la formación de representaciones espaciales corporales. La integración sensorimotora y la integración multisensorial son clave en este proceso.",
+        "clave": [
+          "integración sensorimotora",
+          "integración multisensorial"
+        ]
+      }
+    },
+    {
+      "titulo": "Amyotrophic lateral sclerosis and degenerative cervical myelopathy: phenotype-based diagnostic pitfalls, investigative mismatch, and practical clinical reasoning",
+      "resumenOriginal": "Differentiating amyotrophic lateral sclerosis (ALS) from degenerative cervical myelopathy (DCM) remains difficult because the two disorders can converge clinically while diverging biologically. ALS is a progressive motor neuron disease, whereas DCM is a potentially treatable compressive myelopathy; however, both may present with upper-limb weakness, hand wasting, hyperreflexia, gait disturbance, and cervical MRI abnormalities. This narrative review examines ALS-DCM overlap through the concept of explanatory sufficiency: whether the available clinical, imaging, and electrophysiological evidence adequately explains the whole syndrome rather than a single visible abnormality. We synthesize evidence on phenotype-specific overlap, MRI-clinical mismatch, EMG/NCS distribution, somatosensory and motor evoked potentials, Gold Coast diagnostic criteria, primary lateral sclerosis, and coexistence of motor neuron disease with structural cervical pathology. The review emphasizes that MRI is indispensable but not self-interpreting, EMG/NCS is most useful when interpreted by distribution rather than positivity alone, and SEPs/MEPs can add a functional cord-conduction layer when MRI and examination are discordant. We also provide action-oriented clinical warning signs for common overlap scenarios. Rather than offering a rigid algorithm, this review proposes a clinically driven reasoning framework that helps distinguish ALS, DCM, radiculopathy, and coexistence while reducing premature diagnostic closure in neuro-spine practice.",
+      "enlace": "https://www.frontiersin.org/articles/10.3389/fneur.2026.1901811",
+      "publicado": "2026-08-06T00:00:00.000Z",
+      "fuente": {
+        "id": "frontiers-neurology",
+        "nombre": "Frontiers in Neurology",
+        "ambito": "clinico",
+        "categoria": "Neurodesarrollo y neurorehabilitacion",
+        "estado": "aprobada",
+        "autoridad": 1.5,
+        "web": "https://www.frontiersin.org/journals/neurology",
+        "rss": "https://www.frontiersin.org/journals/neurology/rss"
+      },
+      "huella": "www.frontiersin.org/articles/10.3389/fneur.2026.1901811",
+      "puntuacion": 0.736715447329875,
+      "destilado": {
+        "texto": "Diferenciar la esclerosis lateral amiotrófica de la mielopatía cervical degenerativa es difícil debido a la convergencia clínica y divergencia biológica. La resonancia magnética es indispensable pero no autointerpretativa, y la electromiografía es útil cuando se interpreta por distribución. La integración de pruebas ayuda a distinguir entre estas afecciones.",
+        "clave": [
+          "esclerosis lateral amiotrófica",
+          "mielopatía cervical degenerativa",
+          "resonancia magnética"
+        ]
+      }
+    },
+    {
+      "titulo": "Leading Agile Initiatives: How Leaders Help Agile Change Succeed",
+      "resumenOriginal": "An agile initiative is not mainly a one-time rollout of Scrum, Kanban, SAFe, Jira, new job titles, or a different meeting calendar.",
+      "enlace": "https://www.mountaingoatsoftware.com/blog/leading-agile-initiatives",
+      "publicado": "2026-07-28T13:00:00.000Z",
+      "fuente": {
+        "id": "mountain-goat",
+        "nombre": "Mountain Goat Software (Mike Cohn)",
+        "ambito": "gestion",
+        "categoria": "Scrum y agilidad",
+        "estado": "aprobada",
+        "autoridad": 1.5,
+        "web": "https://www.mountaingoatsoftware.com",
+        "rss": "https://www.mountaingoatsoftware.com/blog/rss"
+      },
+      "huella": "www.mountaingoatsoftware.com/blog/leading-agile-initiatives",
+      "puntuacion": 0.6389092775841024,
+      "destilado": {
+        "texto": "La iniciativa ágil no se centra en una implementación única de Scrum o Kanban. Implica un cambio continuo en la organización. Los líderes deben apoyar este cambio para que tenga éxito",
+        "clave": [
+          "iniciativa ágil",
+          "cambio continuo"
+        ]
+      }
+    }
+  ]
+}
