@@ -122,3 +122,23 @@
 /* Cada opción se muestra con su propia letra. */
 .letra strong { display: block; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
 .letra small { font-family: var(--mono); font-size: 8.5px; letter-spacing: .06em; }
+
+/* Instalar en la pantalla de inicio, al final de los ajustes. */
+.instalar {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--acento);
+  border-radius: 8px;
+  padding: 12px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--acento);
+  cursor: pointer;
+  transition: background-color .18s;
+}
+.instalar:hover { background: rgba(255, 255, 255, .04); }
+.instalar:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+.instalar:disabled { opacity: .5; cursor: default; }

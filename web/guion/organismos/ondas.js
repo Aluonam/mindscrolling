@@ -67,18 +67,33 @@ function ajustarVolumen(subida) {
   boton.textContent = sonando ? '♪ ondas' : '♪';
 }
 
-function alternar() {
+async function alternar() {
   if (!audio) audio = crear();
   if (!audio) { avisar('Este navegador no genera sonido'); return; }
 
-  if (audio.ctx.state === 'suspended') audio.ctx.resume();
+  // Con await, y comprobando después. Los navegadores arrancan el audio
+  // suspendido y solo lo despiertan dentro de un gesto; si se seguía sin
+  // esperar, se programaba la subida de volumen sobre un reloj parado y no
+  // sonaba nada, sin decir por qué.
+  if (audio.ctx.state !== 'running') {
+    try { await audio.ctx.resume(); } catch { /* se comprueba abajo */ }
+  }
+
+  if (audio.ctx.state !== 'running') {
+    avisar('El navegador no deja sonar aquí');
+    return;
+  }
 
   sonando = !sonando;
   boton.classList.toggle('activo', sonando);
   boton.setAttribute('aria-pressed', String(sonando));
   ajustarVolumen(1.4);
 
-  if (sonando) avisar('Ondas alfa · mejor con auriculares');
+  // «Necesita» y no «mejor»: son dos tonos graves, uno por oído, y la
+  // sensación nace de la diferencia entre ambos. Por un altavoz los dos oídos
+  // reciben los dos tonos, así que el efecto no existe — y a 180 Hz un altavoz
+  // de móvil o de portátil directamente no llega.
+  if (sonando) avisar('Ondas alfa · necesita auriculares');
 }
 
 export function montar() {
