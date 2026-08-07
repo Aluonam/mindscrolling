@@ -168,3 +168,20 @@ Cuando una fuente cambie de dirección o se caiga:
 
 Los campos `categoria`, `web` y `nota` son para las personas que mantienen el
 catálogo. No entran en la puntuación.
+
+## El catálogo se ve desde el lector
+
+En el panel del día, al final, hay una sección **«De dónde sale todo»** que
+carga este mismo `config/fuentes.json` y lo pinta agrupado por estado, con
+cuántas piezas ha aportado cada fuente en la edición de hoy.
+
+Va antes un aviso de **qué tipo de fuente se puede leer**, que es la pregunta
+que trae a cualquiera hasta ahí: un feed RSS o Atom, o una consulta a Europe PMC
+para lo biomédico. Y lo que se pide a ese feed para que la pieza salga bien —
+título, enlace, **un resumen** en cada entrada y **una fecha**—, porque un feed
+de solo titulares entra sin dar error y produce destilados pobres, y uno sin
+fecha hace que sus piezas parezcan recién publicadas y adelanten a otras
+mejores.
+
+El catálogo se pide solo al abrir esa sección: son 47 kB que no hacen falta
+para leer la edición.

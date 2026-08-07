@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="estilos/organismos/pieza.css">
 <link rel="stylesheet" href="estilos/organismos/velo.css">
 <link rel="stylesheet" href="estilos/organismos/indice.css">
+<link rel="stylesheet" href="estilos/organismos/fuentes.css">
 <link rel="stylesheet" href="estilos/organismos/detalle.css">
 <link rel="stylesheet" href="estilos/organismos/valoracion.css">
 <link rel="stylesheet" href="estilos/organismos/vacio.css">
@@ -84,6 +85,45 @@
     <div class="ajustes-titulo instalacion-titulo">Instalar en el móvil</div>
     <div class="instalacion" id="instalacion"></div>
   </div>
+
+  <details class="fuentes" id="fuentes">
+    <summary>De dónde sale todo · <span id="contadorFuentes">123</span> fuentes</summary>
+
+    <!-- El aviso va antes de la lista y no escondido: la pregunta que trae
+         aquí a alguien suele ser «¿puedo añadir esta web?», y la respuesta
+         depende de si publica un feed. Mejor decirlo antes de que busque. -->
+    <div class="fuentes-aviso">
+      <p><b>Qué se puede leer.</b> Solo dos cosas:</p>
+      <ul>
+        <li>Un <b>feed RSS o Atom</b>. Es lo que publican casi todas las
+          revistas, los blogs y los canales de YouTube.</li>
+        <li>Una <b>consulta a Europe PMC</b>, y solo para literatura biomédica.
+          Es para las que no son un blog sino un buscador: PubMed, PMC, AJOT.</li>
+      </ul>
+
+      <p><b>Qué necesita el feed para que la pieza salga bien.</b></p>
+      <ul>
+        <li><b>Título y enlace</b>, o la entrada se descarta sin más.</li>
+        <li><b>Un resumen</b> en cada entrada. Sin él la IA solo tiene el
+          titular y el destilado sale pobre: un feed de solo titulares entra,
+          pero no sirve para nada.</li>
+        <li><b>Una fecha.</b> Si no la trae se toma la de hoy, y entonces esa
+          pieza parece recién publicada y se cuela por delante de otras
+          mejores.</li>
+      </ul>
+
+      <p><b>Qué no se puede leer.</b> Páginas sin feed; cualquier cosa detrás
+        de registro o muro de pago; Instagram, que no tiene forma legítima de
+        leerse; y vídeo sin subtítulos, porque el feed de YouTube trae título y
+        enlace pero casi nunca resumen.</p>
+
+      <p class="fuentes-nota">Las que bloquean robots o tardan más de 20
+        segundos en contestar se saltan solas y acaban en cuarentena. No hay
+        que hacer nada.</p>
+    </div>
+
+    <div id="fuentesCuerpo"></div>
+  </details>
 </aside>
 
 <section class="detalle" id="detalle" aria-hidden="true" aria-label="Pieza ampliada">
