@@ -30,6 +30,9 @@ const EXTREMO = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search';
  */
 const DIAS_ATRAS = 30;
 
+/** Lo que se espera a Europe PMC antes de darlo por mudo, en milisegundos. */
+const ESPERA_MAXIMA = 20_000;
+
 type ResultadoEuropePmc = {
   title?: string;
   abstractText?: string;
@@ -86,15 +89,23 @@ export class BuscadorEuropePmc implements BuscadorDeHallazgos {
       `&format=json&pageSize=100&resultType=core` +
       `&sort=${encodeURIComponent('P_PDATE_D desc')}`;
 
-    const respuesta = await fetch(direccion, {
-      headers: {
-        'user-agent': 'MindScrolling/0.1 (+https://github.com/Aluonam/mindscrolling)',
-        accept: 'application/json',
-      },
-    });
+    // Igual que con el RSS: una fuente caída no tumba la edición, y eso
+    // incluye que no conteste, no solo que conteste mal.
+    let respuesta: Response;
+    try {
+      respuesta = await fetch(direccion, {
+        headers: {
+          'user-agent': 'MindScrolling/0.1 (+https://github.com/Aluonam/mindscrolling)',
+          accept: 'application/json',
+        },
+        signal: AbortSignal.timeout(ESPERA_MAXIMA),
+      });
+    } catch (error) {
+      console.warn(`  · ${fuente.nombre} no responde (${(error as Error).name}), se salta`);
+      return [];
+    }
 
     if (!respuesta.ok) {
-      // Igual que con el RSS: una fuente caída no tumba la edición.
       console.warn(`  · ${fuente.nombre} respondió ${respuesta.status}, se salta`);
       return [];
     }
