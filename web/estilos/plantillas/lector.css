@@ -1,0 +1,17 @@
+/* El carril y lo que afecta a la página entera. Va el último: las reglas de
+   «menos movimiento» tienen que poder anular a los organismos. */
+
+.carril {
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+.carril::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .indice, .detalle { transition: none; }
+  .destilado w { transition: none; }
+  .segmento > i { transition: none; }
+  .pieza::before { animation: none; }
+}

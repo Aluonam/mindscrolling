@@ -1,0 +1,37 @@
+/* Barra superior: progreso, marca y controles.
+   pointer-events: none para no capturar el toque del carril; los botones
+   lo reactivan por su cuenta. */
+
+.cabecera {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  padding: 14px 16px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: linear-gradient(to bottom, rgba(10,13,20,.92) 38%, rgba(10,13,20,0));
+  pointer-events: none;
+}
+
+.marca {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+.marca b { color: var(--texto); font-weight: 600; letter-spacing: .1em; }
+
+.fecha-edicion {
+  margin-left: auto;
+  border: 1px solid var(--borde);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 9px;
+  letter-spacing: .16em;
+}
