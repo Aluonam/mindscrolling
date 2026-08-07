@@ -12,6 +12,11 @@
   max-width: 560px;
   margin: 0 auto;
   position: relative;
+
+  /* El halo del fondo se sale un 12% por cada lado para que el desenfoque no
+     enseñe el borde. Sin esto, ese sobrante se podía arrastrar de lado y
+     asomaba una franja de fondo. Se recorta aquí, en la pieza. */
+  overflow: hidden;
 }
 
 /* El ámbito tiñe la pieza entera. --halo es el mismo color en RGB suelto,

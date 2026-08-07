@@ -10,6 +10,7 @@ import * as detalle from './organismos/detalle.js';
 import * as valoracion from './organismos/valoracion.js';
 import * as ajustes from './organismos/ajustes.js';
 import * as ondas from './organismos/ondas.js';
+import * as instalar from './organismos/instalar.js';
 import * as velo from './moleculas/velo.js';
 import { guardarParaSinConexion } from './atomos/sinConexion.js';
 
@@ -55,6 +56,7 @@ if (!edicion?.piezas?.length) {
   valoracion.montar();
   ajustes.montar();
   ondas.montar();
+  instalar.montar();
 
   // Cerrar paneles: el velo cierra los dos, Escape cierra el de encima.
   velo.alPulsar(() => { detalle.cerrar(); indice.cerrar(); });
