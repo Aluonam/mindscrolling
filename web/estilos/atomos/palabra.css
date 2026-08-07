@@ -5,6 +5,12 @@
   transition: color .32s ease, text-shadow .32s ease;
 }
 
+/* El anclaje de la lectura biónica está siempre en el marcado. Fuera de ese
+   modo no pesa nada: se comporta como el resto de la palabra. */
+.destilado w b { font-weight: inherit; }
+
+[data-lectura="bionica"] .destilado w b { font-weight: 800; }
+
 .destilado w.viva { color: var(--texto); }
 
 /* Términos clave: 400 → 800, color del ámbito y banda detrás. */

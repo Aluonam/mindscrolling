@@ -1,5 +1,7 @@
 // La unidad del revelado: partir un destilado en <w> y marcar las claves.
 
+import { anclar } from './bionica.js';
+
 const limpiar = palabra => palabra.toLowerCase().replace(/[^\p{L}\p{N}-]/gu, '');
 
 /**
@@ -30,8 +32,20 @@ export function trocear(parrafo, destilado) {
 
   palabras.forEach((palabra, i) => {
     const w = document.createElement('w');
-    w.textContent = palabra;
     if (claves.has(i)) w.classList.add('clave');
+
+    // El anclaje de la lectura biónica se marca siempre; que se vea en negrita
+    // o no lo decide el CSS según el modo elegido. Así cambiar de modo no
+    // obliga a repintar el destilado a media lectura.
+    const { ancla, resto } = anclar(palabra);
+    if (ancla) {
+      const b = document.createElement('b');
+      b.textContent = ancla;
+      w.append(b, resto);
+    } else {
+      w.textContent = palabra;
+    }
+
     parrafo.appendChild(w);
     if (i < palabras.length - 1) parrafo.appendChild(document.createTextNode(' '));
   });
