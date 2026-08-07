@@ -2,7 +2,7 @@
 //
 // Fíjate en que el dominio no aparece por ninguna parte eligiendo herramientas.
 // Aquí se enchufan las piezas concretas y se lanza el ciclo. Cambiar de RSS a
-// arXiv, o de Claude a Ollama, se hace en este fichero y en ningún otro.
+// arXiv, o de Claude a Groq, se hace en este fichero y en ningún otro.
 
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -13,13 +13,48 @@ import type {
 import { BuscadorRss } from './infraestructura/buscadorRss.ts';
 import { BuscadorEuropePmc } from './infraestructura/buscadorEuropePmc.ts';
 import { ResumidorClaude } from './infraestructura/resumidorClaude.ts';
+import { ResumidorGroq } from './infraestructura/resumidorGroq.ts';
 import { PublicadorFichero } from './infraestructura/publicadorFichero.ts';
+import type { Resumidor } from './dominio/puertos.ts';
 
 type Configuracion = {
   cupos: Cupos;
   fuentes: FuenteCatalogada[];
   intereses: Interes[];
 };
+
+/**
+ * Quién escribe los destilados. `RESUMIDOR=claude` para comparar; por defecto
+ * Groq, que es el que no cuesta dinero.
+ *
+ * Se comprueba la clave aquí, al arrancar. El resumen es el paso 3: si falta
+ * la credencial, sin esto no se sabría hasta después de leer 62 fuentes.
+ */
+function elegirResumidor(): Resumidor {
+  const elegido = process.env.RESUMIDOR ?? 'groq';
+
+  if (elegido === 'groq') {
+    const clave = process.env.GROQ_API_KEY;
+    if (!clave) {
+      throw new Error(
+        'Falta GROQ_API_KEY. Se saca gratis en https://console.groq.com. ' +
+          'Con RESUMIDOR=claude se usa Claude, que necesita ANTHROPIC_API_KEY.',
+      );
+    }
+    console.log('Destilados: Groq (gratuito)');
+    return new ResumidorGroq(clave);
+  }
+
+  if (elegido === 'claude') {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error('Falta ANTHROPIC_API_KEY para RESUMIDOR=claude.');
+    }
+    console.log('Destilados: Claude (de pago)');
+    return new ResumidorClaude();
+  }
+
+  throw new Error(`RESUMIDOR=${elegido} no existe. Opciones: groq, claude.`);
+}
 
 async function main() {
   const ahora = new Date();
@@ -60,7 +95,7 @@ async function main() {
     ),
   );
 
-  const resumidor = new ResumidorClaude();
+  const resumidor = elegirResumidor();
   // fileURLToPath y no .pathname: en Windows .pathname devuelve «/C:/…» y el
   // join del publicador acaba pidiendo «C:\C:\…».
   const carpetaEdiciones = fileURLToPath(new URL('../ediciones/', import.meta.url));
