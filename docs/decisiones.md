@@ -208,26 +208,40 @@ todavía y se puede añadir después sin tocar nada.
 
 ---
 
-## 14. Los resúmenes se hacen con Claude, de momento
+## 14. Los resúmenes se hacen con Groq, y con Claude para comparar
 
-**Qué.** Los destilados se generan con la API de Claude, en modo por lotes.
+**Qué.** Los destilados los escribe Groq (`llama-3.3-70b-versatile`) por defecto.
+Con `RESUMIDOR=claude` los escribe Claude. Ambos comparten instrucciones.
 
-**Por qué.** Unos 4 € al mes con el modelo más económico. El coste cero absoluto
-solo se consigue renunciando al resumen, y entonces se pierde el formato.
+**Por qué.** El plan gratuito de Groq da 100.000 tokens al día en el modelo de
+70B. Una edición de ocho piezas gasta unos 5.900, medidos sobre una edición
+real. Cabe con margen incluso multiplicando el cupo por diez.
 
 **Regla de diseño.** La operación cara va al final del embudo: el proceso reduce
 cientos de candidatos con reglas gratuitas, y la IA solo resume lo que ha
 sobrevivido.
 
+**Lo que costaba antes.** Medido, no estimado: 5.207 tokens de entrada y 674 de
+salida por edición. Al mes son 1,29 $ con `claude-opus-5` y 0,26 $ con
+`claude-haiku-4-5` — bastante menos que los 4 € que decía esta decisión. El
+dinero nunca fue la razón para irse; la razón es no depender de una tarjeta
+para que el proyecto funcione.
+
+**Claude se queda.** No como gasto fijo, sino como vara de medir: cuando haya
+duda sobre la calidad de un destilado, se genera la misma edición con los dos y
+se compara. Por eso las instrucciones viven en `instruccionesDestilado.ts` y no
+dentro de cada adaptador — con reglas distintas, comparar no significa nada.
+
 **Alternativas a evaluar, no descartadas:**
-- **Ollama** — modelos en local, coste cero, pero lento sin tarjeta gráfica y
-  con peor calidad en español.
+- **Ollama** — modelos en local, coste cero y sin límite de peticiones. Se
+  descarta de momento por hardware: la máquina de trabajo es un Intel N95 sin
+  gráfica dedicada, donde solo entra un modelo de 3B. Groq da un 70B gratis.
 - **yt-dlp** — permite sacar los subtítulos de un vídeo sin descargarlo, y con
   eso los vídeos también tendrían destilado. YouTube bloquea a menudo las IPs de
   servidores, así que hay que tratarlo como algo que a veces falla.
 
-Las dos son piezas intercambiables detrás del mismo hueco. Probarlas no cambia
-la arquitectura.
+Todas son piezas intercambiables detrás del mismo puerto. Probarlas no cambia
+la arquitectura: es un fichero nuevo y una línea en `ejecutar.ts`.
 
 ---
 
