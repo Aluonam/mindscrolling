@@ -250,10 +250,15 @@ dentro de cada adaptador — con reglas distintas, comparar no significa nada.
 Todas son piezas intercambiables detrás del mismo puerto. Probarlas no cambia
 la arquitectura: es un fichero nuevo y una línea en `ejecutar.ts`.
 
-**El catálogo completo de alternativas, con cupos gratuitos y precios medidos,
-está en [alternativas-ia.md](alternativas-ia.md).** Lo más barato pendiente:
+**La restricción es coste cero, no coste bajo.** No es ahorro: es que el
+proyecto no dependa de una tarjeta para seguir funcionando. Ni siquiera se añade
+una para desbloquear límites — sin tarjeta no hay factura sorpresa posible.
+
+El catálogo de opciones gratuitas, con cupos comprobados y hasta dónde aguanta
+cada una, está en [alternativas-ia.md](alternativas-ia.md). Lo pendiente:
 `openai/gpt-oss-120b` en el mismo Groq da 200.000 tokens diarios gratis en vez
-de los 100.000 del 70B, y es una constante.
+de los 100.000 del 70B, y Cerebras da 1.000.000 como tercer escalón de respaldo
+por si Groq cierra el grifo.
 
 ---
 
