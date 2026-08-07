@@ -40,6 +40,11 @@ La versión de una pieza que se lee en diez segundos, en español, escrita por
 nosotras con IA. Lleva marcadas las palabras clave.
 *Es obra nuestra, no del autor original. Esa distinción importa legalmente.*
 
+**Reputación de una fuente**
+Cuánto te ha gustado lo que publica, entre -1 y 1, aprendido de tus votos y
+guardado en el dispositivo. Inclina el orden de las próximas ediciones, nunca
+qué piezas entran en ellas.
+
 **Ampliación**
 Un segundo nivel de texto, más largo, para cuando una pieza interesa de verdad.
 Se abre sin salir de la aplicación.

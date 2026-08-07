@@ -29,7 +29,7 @@ web/
   guion/
     estado.js             lo que varios organismos comparten
     atomos/               ámbitos, palabras, texto, aviso
-    moleculas/            revelado, ritmo, segmentos, fila, velo
+    moleculas/            revelado, ritmo, segmentos, fila, velo, reputacion
     organismos/           carril, cabecera, índice, detalle, valoración, ajustes, ondas
     lector.js             la página: carga la edición y conecta lo demás
 ```

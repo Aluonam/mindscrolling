@@ -5,6 +5,7 @@
 
 import { estado, cambio, marcarLeida } from '../estado.js';
 import { esConocido } from '../atomos/ambitos.js';
+import { reputacionDe } from '../moleculas/reputacion.js';
 import { crearRevelado } from '../moleculas/revelado.js';
 import { crearSegmentos, pintar, mostrar } from '../moleculas/segmentos.js';
 import { dibujar } from './pieza.js';
@@ -16,14 +17,44 @@ export const menosMovimiento =
 
 let revelados = [];
 
-/** Orden barajado en cada apertura (decisión 10): nunca de mejor a peor. */
+/**
+ * Cuánto puede empujar la reputación de una fuente dentro del azar.
+ *
+ * Cada pieza recibe una clave aleatoria entre 0 y 1, y la reputación la
+ * desplaza como mucho medio punto. Eso deja los tres rangos solapados a
+ * propósito:
+ *
+ *     fuente odiada  (-1) → clave entre -0,5 y 0,5
+ *     fuente neutra   (0) → clave entre  0   y 1
+ *     fuente querida (+1) → clave entre  0,5 y 1,5
+ *
+ * Una fuente que has votado mal cuatro veces sale abajo casi siempre, pero no
+ * siempre: de vez en cuando le toca clave alta y vuelve a asomar. No es un
+ * descuido, es la reserva para explorar de la decisión 8 — sin ella el feed se
+ * cierra sobre lo que ya te gusta y en dos meses no enseña nada nuevo. Y una
+ * fuente enterrada nunca podría demostrar que ha mejorado.
+ *
+ * Medido sobre 100.000 tiradas: una fuente en el suelo le gana a una neutra el
+ * **12,5%** de las veces. La decisión 8 pide entre el 10% y el 15%, así que el
+ * medio punto no es un número redondo elegido a ojo — es el que cae dentro.
+ * Si algún día se toca, hay que volver a medirlo.
+ */
+const FUERZA = 0.5;
+
+/**
+ * Orden barajado en cada apertura (decisión 10): nunca de mejor a peor.
+ *
+ * El azar manda, y la reputación solo lo inclina. Barajar sigue siendo lo
+ * primero que pasa aquí.
+ */
 function barajar(piezas) {
-  const orden = [...piezas];
-  for (let i = orden.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [orden[i], orden[j]] = [orden[j], orden[i]];
-  }
-  return orden;
+  return [...piezas]
+    .map(dato => ({
+      dato,
+      clave: Math.random() + reputacionDe(dato.fuente.nombre) * FUERZA,
+    }))
+    .sort((a, b) => b.clave - a.clave)
+    .map(par => par.dato);
 }
 
 export function montar(edicion) {

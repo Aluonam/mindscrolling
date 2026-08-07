@@ -289,3 +289,52 @@ y el trabajo entero. Escribir un segundo resumen propio costaría otra llamada a
 la IA para decir con nuestras palabras algo que el autor ya dijo con las suyas
 — y va en la misma dirección que la decisión 12: cuanto más te acercas, más se
 oye al autor y menos nosotras.
+
+---
+
+## 18. Los votos mueven la reputación de la fuente, no la de la pieza
+
+**Qué.** «Muy relevante» y «poco relevante» ajustan la reputación de la **fuente**
+de la que salió la pieza. Esa reputación se guarda en el dispositivo e inclina
+el orden de las siguientes ediciones: una fuente bien valorada sale antes, una
+mal valorada sale después.
+
+**Por qué la fuente y no la pieza.** La pieza de hoy no vuelve mañana. Recordar
+«ésta me gustó» no sirve para nada porque no hay ocasión de volver a enseñarla.
+Lo que sí vuelve un día tras otro es de dónde salió. Es además el primer escalón
+que manda la decisión 9: las fuentes son pocas —62— y cada voto dice mucho de
+una, así que el modelo converge en semanas. Empezar por el perfil semántico
+sería miles de parámetros para una sola lectora: no convergería nunca.
+
+**Antes de esto los botones no hacían nada.** El voto se guardaba en un `Map` en
+memoria y solo servía para pintar una estrella en el índice. Al recargar
+desaparecía. La fase 2 de la decisión 6 estaba escrita como diseño y no existía
+como código.
+
+**Cómo inclina el orden, sin romper el barajado.** Cada pieza recibe una clave
+aleatoria entre 0 y 1 y la reputación la desplaza medio punto como mucho. Los
+rangos se solapan a propósito: una fuente en el suelo le gana a una neutra el
+**12,5%** de las veces, medido sobre 100.000 tiradas. La decisión 8 pide entre
+un 10% y un 15% para explorar, así que el medio punto está elegido para caer
+dentro, no a ojo. Sin ese solape una fuente enterrada no podría demostrar nunca
+que ha mejorado, y el feed se cerraría sobre sí mismo.
+
+**Salvaguardas.** Un voto mueve 0,25 y el rango se corta en ±1: hacen falta
+cuatro votos en el mismo sentido para llevar una fuente al extremo, de modo que
+una mala tarde no entierra una fuente buena (decisión 9). Y la reputación se
+mueve por la **diferencia** entre el voto nuevo y el anterior, así que quitar un
+voto deshace exactamente lo que puso.
+
+**Dónde vive.** En `localStorage`, no en IndexedDB. La decisión 5 nombra
+IndexedDB y sigue siendo lo correcto para el historial de lecturas y los
+guardados, que crecen sin techo; esto son 62 números que caben en medio kilobyte
+y que hacen falta **antes** de pintar la primera pieza. IndexedDB obligaría a
+esperar para montar el carril a cambio de nada.
+
+**Solo reordena lo que ya está en la edición.** No cambia qué piezas entran: eso
+lo decide el proceso de madrugada, que no tiene acceso a los datos del
+dispositivo ni debe tenerlo (decisiones 5 y 6).
+
+**Lo que falta.** Un «olvidar mis preferencias» en los ajustes. Hoy la única
+forma de empezar de cero es borrar los datos del navegador, que se lleva por
+delante también el tipo de letra elegido.
