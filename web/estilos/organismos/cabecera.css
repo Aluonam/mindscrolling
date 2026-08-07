@@ -14,6 +14,15 @@
   pointer-events: none;
 }
 
+/* En una pantalla ancha, la marca a un extremo y los controles al otro dejan
+   un vacío de metro y medio. Se limita el ancho y se centra: la cabecera
+   acompaña a la lectura en vez de bordear la ventana. */
+.cabecera > * {
+  width: 100%;
+  max-width: var(--ancho-interfaz, 920px);
+  margin-inline: auto;
+}
+
 .marca {
   display: flex;
   align-items: baseline;
