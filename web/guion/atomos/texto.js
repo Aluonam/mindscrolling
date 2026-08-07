@@ -1,10 +1,5 @@
 // Conversiones de texto que no tocan el DOM.
 
-/** A 200 palabras por minuto. */
-export function segundosDeLectura(texto) {
-  return Math.max(10, Math.round(texto.trim().split(/\s+/).length / 200 * 60));
-}
-
 /** Las primeras palabras, para el avance del índice. */
 export function entradilla(texto, cuantas = 10) {
   const palabras = texto.trim().split(/\s+/);

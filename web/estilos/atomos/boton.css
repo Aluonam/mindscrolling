@@ -81,8 +81,8 @@
 .cerrar:hover { color: var(--texto); border-color: var(--texto-tenue); }
 .cerrar:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 
-/* Segundo nivel de lectura, en el pie de la pieza. */
-.ampliar {
+/* Ver original: el texto del autor, en el pie de la pieza. */
+.ver-original {
   appearance: none;
   background: transparent;
   border: 1px solid var(--borde);
@@ -95,8 +95,8 @@
   color: var(--acento);
   cursor: pointer;
 }
-.ampliar:hover { border-color: var(--acento); }
-.ampliar:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+.ver-original:hover { border-color: var(--acento); }
+.ver-original:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 
 /* Elegir tipo de letra. */
 .letra {

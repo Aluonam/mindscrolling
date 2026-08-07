@@ -279,10 +279,17 @@ El verde se separa de los otros dos por sí solo.
 
 ---
 
-## 17. Ampliar enseña el resumen del autor, no otro destilado nuestro
+## 17. «Ver original» enseña el resumen del autor, no otro destilado nuestro
 
 **Qué.** El segundo nivel de lectura muestra el título y el resumen originales
-del trabajo, marcados como suyos y no como nuestros.
+del trabajo, sin traducir, marcados como suyos y no como nuestros.
+
+**El botón se llamaba «Ampliar»** y pasó a «Ver original» (7 de agosto de 2026):
+ampliar no dice qué vas a encontrarte, y lo que hay detrás no es más texto
+nuestro sino las palabras del autor. Ocupa el hueco que dejó «10 s de lectura»,
+que se quitó porque con destilados de 45 palabras siempre marcaba lo mismo y no
+informaba de nada. El enlace de al lado pasó a «Abrir en la web» para que no se
+confundan: uno se queda dentro del lector y el otro se va.
 
 **Por qué.** Es el escalón que faltaba entre nuestro destilado de diez segundos
 y el trabajo entero. Escribir un segundo resumen propio costaría otra llamada a

@@ -6,7 +6,6 @@
 
 import { nombreDe } from '../atomos/ambitos.js';
 import { trocear } from '../atomos/palabras.js';
-import { segundosDeLectura } from '../atomos/texto.js';
 
 export function dibujar(dato) {
   const articulo = document.createElement('article');
@@ -52,16 +51,17 @@ function destilado(dato) {
   return parrafo;
 }
 
+/**
+ * Aquí ponía «10 s de lectura», y se quitó: el destilado son 45 palabras y
+ * siempre daba lo mismo, así que no informaba de nada. Además el propio texto
+ * apareciendo a ritmo de lectura ya dice cuánto queda, mejor que un número.
+ *
+ * En ese hueco va ahora «Ver original», que lo añade `detalle.js` porque solo
+ * tiene sentido en las piezas que traen resumen del autor.
+ */
 function pie(dato) {
   const caja = document.createElement('div');
   caja.className = 'pie';
-
-  const tiempo = document.createElement('span');
-  tiempo.textContent = segundosDeLectura(dato.destilado.texto) + ' s de lectura';
-
-  const punto = document.createElement('span');
-  punto.className = 'separador';
-  punto.textContent = '·';
 
   // Se comparte el original, nunca el destilado (decisión 12).
   const enlace = document.createElement('a');
@@ -69,9 +69,12 @@ function pie(dato) {
   enlace.href = dato.enlace;
   enlace.target = '_blank';
   enlace.rel = 'noopener';
-  enlace.textContent = 'Abrir el original';
+  // «Abrir en la web» y no «Abrir el original»: al lado de «Ver original» las
+  // dos se leían igual, y hacen cosas distintas — una se queda dentro y la
+  // otra se va del lector.
+  enlace.textContent = 'Abrir en la web';
 
-  caja.append(tiempo, punto, enlace);
+  caja.append(enlace);
   return caja;
 }
 

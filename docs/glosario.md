@@ -40,9 +40,11 @@ La versión de una pieza que se lee en diez segundos, en español, escrita por
 nosotras con IA. Lleva marcadas las palabras clave.
 *Es obra nuestra, no del autor original. Esa distinción importa legalmente.*
 
-**Ampliación**
-Un segundo nivel de texto, más largo, para cuando una pieza interesa de verdad.
-Se abre sin salir de la aplicación.
+**Ver original**
+Un segundo nivel de texto, más largo, para cuando una pieza interesa de verdad:
+el título y el resumen tal como los escribió el autor, sin traducir. Se abre sin
+salir de la aplicación.
+*Antes se llamaba «Ampliar», que no decía qué ibas a encontrarte.*
 
 **Valoración**
 El resultado de aplicar los criterios a una pieza en un momento dado. Lleva

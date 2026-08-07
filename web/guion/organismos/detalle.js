@@ -42,15 +42,25 @@ export function cerrar() {
 export function montar() {
   botonCerrar.addEventListener('click', cerrar);
 
-  // Solo se añade el botón si hay algo que ampliar.
+  // Solo se añade el botón si hay original que enseñar.
   for (const pieza of estado.piezas) {
     if (!pieza.dataset.titulo && !pieza.dataset.amplia) continue;
 
     const boton = document.createElement('button');
     boton.type = 'button';
-    boton.className = 'ampliar';
-    boton.textContent = 'Ampliar';
+    boton.className = 'ver-original';
+    // «Ver original» y no «Ampliar»: ampliar no dice qué vas a encontrarte, y
+    // lo que hay detrás es el texto del autor tal cual lo escribió, sin
+    // traducir y sin pasar por nosotras.
+    boton.textContent = 'Ver original';
     boton.addEventListener('click', ev => { ev.stopPropagation(); abrir(); });
-    pieza.querySelector('.pie').appendChild(boton);
+
+    const punto = document.createElement('span');
+    punto.className = 'separador';
+    punto.textContent = '·';
+
+    // Delante del enlace, en el hueco que dejó «10 s de lectura». El separador
+    // se crea aquí y no en la pieza: sin botón tampoco debe haber punto.
+    pieza.querySelector('.pie').prepend(boton, punto);
   }
 }
