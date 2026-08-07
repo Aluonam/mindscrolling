@@ -11,10 +11,21 @@ export function entradilla(texto, cuantas = 10) {
   return palabras.slice(0, cuantas).join(' ') + (palabras.length > cuantas ? '…' : '');
 }
 
-/** De 2026-08-06 a 06/08. */
+const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+               'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+/**
+ * De 2026-08-07 a «7 AGO».
+ *
+ * Con mes en letra y no 07/08: al lado de la posición se leía «07/08 · 6/100»
+ * y las dos parecían fracciones. Una fecha no se confunde con un contador.
+ */
 export function fechaLegible(fecha) {
   const [, mes, dia] = String(fecha).split('-');
-  return dia && mes ? dia + '/' + mes : String(fecha);
+  if (!dia || !mes) return String(fecha);
+
+  const nombre = MESES[Number(mes) - 1];
+  return nombre ? `${Number(dia)} ${nombre}` : `${dia}/${mes}`;
 }
 
 export function tiempoLegible(segundos) {
