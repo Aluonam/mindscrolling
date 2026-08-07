@@ -1,0 +1,7 @@
+/* El enlace al original: lo único que sale de la aplicación. */
+.original {
+  color: var(--acento);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+}

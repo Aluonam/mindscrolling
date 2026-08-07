@@ -1,0 +1,7 @@
+/* Fila de chips por ámbito, arriba del índice. */
+.filtros {
+  display: flex;
+  gap: 6px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--borde);
+}

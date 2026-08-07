@@ -1,0 +1,50 @@
+/* Una pieza ocupa la pantalla entera. */
+
+.pieza {
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 26px;
+  padding: 96px 24px 116px;
+  max-width: 560px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* El ámbito tiñe la pieza entera. --halo es el mismo color en RGB suelto,
+   porque las capas del fondo lo usan con opacidad. */
+.pieza[data-ambito="tecnico"] { --acento: var(--tecnico); --halo: 90,180,255; }
+.pieza[data-ambito="clinico"] { --acento: var(--clinico); --halo: 255,180,84; }
+.pieza[data-ambito="gestion"] { --acento: var(--gestion); --halo: 111,220,160; }
+
+.pieza::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  z-index: -2;
+  background:
+    radial-gradient(58% 42% at 22% 20%, rgba(var(--halo), .30), transparent 68%),
+    radial-gradient(52% 40% at 84% 78%, rgba(var(--halo), .16), transparent 70%),
+    radial-gradient(70% 55% at 60% 45%, rgba(120,140,220,.10), transparent 74%);
+  filter: blur(26px);
+  animation: deriva 28s ease-in-out infinite;
+}
+
+/* Viñeta: el texto no compite con el fondo. */
+.pieza::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 78% at 50% 50%, transparent 32%, rgba(10,13,20,.72) 100%);
+}
+
+@keyframes deriva {
+  0%   { transform: translate3d(0, 0, 0)      scale(1.04); }
+  50%  { transform: translate3d(-3%, 2.5%, 0) scale(1.14); }
+  100% { transform: translate3d(0, 0, 0)      scale(1.04); }
+}
