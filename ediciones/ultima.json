@@ -18,11 +18,12 @@
         "nota": "Preprints sin revision por pares. Mas de 250 al dia: el filtro tiene que ser duro."
       },
       "huella": "arxiv.org/abs/2608.05872",
-      "puntuacion": 0.8936691036028335,
+      "puntuacion": 0.8921984591637038,
       "destilado": {
-        "texto": "Ejecutar capas secuencialmente limita los modelos de lenguaje. La ruta dinámica de capas puede mejorar el rendimiento. Se propone MACRO, un marco que aprende rutas específicas de tarea sin modificar parámetros subyacentes.",
+        "texto": "Ejecutar capas de forma secuencial limita el rendimiento de los modelos de lenguaje. La ruta dinámica de capas puede mejorar el desempeño. Se propone MACRO, un marco que aprende rutas específicas de tarea sin modificar parámetros subyacentes.",
         "clave": [
           "ruta dinámica",
+          "modelos de lenguaje",
           "capas"
         ]
       }
@@ -44,13 +45,13 @@
         "nota": "Preprints sin revision por pares."
       },
       "huella": "arxiv.org/abs/2608.05207",
-      "puntuacion": 0.8643814470658407,
+      "puntuacion": 0.862910802626711,
       "destilado": {
-        "texto": "Mejorar los modelos de previsión con características correctivas reduce el error en un 27%. La técnica de descubrimiento de características correctivas utiliza un agente para identificar fallos en los modelos preentrenados. La integración de características correctivas mejora la precisión de los modelos",
+        "texto": "Mejorar los modelos de previsión con características correctivas reduce los errores, sobre todo en los modelos más débiles, con una reducción de hasta 27%. La integración de características y el descubrimiento de características son clave. La evaluación en seis conjuntos de datos públicos confirma los resultados.",
         "clave": [
           "características correctivas",
           "integración de características",
-          "modelos de previsión"
+          "descubrimiento de características"
         ]
       }
     },
@@ -71,12 +72,13 @@
         "nota": "Ya estaba en el proyecto antes de este catalogo. Preprints sin revision por pares."
       },
       "huella": "arxiv.org/abs/2608.05822",
-      "puntuacion": 0.8543814470658407,
+      "puntuacion": 0.852910802626711,
       "destilado": {
-        "texto": "Generar aserciones de prueba con precisión deja fuera enfoques anteriores, la agregación de perspectivas diversas mejora la calidad y la confiabilidad, la integración de técnicas como la generación de código y el razonamiento en cadena de pensamiento son clave",
+        "texto": "Generar aserciones de prueba de manera automática es crucial para validar el comportamiento esperado y garantizar la corrección del software. AssertMate es un marco de generación de aserciones basado en agentes que mejora la calidad y la confiabilidad de las aserciones generadas por modelos de lenguaje grandes. La integración de perspectivas diversas y la colaboración entre agentes son clave para su éxito.",
         "clave": [
-          "agregación de perspectivas",
-          "integración de técnicas"
+          "generación de aserciones",
+          "modelos de lenguaje grandes",
+          "integración de perspectivas"
         ]
       }
     },
@@ -96,9 +98,9 @@
         "rss": "https://spectrum.ieee.org/feeds/feed.rss"
       },
       "huella": "spectrum.ieee.org/ieee-course-ai-power-grids",
-      "puntuacion": 0.679964004229106,
+      "puntuacion": 0.6792397517892483,
       "destilado": {
-        "texto": "La red eléctrica actual está operando al límite debido al crecimiento industrial y el aumento en el uso de electricidad. La integración de inteligencia artificial y la automatización son clave para modernizar la red. La inteligencia artificial puede procesar grandes cantidades de datos instantáneamente.",
+        "texto": "La red eléctrica estadounidense opera al límite debido al crecimiento industrial y el aumento en el uso de electricidad. La integración de inteligencia artificial y la automatización son necesarias para procesar la gran cantidad de datos generados por sensores y medidores inteligentes. La inteligencia artificial es clave para predecir y prevenir problemas en la red",
         "clave": [
           "inteligencia artificial",
           "automatización",
@@ -123,13 +125,11 @@
         "nota": "No tiene RSS: es un buscador. Se lee por Europe PMC, que indexa PubMed entero (SRC:MED). Unas 550 entradas al mes con esta consulta."
       },
       "huella": "doi.org/10.1016/j.jamda.2026.106399",
-      "puntuacion": 0.8484905889077559,
+      "puntuacion": 0.8483912207864961,
       "destilado": {
-        "texto": "La presencia de fisioterapeutas y terapeutas ocupacionales en servicios diurnos ralentiza el declive de las actividades cotidianas en adultos mayores. La integración de profesionales de rehabilitación en estos servicios puede contribuir a una mayor seguridad y mantenimiento de la independencia funcional. La terapia ocupacional es clave para esto",
+        "texto": "La presencia de terapeutas ocupacionales y fisioterapeutas en servicios diurnos ralentiza el declive de las actividades cotidianas en adultos mayores. La integración de estos profesionales puede contribuir a una mayor seguridad y mantenimiento de la independencia. La terapia ocupacional es clave en este proceso",
         "clave": [
-          "terapia ocupacional",
-          "rehabilitación",
-          "independencia funcional"
+          "terapia ocupacional"
         ]
       }
     },
@@ -149,12 +149,13 @@
         "rss": "https://www.frontiersin.org/journals/human-neuroscience/rss"
       },
       "huella": "www.frontiersin.org/articles/10.3389/fnhum.2026.1876364",
-      "puntuacion": 0.800910552129999,
+      "puntuacion": 0.8008144416832419,
       "destilado": {
-        "texto": "El dibujo infantil emerge como un laboratorio evolutivo para la integración sensorimotora y multisensorial, permitiendo la calibración de la coordinación viso-manual y la formación de representaciones espaciales corporales. La integración sensorimotora y la integración multisensorial son clave en este proceso.",
+        "texto": "El dibujo infantil emerge como un laboratorio evolutivo para la integración sensorial y la coordinación motora. Cada trazo proporciona retroalimentación persistente e informativa, mejorando la coordinación ojo-mano y la formación de representaciones espaciales. La integración multisensorial y la integración sensorimotora son clave en este proceso.",
         "clave": [
+          "integración sensorial",
           "integración sensorimotora",
-          "integración multisensorial"
+          "coordinación ojo-mano"
         ]
       }
     },
@@ -174,9 +175,9 @@
         "rss": "https://www.frontiersin.org/journals/neurology/rss"
       },
       "huella": "www.frontiersin.org/articles/10.3389/fneur.2026.1901811",
-      "puntuacion": 0.736715447329875,
+      "puntuacion": 0.7366127111148656,
       "destilado": {
-        "texto": "Diferenciar la esclerosis lateral amiotrófica de la mielopatía cervical degenerativa es difícil debido a la convergencia clínica y divergencia biológica. La resonancia magnética es indispensable pero no autointerpretativa, y la electromiografía es útil cuando se interpreta por distribución. La integración de pruebas ayuda a distinguir entre estas afecciones.",
+        "texto": "Diferenciar la esclerosis lateral amiotrófica de la mielopatía cervical degenerativa es difícil debido a la convergencia clínica y la divergencia biológica. La resonancia magnética es indispensable pero no autointerpretativa, y la electromiografía es útil cuando se interpreta por distribución.",
         "clave": [
           "esclerosis lateral amiotrófica",
           "mielopatía cervical degenerativa",
@@ -200,9 +201,9 @@
         "rss": "https://www.mountaingoatsoftware.com/blog/rss"
       },
       "huella": "www.mountaingoatsoftware.com/blog/leading-agile-initiatives",
-      "puntuacion": 0.6389092775841024,
+      "puntuacion": 0.6387958415024615,
       "destilado": {
-        "texto": "La iniciativa ágil no se centra en una implementación única de Scrum o Kanban. Implica un cambio continuo en la organización. Los líderes deben apoyar este cambio para que tenga éxito",
+        "texto": "Una iniciativa ágil no se centra principalmente en una implementación única de Scrum, Kanban o SAFe. Implica un cambio continuo. Los líderes deben apoyar este cambio",
         "clave": [
           "iniciativa ágil",
           "cambio continuo"
