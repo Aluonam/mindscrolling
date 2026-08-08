@@ -6,7 +6,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { validarDestilado } from './instruccionesDestilado.ts';
+import { aperturaPara, comprobarNormas, validarDestilado } from './instruccionesDestilado.ts';
 
 test('un destilado bien formado pasa entero', () => {
   const d = validarDestilado({
@@ -68,4 +68,47 @@ test('se ignora lo que no sea una cadena', () => {
   });
 
   assert.deepEqual(d.clave, ['clave']);
+});
+
+// --- Las normas que sí se pueden comprobar en código -------------------------
+
+test('un destilado de la longitud normal pasa las normas', () => {
+  const texto = 'El cerebelo también participa en decidir, no solo en coordinar el ' +
+    'movimiento. Un estudio con resonancia funcional sugiere que se activa antes ' +
+    'de que la persona sea consciente de haber elegido. Queda por ver si eso ' +
+    'cambia la rehabilitación.';
+
+  assert.equal(comprobarNormas({ texto, clave: ['cerebelo'] }).texto, texto);
+});
+
+test('un destilado cortado a media frase se rechaza', () => {
+  assert.throws(
+    () => comprobarNormas({ texto: 'El cerebelo también participa en', clave: [] }),
+    /viene cortado/,
+  );
+});
+
+test('el vocabulario de bombo se rechaza aunque el texto sea largo', () => {
+  const texto = 'Un hallazgo revolucionario sobre el cerebelo cambia lo que se ' +
+    'sabía del movimiento, según un equipo que ha seguido a doscientas personas ' +
+    'durante dos años completos en varios hospitales del país.';
+
+  assert.throws(() => comprobarNormas({ texto, clave: [] }), /bombo/);
+});
+
+test('bombo no salta en palabras que solo se le parecen', () => {
+  // "historia clínica" contiene "histori", pero no es bombo. El término
+  // buscado es "histórico" con tilde, que no aparece aquí.
+  const texto = 'La historia clínica en papel retrasa el alta hospitalaria una ' +
+    'media de dos horas, según un estudio en cuatro hospitales. El impacto es ' +
+    'mayor en los servicios con más rotación de personal.';
+
+  assert.equal(comprobarNormas({ texto, clave: [] }).texto, texto);
+});
+
+test('las aperturas rotan y no se repiten en piezas seguidas', () => {
+  const tres = [0, 1, 2].map(aperturaPara);
+  assert.equal(new Set(tres).size, 3, 'las tres primeras deben ser distintas');
+  assert.equal(aperturaPara(3), aperturaPara(0), 'la cuarta vuelve a empezar');
+  assert.notEqual(aperturaPara(1), aperturaPara(2));
 });
