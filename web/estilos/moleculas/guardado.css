@@ -1,0 +1,71 @@
+/* Una línea de la lista de guardados. Se parece a la fila del índice a
+   propósito —mismo punto de ámbito, misma fuente en versalitas—, pero es un
+   enlace que sale de la aplicación y trae su botón de quitar. */
+
+.guardados { overflow-y: auto; flex: 1; }
+
+.guardado {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 13px 18px;
+  border-bottom: 1px solid rgba(35, 43, 61, .55);
+}
+.guardado:hover { background: rgba(255, 255, 255, .035); }
+
+/* Un guardado de una edición vieja puede no traer ámbito. */
+.guardado .punto { background: var(--borde); }
+.guardado[data-ambito="tecnico"] .punto { background: var(--tecnico); }
+.guardado[data-ambito="clinico"] .punto { background: var(--clinico); }
+.guardado[data-ambito="gestion"] .punto { background: var(--gestion); }
+
+.guardado-texto {
+  flex: 1;
+  min-width: 0;
+  color: var(--texto);
+  text-decoration: none;
+}
+.guardado-texto:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+.guardado .fuente {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  margin-bottom: 5px;
+}
+
+.guardado .titulo {
+  display: block;
+  font-size: 13px;
+  line-height: 1.45;
+  /* Un título de paper ocupa cuatro líneas y entierra el resto de la lista. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.guardado-texto:hover .titulo { color: var(--acento); }
+
+.quitar {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--texto-tenue);
+  font-size: 15px;
+  line-height: 1;
+  padding: 2px 4px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.quitar:hover { color: var(--texto); }
+.quitar:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+.guardados-vacio {
+  padding: 22px 20px;
+  color: var(--texto-tenue);
+  font-size: 13px;
+  line-height: 1.75;
+}

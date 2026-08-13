@@ -8,7 +8,7 @@ import * as cierre from './organismos/cierre.js';
 import * as cabecera from './organismos/cabecera.js';
 import * as indice from './organismos/indice.js';
 import * as detalle from './organismos/detalle.js';
-import * as valoracion from './organismos/valoracion.js';
+import * as acciones from './organismos/acciones.js';
 import * as ajustes from './organismos/ajustes.js';
 import * as ondas from './organismos/ondas.js';
 import * as instalar from './organismos/instalar.js';
@@ -75,7 +75,7 @@ if (!edicion?.piezas?.length) {
   cabecera.montar(edicion);
   indice.montar();
   detalle.montar();
-  valoracion.montar();
+  acciones.montar();
   ajustes.montar();
   ondas.montar();
   instalar.montar();
