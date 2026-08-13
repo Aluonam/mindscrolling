@@ -24,13 +24,13 @@ web/
   estilos/
     atomos/               variables, base, botón, palabra, enlace, grano
     moleculas/            procedencia, destilado, pie, segmentos, fila, filtros, aviso
-    organismos/           cabecera, pieza, índice, detalle, valoración, velo, vacío
+    organismos/           cabecera, pieza, índice, detalle, valoración, velo, cierre, vacío
     plantillas/           el carril y «menos movimiento»
   guion/
     estado.js             lo que varios organismos comparten
-    atomos/               ámbitos, palabras, texto, aviso
+    atomos/               ámbitos, palabras, texto, aviso, incidencias
     moleculas/            revelado, ritmo, segmentos, fila, velo
-    organismos/           carril, cabecera, índice, detalle, valoración, ajustes, ondas
+    organismos/           carril, cierre, cabecera, índice, detalle, valoración, ajustes, ondas
     lector.js             la página: carga la edición y conecta lo demás
 ```
 
