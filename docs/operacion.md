@@ -172,7 +172,7 @@ el de Groq, así que la comparación es justa (decisión 14).
 ## Verificar que todo sigue en pie
 
 ```
-npm test              # 19 pruebas del dominio y de la validación
+npm test              # 24 pruebas del dominio y de la validación
 npm run tipos         # sin errores de tipos
 npm run edicion       # una edición real, ~8 min
 npm run servir        # y mirarla en localhost:8731
