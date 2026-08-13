@@ -6,7 +6,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { aperturaPara, comprobarNormas, validarDestilado } from './instruccionesDestilado.ts';
+import {
+  aperturaPara,
+  comprobarNormas,
+  LIMITE_MATERIAL,
+  materialDe,
+  validarDestilado,
+} from './instruccionesDestilado.ts';
 
 test('un destilado bien formado pasa entero', () => {
   const d = validarDestilado({
@@ -59,6 +65,27 @@ test('el Markdown se cae, en el texto y en las claves', () => {
 test('un asterisco suelto tampoco llega a pantalla', () => {
   const d = validarDestilado({ texto: 'Texto con * suelto y _ perdido.' });
   assert.equal(d.texto, 'Texto con suelto y perdido.');
+});
+
+test('el material se recorta al límite y el resto no viaja', () => {
+  const material = materialDe({
+    fuente: { nombre: 'Europe PMC' },
+    titulo: 'Un título',
+    resumenOriginal: 'a'.repeat(LIMITE_MATERIAL + 500) + 'COLA',
+  });
+
+  assert.ok(!material.includes('COLA'));
+  assert.equal(material.split('\n').at(-1)?.length, LIMITE_MATERIAL);
+});
+
+test('un resumen corto llega entero', () => {
+  const material = materialDe({
+    fuente: { nombre: 'Europe PMC' },
+    titulo: 'Un título',
+    resumenOriginal: 'Un resumen breve que cabe de sobra.',
+  });
+
+  assert.ok(material.includes('Un resumen breve que cabe de sobra.'));
 });
 
 test('se ignora lo que no sea una cadena', () => {
