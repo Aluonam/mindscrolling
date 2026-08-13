@@ -6,7 +6,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { Resumidor } from '../dominio/puertos.ts';
 import type { Destilado, Pieza } from '../dominio/tipos.ts';
-import { INSTRUCCIONES, materialDe, validarDestilado } from './instruccionesDestilado.ts';
+import { INSTRUCCIONES, aperturaPara, comprobarNormas, materialDe, validarDestilado } from './instruccionesDestilado.ts';
 
 /** Cambiar por 'claude-haiku-4-5' abarata mucho, a costa de algo de calidad. */
 const MODELO = 'claude-opus-5';
@@ -16,12 +16,18 @@ const MODELO = 'claude-opus-5';
 
 export class ResumidorClaude implements Resumidor {
   private readonly cliente = new Anthropic();
+  /** Cuántas piezas van servidas, para repartir las aperturas por la edición. */
+  private orden = 0;
 
   async destilar(pieza: Pieza): Promise<Destilado> {
+    // La misma rotación que en el adaptador de Groq. Si los dos escribieran
+    // con reglas distintas, compararlos no significaría nada (decisión 14).
+    const apertura = aperturaPara(this.orden++);
+
     const respuesta = await this.cliente.messages.create({
       model: MODELO,
       max_tokens: 1000,
-      system: INSTRUCCIONES,
+      system: `${INSTRUCCIONES}\n\n${apertura}`,
       output_config: {
         // Resumir no necesita razonamiento profundo, y el esfuerzo se paga.
         effort: 'low',
@@ -51,6 +57,6 @@ export class ResumidorClaude implements Resumidor {
       throw new Error(`Respuesta sin texto para "${pieza.titulo}"`);
     }
 
-    return validarDestilado(JSON.parse(bloque.text));
+    return comprobarNormas(validarDestilado(JSON.parse(bloque.text)));
   }
 }
