@@ -8,7 +8,7 @@
 
 import type { Resumidor } from '../dominio/puertos.ts';
 import type { Destilado, Pieza } from '../dominio/tipos.ts';
-import { INSTRUCCIONES, materialDe, validarDestilado } from './instruccionesDestilado.ts';
+import { INSTRUCCIONES, aperturaPara, comprobarNormas, materialDe, validarDestilado } from './instruccionesDestilado.ts';
 
 const EXTREMO = 'https://api.groq.com/openai/v1/chat/completions';
 
@@ -37,6 +37,8 @@ export class ResumidorGroq implements Resumidor {
   private ultimaLlamada = 0;
   /** Se cambia al de repuesto para el resto de la edición, no por pieza. */
   private modelo = MODELO;
+  /** Cuántas piezas van servidas, para repartir las aperturas por la edición. */
+  private orden = 0;
 
   constructor(clave: string) {
     if (!clave) throw new Error('Falta GROQ_API_KEY.');
@@ -46,8 +48,12 @@ export class ResumidorGroq implements Resumidor {
   async destilar(pieza: Pieza): Promise<Destilado> {
     await this.respetarElRitmo();
 
+    // Se elige una vez por pieza, no por intento: si un reintento cambiara de
+    // estructura, dos piezas seguidas podrían acabar abriendo igual.
+    const apertura = aperturaPara(this.orden++);
+
     for (let intento = 1; intento <= REINTENTOS; intento++) {
-      const respuesta = await this.pedir(pieza);
+      const respuesta = await this.pedir(pieza, apertura);
 
       if (respuesta.status === 429) {
         const cuerpo = await respuesta.text();
@@ -84,13 +90,22 @@ export class ResumidorGroq implements Resumidor {
       const contenido = cuerpo.choices?.[0]?.message?.content;
       if (!contenido) throw new Error('Groq devolvió una respuesta vacía.');
 
-      return validarDestilado(JSON.parse(contenido));
+      // Un texto que incumple las normas se vuelve a pedir en vez de perderse.
+      // Con temperatura 0,4 el segundo intento sale distinto, y salvar la pieza
+      // cuesta una llamada mientras que descartarla deja la edición más corta.
+      try {
+        return comprobarNormas(validarDestilado(JSON.parse(contenido)));
+      } catch (error) {
+        if (intento === REINTENTOS) throw error;
+        console.warn(`  · reescribiendo "${pieza.titulo.slice(0, 40)}": ${(error as Error).message}`);
+        continue;
+      }
     }
 
     throw new Error('Groq no devolvió nada utilizable.');
   }
 
-  private async pedir(pieza: Pieza): Promise<Response> {
+  private async pedir(pieza: Pieza, apertura: string): Promise<Response> {
     this.ultimaLlamada = Date.now();
 
     return fetch(EXTREMO, {
@@ -111,7 +126,7 @@ export class ResumidorGroq implements Resumidor {
         messages: [
           {
             role: 'system',
-            content: `${INSTRUCCIONES}\n\nResponde solo con un objeto JSON: {"texto": "...", "clave": ["...", "..."]}`,
+            content: `${INSTRUCCIONES}\n\n${apertura}\n\nResponde solo con un objeto JSON: {"texto": "...", "clave": ["...", "..."]}`,
           },
           { role: 'user', content: materialDe(pieza) },
         ],
