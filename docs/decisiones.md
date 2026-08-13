@@ -289,3 +289,28 @@ y el trabajo entero. Escribir un segundo resumen propio costaría otra llamada a
 la IA para decir con nuestras palabras algo que el autor ya dijo con las suyas
 — y va en la misma dirección que la decisión 12: cuanto más te acercas, más se
 oye al autor y menos nosotras.
+
+---
+
+## 18. El modelo ve 2.000 caracteres de cada resumen, no 4.000
+
+**Qué.** El material que se le manda por pieza se recorta a 2.000 caracteres
+(`LIMITE_MATERIAL` en `instruccionesDestilado.ts`).
+
+**Por qué.** Se sigue en el plan gratuito de Groq (decisión 14), así que el
+cupo diario de tokens es el recurso escaso y la entrada es la parte gorda del
+gasto: 73.656 de los 82.110 tokens de una edición. Con 4.000 el margen era del
+18%, tan justo que probar a mano por la tarde dejaba la edición de esa noche a
+medias en el modelo pequeño. La mayoría de resúmenes de paper caben enteros en
+2.000, así que el recorte casi nunca llega a morder.
+
+**Descartado, de momento: bajar a 1.200.** Da más margen todavía, pero ahí ya
+se corta por la mitad un resumen normal y el modelo deja de ver la conclusión,
+que suele ser justo lo que hay que destilar.
+
+**Descartado: pagar.** Haiku 4.5 son 3,48 $ al mes y escribiría mejor, pero
+choca con la restricción de coste cero — el proyecto no debe depender de una
+tarjeta para funcionar.
+
+**Cuándo revisarlo.** Si aparecen destilados a los que les falta el desenlace
+del trabajo, el recorte se está quedando corto y hay que subirlo.

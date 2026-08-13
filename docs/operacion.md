@@ -116,6 +116,10 @@ Salen de contar sobre una edición publicada, no de extrapolar.
 | Peticiones por minuto a Groq | 30 permitidas | Se espacian 2 s, unas 24/min |
 | Fuentes que responden | 59 de 62 | Los `403` son estables |
 
+Esa medición es **anterior al recorte del material a 2.000 caracteres**
+(decisión 18). La entrada real es ahora menor; la cifra se actualizará cuando
+haya una edición publicada con el recorte puesto, no antes.
+
 **Lo que NO es un límite: leer las fuentes.** Traer 6.700 artículos de 62 sitios
 son peticiones HTTP normales, gratis y sin cupo. El único recurso contado son
 los tokens del modelo que escribe los destilados.
@@ -138,8 +142,8 @@ cálculo mensual asume una edición de 100 piezas al día, 30 días.
 
 | Opción | Coste | Qué mejora | Qué cuesta |
 |---|---|---|---|
-| **No tocar nada** | 0 € | — | La cola de la edición empeora los días que se agote el cupo |
-| **Recortar el material de entrada** a 1.200 caracteres | 0 € | El margen sube del 18% al 30%: hace falta gastar mucho más a mano para agotar el cupo | El modelo ve menos resumen original; en textos largos pierde el final |
+| **Recortar el material de entrada** — hecho, ver decisión 18 | 0 € | Más margen de cupo, así que probar a mano deja de comprometer la edición de la noche | El modelo ve menos resumen original; en un texto muy largo pierde el final |
+| **Recortar más aún**, a 1.200 caracteres | 0 € | Todavía más margen | Empieza a cortar resúmenes de paper por la mitad |
 | **Groq de pago (plan Developer)** | Por confirmar | Sube los límites con los mismos modelos | Los valores exactos no están publicados: hay que mirarlos en la consola de la cuenta |
 | **Claude Haiku 4.5** | **3,48 $/mes** | Sigue las instrucciones bastante mejor que un 70B abierto | Deja de ser gratis y necesita tarjeta |
 | **Claude Sonnet 5** | 10,43 $/mes | Prosa notablemente mejor | Diez veces el precio de Haiku para un texto de 45 palabras |
@@ -168,7 +172,7 @@ el de Groq, así que la comparación es justa (decisión 14).
 ## Verificar que todo sigue en pie
 
 ```
-npm test              # 17 pruebas del dominio y de la validación
+npm test              # 19 pruebas del dominio y de la validación
 npm run tipos         # sin errores de tipos
 npm run edicion       # una edición real, ~8 min
 npm run servir        # y mirarla en localhost:8731
