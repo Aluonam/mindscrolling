@@ -1,0 +1,60 @@
+/* La última pantalla: el final de la edición.
+ *
+ * Se comporta como una pieza —pantalla entera y encaje del carril— pero no lo
+ * es: no tiene ámbito, ni halo, ni se revela palabra a palabra. Es el silencio
+ * después de la última, y por eso va apagada a propósito.
+ */
+.cierre {
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  padding: 96px 28px 116px;
+  text-align: center;
+}
+
+.cierre > * {
+  width: 100%;
+  max-width: 440px;
+}
+
+.cierre b {
+  color: var(--texto);
+  font-size: 17px;
+  letter-spacing: .04em;
+}
+
+.cierre p {
+  color: var(--texto-tenue);
+  line-height: 1.75;
+}
+
+/* Lo que salió mal. Se separa del texto normal porque no es un adiós: es un
+   aviso, y quien lo lee tiene que distinguirlo de un vistazo. */
+.cierre-incidencia {
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--superficie);
+  padding: 14px 16px;
+  font-size: 14px;
+}
+
+/* El botón viene de la barra de valorar, donde reparte el ancho entre tres.
+   Aquí está solo: ni crece ni se estira. */
+.cierre button {
+  flex: 0 0 auto;
+  width: auto;
+  padding-inline: 22px;
+  margin-top: 6px;
+}
+
+/* En el cierre no hay pieza que valorar: la barra de abajo se retira. */
+body.en-cierre .valoracion {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}

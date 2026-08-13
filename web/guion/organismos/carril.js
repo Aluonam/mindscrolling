@@ -29,11 +29,9 @@ function barajar(piezas) {
 export function montar(edicion) {
   for (const dato of barajar(edicion.piezas)) carril.appendChild(dibujar(dato));
 
-  const cierre = document.createElement('div');
-  cierre.className = 'arranque';
-  cierre.textContent = 'Fin de la edición · vuelve mañana';
-  carril.lastElementChild.appendChild(cierre);
-
+  // El final de la edición lo monta `cierre`, después de esto y como pantalla
+  // propia. Aquí solo van las piezas: lo que entre en este bucle acaba en
+  // `estado.piezas` y se lleva revelado, segmento y voto.
   estado.piezas = Array.from(carril.querySelectorAll('.pieza'));
   crearSegmentos(estado.piezas.length);
 

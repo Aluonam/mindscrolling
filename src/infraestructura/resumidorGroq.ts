@@ -37,6 +37,8 @@ export class ResumidorGroq implements Resumidor {
   private ultimaLlamada = 0;
   /** Se cambia al de repuesto para el resto de la edición, no por pieza. */
   private modelo = MODELO;
+  /** Si llegó a pasar, el lector lo dice al final de la edición. */
+  private cupoAgotado = false;
   /** Cuántas piezas van servidas, para repartir las aperturas por la edición. */
   private orden = 0;
 
@@ -64,6 +66,7 @@ export class ResumidorGroq implements Resumidor {
         if (/tokens per day|TPD|requests per day|RPD/i.test(cuerpo) && this.modelo !== MODELO_DE_REPUESTO) {
           console.warn(`  · agotado el cupo diario de ${this.modelo}; sigo con ${MODELO_DE_REPUESTO}`);
           this.modelo = MODELO_DE_REPUESTO;
+          this.cupoAgotado = true;
           continue;
         }
 
@@ -103,6 +106,10 @@ export class ResumidorGroq implements Resumidor {
     }
 
     throw new Error('Groq no devolvió nada utilizable.');
+  }
+
+  informar(): { cupoAgotado: boolean } {
+    return { cupoAgotado: this.cupoAgotado };
   }
 
   private async pedir(pieza: Pieza, apertura: string): Promise<Response> {

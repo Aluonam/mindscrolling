@@ -91,12 +91,38 @@ export type PiezaPublicada = PiezaValorada & {
 };
 
 /**
+ * Cómo salió la edición, contado para quien la lee y no para quien la opera.
+ *
+ * Existe porque la edición puede salir coja sin que nada falle a la vista: se
+ * acaba el cupo de la IA, una pieza no pasa las normas tres veces seguidas, y
+ * el lector enseña 60 piezas donde debía haber 100 sin decir por qué. Quien
+ * lee se merece saberlo, aunque sea en una línea.
+ *
+ * Lo que va aquí es lo que se le puede enseñar a una persona. El detalle
+ * operativo —qué fuentes cayeron, qué modelo escribió cada pieza— sigue
+ * viviendo en el registro de la acción, que es donde sirve.
+ */
+export type Incidencias = {
+  /** Cuántas piezas debía traer la edición. */
+  previstas: number;
+  /** Cuántas llegaron a publicarse. */
+  publicadas: number;
+  /**
+   * El modelo bueno se quedó sin cupo del día y el resto de la edición la
+   * escribió el de repuesto, que escribe peor.
+   */
+  cupoAgotado: boolean;
+};
+
+/**
  * El conjunto de piezas de un día.
  * Una vez publicada no cambia: por eso todo aquí es de solo lectura.
  */
 export type Edicion = {
   fecha: string;
   piezas: readonly PiezaPublicada[];
+  /** Ausente en las ediciones publicadas antes de que esto existiera. */
+  incidencias?: Incidencias;
 };
 
 /** Cuántas piezas puede aportar cada ámbito. Se compite dentro, no entre. */
