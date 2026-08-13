@@ -43,17 +43,31 @@
   font-size: 14px;
 }
 
-/* El botón viene de la barra de valorar, donde reparte el ancho entre tres.
-   Aquí está solo: ni crece ni se estira. */
+/* Volver al principio. Único botón de texto que queda en el lector, así que
+   se viste aquí y no en los átomos: sacarlo a `.boton` sería inventar una
+   familia de uno. */
 .cierre button {
   flex: 0 0 auto;
   width: auto;
-  padding-inline: 22px;
+  appearance: none;
+  background: rgba(20,26,40,.5);
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  color: var(--texto-tenue);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 13px 22px;
   margin-top: 6px;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
 }
+.cierre button:hover { border-color: var(--texto-tenue); color: var(--texto); }
+.cierre button:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 
-/* En el cierre no hay pieza que valorar: la barra de abajo se retira. */
-body.en-cierre .valoracion {
+/* En el cierre no hay pieza que compartir ni guardar: la barra se retira. */
+body.en-cierre .acciones {
   opacity: 0;
   pointer-events: none;
   transition: opacity .25s;
