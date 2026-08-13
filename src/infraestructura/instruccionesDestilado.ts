@@ -70,8 +70,13 @@ export function aperturaPara(orden: number): string {
   return `ESTRUCTURA DE APERTURA PARA ESTA PIEZA\n${APERTURAS[orden % APERTURAS.length]}\nUsa esta y no otra: la variedad se reparte a lo largo de la edición.`;
 }
 
-/** Lo que se le manda de cada pieza. El resumen original se recorta: pasado
- *  cierto punto no añade nada y solo encarece la llamada. */
+/** Cuánto resumen original ve el modelo. Cada carácter que entra aquí se paga
+ *  en tokens de entrada, que es lo único contado del cupo gratuito. */
+export const LIMITE_MATERIAL = 2000;
+
+/** Lo que se le manda de cada pieza. El resumen original se recorta a 2.000
+ *  caracteres: la mayoría de resúmenes caben enteros y el cupo diario gana
+ *  margen. Ver `LIMITE_MATERIAL`. */
 export function materialDe(pieza: {
   fuente: { nombre: string };
   titulo: string;
@@ -81,7 +86,7 @@ export function materialDe(pieza: {
     `Fuente: ${pieza.fuente.nombre}`,
     `Título: ${pieza.titulo}`,
     '',
-    pieza.resumenOriginal.slice(0, 4000),
+    pieza.resumenOriginal.slice(0, LIMITE_MATERIAL),
   ].join('\n');
 }
 
