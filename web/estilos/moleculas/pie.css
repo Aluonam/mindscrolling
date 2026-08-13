@@ -30,13 +30,3 @@
 }
 .pieza.detenida .pausa { opacity: 1; }
 
-/* Cierre de la edición, solo en la última pieza. */
-.arranque {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--texto-tenue);
-  text-align: center;
-  padding-top: 4px;
-}

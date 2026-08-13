@@ -314,3 +314,33 @@ tarjeta para funcionar.
 
 **Cuándo revisarlo.** Si aparecen destilados a los que les falta el desenlace
 del trabajo, el recorte se está quedando corto y hay que subirlo.
+
+---
+
+## 19. La edición se despide, y si salió coja lo dice
+
+**Qué.** El carril termina en una pantalla propia: "Hasta aquí los reels de
+hoy". Cuando la edición no salió entera —faltan piezas, o se agotó el cupo del
+modelo bueno y terminó el de repuesto— esa misma pantalla lo cuenta. Y si la
+edición que se está leyendo tiene más de un día, salta un aviso al abrir.
+
+**Por qué.** Sesenta piezas y cien piezas se ven exactamente igual desde
+dentro. Sin esto, un día malo se lee como un día flojo: quien lee no puede
+distinguir "hoy había poco" de "hoy algo falló", y acaba desconfiando de la
+aplicación en general en vez de saber qué pasó ese día concreto.
+
+**Va con la decisión 10.** La edición diaria termina, y por eso el final se
+puede marcar. Un feed infinito no tiene dónde poner esto.
+
+**Cómo llega el dato.** El ciclo publica `incidencias` dentro de la edición:
+cuántas piezas se pidieron, cuántas salieron y si se agotó el cupo. Solo eso —
+lo que se le puede enseñar a una persona. Qué fuentes cayeron o qué modelo
+escribió cada pieza se queda en el registro de la acción, que es donde sirve.
+
+**Descartado: callarlo y ya.** Era lo que había. También descartado enseñar el
+detalle técnico: "429 tokens per day" no es información para quien lee.
+
+**El aviso de edición vieja salta a los dos días, no al día siguiente.** La
+fecha se escribe en horario universal y se compara con la del teléfono, así que
+una edición recién publicada puede parecer de ayer durante unas horas. Un aviso
+que salta sin causa se aprende a ignorar en dos días.

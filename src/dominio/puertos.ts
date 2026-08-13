@@ -18,6 +18,13 @@ export interface BuscadorDeHallazgos {
 /** Alguien capaz de convertir una pieza en algo que se lee en diez segundos. */
 export interface Resumidor {
   destilar(pieza: Pieza): Promise<Destilado>;
+  /**
+   * Si tiene algo que contar de cómo fue escribiendo, lo cuenta al terminar.
+   *
+   * Es opcional porque no todo el que escribe tiene límites: quien no se queda
+   * nunca sin cupo no implementa esto y el ciclo funciona igual.
+   */
+  informar?(): { cupoAgotado: boolean };
 }
 
 /** Alguien capaz de dejar una edición donde el móvil pueda leerla. */
