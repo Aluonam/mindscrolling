@@ -157,9 +157,28 @@ async function main() {
   }
 
   // 4. Publicar.
-  const edicion: Edicion = { fecha, piezas };
+  //
+  // Las incidencias viajan con la edición porque el lector no tiene otra forma
+  // de enterarse: si hoy salen 60 piezas donde suele haber 100, sin esto las
+  // enseña igual y quien lee no sabe si es que hoy había poco o es que algo
+  // falló.
+  const incidencias = {
+    previstas: finalistas.length,
+    publicadas: piezas.length,
+    cupoAgotado: resumidor.informar?.().cupoAgotado ?? false,
+  };
+
+  const edicion: Edicion = { fecha, piezas, incidencias };
   await publicador.publicar(edicion);
   console.log(`\nEdición del ${fecha} publicada con ${piezas.length} piezas.`);
+
+  if (incidencias.publicadas < incidencias.previstas || incidencias.cupoAgotado) {
+    console.warn(
+      `Edición coja: ${incidencias.publicadas} de ${incidencias.previstas}` +
+        (incidencias.cupoAgotado ? ', y con el cupo del modelo bueno agotado' : '') +
+        '. El lector lo avisa en la última pantalla.',
+    );
+  }
 }
 
 main().catch(error => {

@@ -53,6 +53,17 @@ de una semana.
 El conjunto de piezas seleccionadas para un día. Tiene fecha, tiene cupos por
 ámbito y **no cambia una vez publicada**.
 
+**Incidencias**
+Lo que le pasó a la edición de hoy contado para quien la lee: cuántas piezas
+debía traer, cuántas trae y si la IA se quedó sin cupo a mitad. Viajan dentro de
+la edición y se enseñan en el cierre.
+*No es el registro de la acción. Ahí cabe todo; aquí solo lo que una persona
+puede entender y le sirve de algo.*
+
+**Cierre**
+La última pantalla del carril, la que dice que hoy se acabó. No es una pieza:
+no tiene ámbito ni se revela palabra a palabra.
+
 **Feed**
 Tu orden personal sobre la edición. Es privado, vive en tu dispositivo y se
 recalcula cada vez que abres la aplicación.
