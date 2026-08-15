@@ -1,0 +1,22 @@
+<!-- La marca de MindScrolling: un núcleo que irradia.
+     Fuente de todos los iconos; los PNG salen de aquí, no al revés.
+
+     El núcleo es ámbar (clínico) y los arcos de dentro azules (técnico): la
+     aplicación cruza los dos mundos, y eso es lo que dice la marca sin
+     escribirlo (decisión 16). Los de fuera van en blanco roto para que a 32px
+     el contorno se separe del fondo.
+
+     Sin degradados, sin sombras y con trazo grueso a propósito: lo que no
+     sobrevive a 32 píxeles no sirve de icono. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#0A0D14"/>
+  <circle cx="256" cy="256" r="52" fill="#FFB454"/>
+  <g fill="none" stroke="#5AB4FF" stroke-width="34" stroke-linecap="round">
+    <path d="M154.5 197 A118 118 0 0 1 357.5 197"/>
+    <path d="M357.5 315 A118 118 0 0 1 154.5 315"/>
+  </g>
+  <g fill="none" stroke="#E8ECF4" stroke-width="30" stroke-linecap="round" opacity=".85">
+    <path d="M116 335 A196 196 0 0 1 116 177"/>
+    <path d="M396 177 A196 196 0 0 1 396 335"/>
+  </g>
+</svg>
