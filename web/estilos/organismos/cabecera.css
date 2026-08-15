@@ -36,6 +36,16 @@
 
 .marca b { color: var(--texto); font-weight: 600; letter-spacing: .1em; }
 
+/* El sello, junto al nombre. Alineado por la base como el texto no cuadra —una
+   forma redonda no tiene línea base—, así que se baja a ojo. */
+.sello {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  position: relative;
+  top: 4px;
+}
+
 .fecha-edicion {
   margin-left: auto;
   border: 1px solid var(--borde);
