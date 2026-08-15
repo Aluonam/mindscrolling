@@ -24,6 +24,26 @@ const esApple = /iPad|iPhone|iPod/.test(ua)
 const esFirefox = /Firefox\//.test(ua);
 const esAndroid = /Android/.test(ua);
 
+// Escuchar aquí arriba y no dentro de `montar` no es un capricho de estilo: es
+// la diferencia entre que el botón instale o no.
+//
+// El navegador lanza `beforeinstallprompt` una sola vez y muy pronto, y
+// `montar` se llama después de que `lector.js` espere a la edición del día
+// —trescientos y pico kilobytes de JSON—. Para cuando llegaba, el aviso ya
+// había pasado de largo y no había forma de recuperarlo: el botón se quedaba
+// para siempre enseñando instrucciones. Los módulos se evalúan antes de ese
+// await, así que este oyente sí llega a tiempo.
+window.addEventListener('beforeinstallprompt', evento => {
+  // Sin esto el navegador enseña su propio banner cuando le apetece.
+  evento.preventDefault();
+  aviso = evento;
+});
+
+window.addEventListener('appinstalled', () => {
+  aviso = null;
+  decir('Instalada. Ya la tienes con las demás aplicaciones.');
+});
+
 export function montar() {
   if (yaInstalada()) {
     decir('Ya está instalada.');
@@ -31,17 +51,6 @@ export function montar() {
   }
 
   pintarBoton();
-
-  window.addEventListener('beforeinstallprompt', evento => {
-    // Sin esto el navegador enseña su propio banner cuando le apetece.
-    evento.preventDefault();
-    aviso = evento;
-  });
-
-  window.addEventListener('appinstalled', () => {
-    aviso = null;
-    decir('Instalada. Ya la tienes con las demás aplicaciones.');
-  });
 }
 
 function yaInstalada() {
