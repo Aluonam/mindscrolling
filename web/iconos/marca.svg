@@ -1,22 +1,36 @@
-<!-- La marca de MindScrolling: un núcleo que irradia.
+<!-- La marca de MindScrolling: la semilla que crece dentro del ciclo.
      Fuente de todos los iconos; los PNG salen de aquí, no al revés.
 
-     El núcleo es ámbar (clínico) y los arcos de dentro azules (técnico): la
-     aplicación cruza los dos mundos, y eso es lo que dice la marca sin
-     escribirlo (decisión 16). Los de fuera van en blanco roto para que a 32px
-     el contorno se separe del fondo.
+     El anillo abierto que sube y vuelve a empezar es la edición diaria: un
+     ciclo que termina, no un feed infinito (decisión 10). Dentro, lo que la
+     aplicación hace de verdad: algo que germina.
 
-     Sin degradados, sin sombras y con trazo grueso a propósito: lo que no
-     sobrevive a 32 píxeles no sirve de icono. -->
+     El ciclo va en azul (técnico) y lo que crece en ámbar (clínico), que es la
+     decisión 16 dicha sin escribirla. Trazo grueso y sin degradados a
+     propósito: lo que no sobrevive a 32 píxeles no sirve de icono. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <rect width="512" height="512" fill="#0A0D14"/>
-  <circle cx="256" cy="256" r="52" fill="#FFB454"/>
-  <g fill="none" stroke="#5AB4FF" stroke-width="34" stroke-linecap="round">
-    <path d="M154.5 197 A118 118 0 0 1 357.5 197"/>
-    <path d="M357.5 315 A118 118 0 0 1 154.5 315"/>
+
+  <!-- La marca ocupa casi todo el cuadro: con margen ancho, a 32 pixeles no
+       quedaba nada que mirar. El recorte redondo lo resuelve el maskable. -->
+  <g transform="translate(256 256) scale(1.15) translate(-269 -256)">
+
+  <g fill="none" stroke="#5AB4FF" stroke-width="30" stroke-linecap="round">
+    <!-- El anillo, abierto por la derecha para dejar sitio a la flecha. -->
+    <path d="M362 290 L362 326 A106 106 0 0 1 150 326 L150 186 A106 106 0 0 1 362 186 L362 208"/>
+    <!-- La flecha que cierra el ciclo hacia arriba. -->
+    <path d="M362 286 L362 242 M336 268 L362 240 L388 268"/>
   </g>
-  <g fill="none" stroke="#E8ECF4" stroke-width="30" stroke-linecap="round" opacity=".85">
-    <path d="M116 335 A196 196 0 0 1 116 177"/>
-    <path d="M396 177 A196 196 0 0 1 396 335"/>
+
+  <g fill="#FFB454">
+    <!-- La semilla. -->
+    <ellipse cx="256" cy="352" rx="40" ry="46"/>
+    <!-- El tallo. Se ve poco a propósito: a 32 píxeles desaparece y la marca
+         sigue siendo la misma, dos hojas sobre una semilla. -->
+    <rect x="247" y="262" width="18" height="96" rx="9"/>
+    <!-- Las dos hojas, la misma forma reflejada. -->
+    <path d="M250 278 C 208 276 188 252 186 218 C 224 220 246 244 250 278 Z"/>
+    <path d="M262 278 C 304 276 324 252 326 218 C 288 220 266 244 262 278 Z"/>
+  </g>
   </g>
 </svg>
