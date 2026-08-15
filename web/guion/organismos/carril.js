@@ -31,7 +31,7 @@ export function montar(edicion) {
 
   // El final de la edición lo monta `cierre`, después de esto y como pantalla
   // propia. Aquí solo van las piezas: lo que entre en este bucle acaba en
-  // `estado.piezas` y se lleva revelado, segmento y voto.
+  // `estado.piezas` y se lleva revelado, segmento y fila del índice.
   estado.piezas = Array.from(carril.querySelectorAll('.pieza'));
   crearSegmentos(estado.piezas.length);
 

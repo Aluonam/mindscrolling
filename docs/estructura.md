@@ -23,14 +23,14 @@ web/
   index.html              la estructura, y el orden en que carga todo
   estilos/
     atomos/               variables, base, botón, palabra, enlace, grano
-    moleculas/            procedencia, destilado, pie, segmentos, fila, filtros, aviso
-    organismos/           cabecera, pieza, índice, detalle, valoración, velo, cierre, vacío
+    moleculas/            procedencia, destilado, pie, segmentos, fila, guardado, filtros, aviso
+    organismos/           cabecera, pieza, índice, detalle, acciones, velo, cierre, vacío
     plantillas/           el carril y «menos movimiento»
   guion/
     estado.js             lo que varios organismos comparten
-    atomos/               ámbitos, palabras, texto, aviso, incidencias
-    moleculas/            revelado, ritmo, segmentos, fila, velo
-    organismos/           carril, cierre, cabecera, índice, detalle, valoración, ajustes, ondas
+    atomos/               ámbitos, palabras, texto, aviso, incidencias, guardados
+    moleculas/            revelado, ritmo, segmentos, fila, guardado, velo
+    organismos/           carril, cierre, cabecera, índice, detalle, acciones, ajustes, ondas
     lector.js             la página: carga la edición y conecta lo demás
 ```
 

@@ -1,4 +1,5 @@
-// Una pieza dentro del índice: punto del ámbito, fuente, entradilla y marca.
+// Una pieza dentro del índice: punto del ámbito, fuente, entradilla y el visto
+// de leída.
 
 import { entradilla } from '../atomos/texto.js';
 
@@ -30,9 +31,8 @@ export function crearFila(pieza, alPulsar) {
   return fila;
 }
 
-export function pintarFila(fila, { actual, leida, voto }) {
+export function pintarFila(fila, { actual, leida }) {
   fila.classList.toggle('actual', actual);
   fila.classList.toggle('leida', leida);
-  fila.querySelector('.marca-fila').textContent =
-    voto === 1 ? '★' : voto === -1 ? '×' : (leida ? '✓' : '');
+  fila.querySelector('.marca-fila').textContent = leida ? '✓' : '';
 }

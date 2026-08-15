@@ -2,6 +2,11 @@
 
 * { box-sizing: border-box; }
 
+/* `hidden` tiene que ganar siempre. Sin esto, cualquier regla con `display`
+   —y aquí casi todas son flex— lo anula sin avisar: el atributo está puesto,
+   el elemento se ve, y no hay nada que depurar. */
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   background: var(--fondo);

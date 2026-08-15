@@ -18,32 +18,43 @@
 .ritmo:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 .ritmo.activo { color: var(--acento); border-color: var(--acento); }
 
-/* Barra inferior: valorar y enviar. */
-.voto {
-  flex: 1;
+/* Barra inferior: compartir y guardar. Cuadrados, del tamaño mínimo que se
+   puede pulsar con el pulgar sin mirar. */
+.accion {
   appearance: none;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
   background: rgba(20,26,40,.5);
   border: 1px solid var(--borde);
-  border-radius: 9px;
+  border-radius: 12px;
   color: var(--texto-tenue);
-  font-family: var(--mono);
-  font-size: 10px;
-  line-height: 1.35;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  padding: 12px 6px;
-  min-height: 46px;
   cursor: pointer;
   transition: border-color .2s, color .2s, background-color .2s;
 }
 
-.voto:hover { border-color: var(--texto-tenue); color: var(--texto); }
-.voto:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+.accion svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
-.voto.si { border-color: var(--acento); color: var(--acento); background: rgba(90,180,255,.10); }
-.voto.no { border-color: #6B4A5A; color: #C88A9E; background: rgba(200,138,158,.08); }
+.accion:hover { border-color: var(--texto-tenue); color: var(--texto); }
+.accion:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 
-.voto.enviar:hover { border-color: var(--acento); color: var(--acento); }
+/* Guardado: el marcador se rellena. Un icono relleno se lee de un vistazo, un
+   cambio de color no. */
+.accion.activa {
+  border-color: var(--acento);
+  color: var(--acento);
+  background: rgba(255, 255, 255, .05);
+}
+.accion.activa svg { fill: currentColor; }
 
 /* Filtro por ámbito, dentro del índice. */
 .chip {

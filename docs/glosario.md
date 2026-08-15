@@ -69,8 +69,14 @@ Tu orden personal sobre la edición. Es privado, vive en tu dispositivo y se
 recalcula cada vez que abres la aplicación.
 
 **Señal de interés**
-Lo que haces con una pieza: verla pasar, abrirla, guardarla, saltártela,
-marcarla como muy o poco relevante. Es lo único que el sistema aprende de ti.
+Lo que haces con una pieza: verla pasar, terminar de leerla, abrir el original,
+guardarla, saltártela. Es lo único que el sistema aprende de ti.
+*Los botones de "muy" y "poco relevante" existieron y se quitaron: no
+alimentaban nada. Ver la decisión 20.*
+
+**Guardado**
+Un enlace al trabajo original que has apartado para volver. No es una pieza: no
+caduca con la edición, no tiene destilado y vive en tu dispositivo.
 
 **Cuarentena**
 El estado de una fuente que ha dejado de merecer la pena y deja de aportar
