@@ -9,3 +9,11 @@
   line-height: 1.7;
   color: var(--texto-tenue);
 }
+
+/* Dónde encontrar la opción cuando el navegador no nos deja lanzarla. Va
+   debajo del botón, no en su lugar: el botón sigue sirviendo para reintentar. */
+.instalacion-nota {
+  margin: 10px 0 0;
+  text-transform: none;
+  letter-spacing: .04em;
+}
