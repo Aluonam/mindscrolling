@@ -1,15 +1,21 @@
-/* Barra inferior fija: valorar la pieza y enviarla. */
-.valoracion {
+/* Barra inferior fija: compartir y guardar, abajo a la derecha.
+ *
+ * Antes eran tres botones de texto ocupando todo el ancho. Dos iconos pequeños
+ * en la esquina dejan la pieza respirar: lo que importa es el texto que se está
+ * leyendo, no lo que se puede hacer con él.
+ */
+.acciones {
   position: fixed;
   inset: auto 0 0 0;
   z-index: 20;
-  /* La barra ocupa todo el ancho y son los botones los que se centran.
+  /* La barra ocupa todo el ancho y son los botones los que se colocan.
      Limitando la barra entera, su degradado terminaba a media pantalla y se
      le veía el corte contra el halo del fondo. */
   padding: 18px max(20px, calc((100% - var(--ancho-interfaz, 920px)) / 2))
            calc(20px + env(safe-area-inset-bottom));
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
   background: linear-gradient(to top, rgba(10,13,20,.94) 52%, rgba(10,13,20,0));
 }

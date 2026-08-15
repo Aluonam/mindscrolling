@@ -1,21 +1,29 @@
-// Panel lateral: la edición del día, el filtro por ámbito y el marcador.
+// Panel lateral: la edición del día, lo guardado, el filtro y el marcador.
 
 import { estado, alCambiar } from '../estado.js';
 import { nombreDe } from '../atomos/ambitos.js';
 import { tiempoLegible } from '../atomos/texto.js';
 import { crearFila, pintarFila } from '../moleculas/fila.js';
+import { crearGuardado } from '../moleculas/guardado.js';
+import * as guardados from '../atomos/guardados.js';
 import * as velo from '../moleculas/velo.js';
 import { mostrarPieza, estaVisible, irA } from './carril.js';
 
 const panel      = document.getElementById('indice');
 const listado    = document.getElementById('listado');
 const filtros    = document.getElementById('filtros');
+const pestanas   = document.getElementById('pestanas');
+const cajaGuardados = document.getElementById('guardados');
+const contadorGuardados = document.getElementById('contadorGuardados');
+const pestanaEdicion = document.getElementById('pestanaEdicion');
+const pestanaGuardados = document.getElementById('pestanaGuardados');
 const resumenUso = document.getElementById('resumenUso');
 const botonAbrir = document.getElementById('abrirIndice');
 const botonCerrar = document.getElementById('cerrarIndice');
 
 let segundosUso = 0;
 let filtro = 'todo';
+let viendo = 'edicion';
 
 export function estaAbierto() {
   return panel.classList.contains('abierto');
@@ -45,8 +53,47 @@ function pintar() {
   Array.from(listado.children).forEach((fila, i) => pintarFila(fila, {
     actual: i === estado.actual,
     leida: estado.leidas.has(i),
-    voto: estado.votos.get(i),
   }));
+}
+
+/**
+ * Lo guardado. Son enlaces al original, no piezas: la edición de hoy se va
+ * mañana y esto se queda, así que aquí no hay destilado que enseñar.
+ */
+function pintarGuardados() {
+  const lista = guardados.listar();
+  contadorGuardados.textContent = String(lista.length);
+  cajaGuardados.textContent = '';
+
+  if (lista.length === 0) {
+    const vacio = document.createElement('p');
+    vacio.className = 'guardados-vacio';
+    vacio.textContent = 'Todavía no has guardado nada. El marcador de la esquina '
+      + 'guarda aquí el enlace al trabajo original, y se queda aunque la edición cambie.';
+    cajaGuardados.appendChild(vacio);
+    return;
+  }
+
+  for (const guardado of lista) {
+    cajaGuardados.appendChild(
+      crearGuardado(guardado, () => { guardados.quitar(guardado.enlace); }),
+    );
+  }
+}
+
+/** Una cosa u otra: el panel no es tan ancho como para las dos a la vez. */
+function ver(cual) {
+  viendo = cual;
+  const enEdicion = cual === 'edicion';
+
+  filtros.hidden = !enEdicion;
+  listado.hidden = !enEdicion;
+  cajaGuardados.hidden = enEdicion;
+
+  pestanaEdicion.classList.toggle('activa', enEdicion);
+  pestanaGuardados.classList.toggle('activa', !enEdicion);
+  pestanaEdicion.setAttribute('aria-pressed', String(enEdicion));
+  pestanaGuardados.setAttribute('aria-pressed', String(!enEdicion));
 }
 
 function construirListado() {
@@ -101,6 +148,15 @@ export function montar() {
   construirListado();
   construirFiltros();
   aplicarFiltro('todo');
+
+  pestanaEdicion.addEventListener('click', () => ver('edicion'));
+  pestanaGuardados.addEventListener('click', () => ver('guardados'));
+  ver('edicion');
+
+  // Se repinta desde aquí y no desde quien guarda: el botón de la barra no
+  // sabe que este panel existe, ni tiene por qué.
+  guardados.alCambiar(pintarGuardados);
+  pintarGuardados();
 
   botonAbrir.addEventListener('click', abrir);
   botonCerrar.addEventListener('click', cerrar);

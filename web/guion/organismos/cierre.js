@@ -34,7 +34,7 @@ export function montar(edicion, { alVolver }) {
   }
 
   const volver = document.createElement('button');
-  volver.className = 'voto';
+  volver.className = 'volver';
   volver.type = 'button';
   volver.textContent = 'Volver al principio';
   volver.addEventListener('click', alVolver);

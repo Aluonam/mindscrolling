@@ -32,6 +32,14 @@
 }
 .indice-titulo b { display: block; color: var(--texto); font-size: 12px; letter-spacing: .1em; }
 
+/* Edición del día o guardados. Van juntas y separadas de los filtros: las
+   pestañas eligen qué lista se ve, los filtros solo afectan a una de ellas. */
+.pestanas {
+  display: flex;
+  gap: 8px;
+  padding: 12px 18px 0;
+}
+
 .listado { overflow-y: auto; flex: 1; }
 
 .ajustes {

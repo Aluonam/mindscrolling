@@ -48,7 +48,7 @@
 }
 .fila.leida .avance { color: var(--texto-tenue); }
 
-/* Estrella, aspa o visto, según voto y lectura. */
+/* El visto de leída, y nada cuando no lo está. */
 .marca-fila {
   margin-left: auto;
   font-family: var(--mono);

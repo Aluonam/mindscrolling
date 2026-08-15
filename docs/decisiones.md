@@ -344,3 +344,39 @@ detalle técnico: "429 tokens per day" no es información para quien lee.
 fecha se escribe en horario universal y se compara con la del teléfono, así que
 una edición recién publicada puede parecer de ayer durante unas horas. Un aviso
 que salta sin causa se aprende a ignorar en dos días.
+
+---
+
+## 20. Se van los votos; entran guardar y compartir
+
+**Qué.** Desaparecen los botones de "muy relevante" y "poco relevante". La
+barra inferior pasa a ser dos iconos en la esquina derecha: compartir y
+guardar. Lo guardado es una lista de **enlaces al original**, y vive en el menú
+lateral, en su propia pestaña junto a la edición del día.
+
+**Sustituye en parte a la decisión 9**, que daba por hechos los dos botones de
+voto. Lo demás de esa decisión sigue en pie: se aprende de lo que haces, no de
+lo que pulsas.
+
+**Por qué.** Los votos no alimentaban nada. Vivían en un `Map` en memoria, se
+perdían al recargar, no salían del dispositivo y no reordenaban ninguna
+edición. Ocupaban dos tercios de la barra prometiendo un aprendizaje que no
+existía. Compartir y guardar hacen algo el mismo día que se pulsan.
+
+**Y había un fallo de fondo.** El voto se guardaba por posición en el carril, y
+el orden se baraja en cada apertura (decisión 10): el índice 7 de hoy no es la
+pieza 7 de mañana. Persistirlos tal cual habría guardado ruido. Lo guardado se
+identifica por su enlace, que sí es estable.
+
+**Solo el enlace, no el destilado.** Va con la decisión 12: nuestro resumen
+cumplió su función el día que salió; lo que quieres volver a encontrar es el
+trabajo de otra persona.
+
+**En `localStorage`, no en IndexedDB.** La decisión 5 decía IndexedDB para todo
+lo que se guarda en el dispositivo. Para unas decenas de líneas de texto no
+compensa: IndexedDB pide abrir, versionar y esperar. Tendrá sentido el día que
+se guarden piezas enteras para leerlas sin conexión, y ese día se cambia solo
+`atomos/guardados.js`.
+
+**Sigue pendiente de la decisión 5:** un botón de exportar lo guardado a un
+fichero. Ahora que hay algo que perder, hace más falta que antes.

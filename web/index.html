@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="estilos/moleculas/pie.css">
 <link rel="stylesheet" href="estilos/moleculas/segmentos.css">
 <link rel="stylesheet" href="estilos/moleculas/fila.css">
+<link rel="stylesheet" href="estilos/moleculas/guardado.css">
 <link rel="stylesheet" href="estilos/moleculas/filtros.css">
 <link rel="stylesheet" href="estilos/moleculas/letras.css">
 <link rel="stylesheet" href="estilos/moleculas/aviso.css">
@@ -42,7 +43,7 @@
 <link rel="stylesheet" href="estilos/organismos/velo.css">
 <link rel="stylesheet" href="estilos/organismos/indice.css">
 <link rel="stylesheet" href="estilos/organismos/detalle.css">
-<link rel="stylesheet" href="estilos/organismos/valoracion.css">
+<link rel="stylesheet" href="estilos/organismos/acciones.css">
 <link rel="stylesheet" href="estilos/organismos/cierre.css">
 <link rel="stylesheet" href="estilos/organismos/vacio.css">
 
@@ -74,9 +75,15 @@
     </div>
     <button class="cerrar" id="cerrarIndice" type="button" aria-label="Cerrar">×</button>
   </div>
+  <div class="pestanas" id="pestanas" role="group" aria-label="Qué se ve en el panel">
+    <button class="chip activa" id="pestanaEdicion" type="button" aria-pressed="true">Edición</button>
+    <button class="chip" id="pestanaGuardados" type="button" aria-pressed="false">Guardados&nbsp;<span id="contadorGuardados">0</span></button>
+  </div>
+
   <div class="filtros" id="filtros" role="group" aria-label="Filtrar por ámbito"></div>
 
   <div class="listado" id="listado"></div>
+  <div class="guardados" id="guardados" hidden></div>
 
   <div class="ajustes">
     <div class="ajustes-titulo">Ajustes · tipo de letra</div>
@@ -108,10 +115,18 @@
 
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
 
-<nav class="valoracion" id="valoracion" aria-label="Acciones sobre la pieza actual" hidden>
-  <button class="voto" id="votoNo" type="button">Poco relevante</button>
-  <button class="voto" id="votoSi" type="button">Muy relevante</button>
-  <button class="voto enviar" id="enviar" type="button">Enviar</button>
+<nav class="acciones" id="acciones" aria-label="Acciones sobre la pieza actual" hidden>
+  <button class="accion" id="compartir" type="button" aria-label="Compartir el original">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 15V3m0 0L8 7m4-4 4 4"/>
+      <path d="M4 13v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/>
+    </svg>
+  </button>
+  <button class="accion" id="guardar" type="button" aria-pressed="false" aria-label="Guardar el original">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M6 3.5h12v17l-6-4.2-6 4.2z"/>
+    </svg>
+  </button>
 </nav>
 
 
