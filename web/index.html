@@ -60,6 +60,15 @@
 <header class="cabecera" id="cabecera" hidden>
   <div class="segmentos" id="segmentos"></div>
   <div class="marca">
+    <!-- La marca, reducida a lo que aguanta a 20 px: el núcleo y sus dos arcos.
+         Los arcos exteriores del icono se caen aquí a propósito, se emborronan. -->
+    <svg class="sello" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
+      <circle cx="256" cy="256" r="60" fill="#FFB454"/>
+      <g fill="none" stroke="#5AB4FF" stroke-width="46" stroke-linecap="round">
+        <path d="M154.5 197 A118 118 0 0 1 357.5 197"/>
+        <path d="M357.5 315 A118 118 0 0 1 154.5 315"/>
+      </g>
+    </svg>
     <b>MindScrolling</b>
     <span class="fecha-edicion" id="fechaEdicion"></span>
     <button class="ritmo" id="sonido" type="button" aria-pressed="false" aria-label="Ondas de fondo">♪</button>
