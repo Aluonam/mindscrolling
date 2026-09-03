@@ -6,12 +6,17 @@
 // Si algún día hiciera falta Postgres, se escribe PublicadorPostgres al lado y
 // el dominio ni se entera.
 
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { Publicador } from '../dominio/puertos.ts';
+import type { Hemeroteca, Publicador } from '../dominio/puertos.ts';
 import type { Edicion } from '../dominio/tipos.ts';
 
-export class PublicadorFichero implements Publicador {
+/**
+ * Cumple los dos puertos porque los dos hablan de la misma carpeta: publicar
+ * es escribir `ultima.json` y consultar la anterior es leerlo antes de
+ * pisarlo. Separarlo en dos clases sería repetir la ruta en dos sitios.
+ */
+export class PublicadorFichero implements Publicador, Hemeroteca {
   // Declarado y asignado por separado, no como propiedad de parámetro: Node
   // ejecuta el .ts quitando los tipos, sin compilarlo, y esa forma abreviada
   // no es un tipo — genera código. Por eso no la entiende.
@@ -31,5 +36,20 @@ export class PublicadorFichero implements Publicador {
     // que saber qué día es hoy.
     await writeFile(join(this.carpeta, `${edicion.fecha}.json`), contenido, 'utf8');
     await writeFile(join(this.carpeta, 'ultima.json'), contenido, 'utf8');
+  }
+
+  /**
+   * La última publicada, que es la de ayer mientras no se publique la de hoy.
+   *
+   * Devuelve `null` y no lanza si no hay ninguna o si está ilegible: esto se
+   * consulta para adornar la edición, no para construirla. Un fichero roto
+   * puede dejarla más corta, nunca impedir que salga.
+   */
+  async ultima(): Promise<Edicion | null> {
+    try {
+      return JSON.parse(await readFile(join(this.carpeta, 'ultima.json'), 'utf8')) as Edicion;
+    } catch {
+      return null;
+    }
   }
 }

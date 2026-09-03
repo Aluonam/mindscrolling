@@ -42,7 +42,44 @@ function procedencia(dato) {
   fuente.textContent = dato.fuente.nombre;
 
   caja.append(ambito, barra, fuente);
+
+  // Una pieza heredada de otro día lo dice aquí mismo. No es un aviso ni un
+  // error: es que no todo lo que se lee hoy se escribió hoy, y quien lee
+  // merece distinguirlo de un vistazo sin que le grite.
+  if (dato.deOtroDia) {
+    const cuando = document.createElement('span');
+    cuando.className = 'deotrodia';
+    cuando.textContent = enPalabras(dato.deOtroDia);
+    caja.append(cuando);
+  }
+
   return caja;
+}
+
+const MESES = [
+  'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+  'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
+];
+
+/**
+ * «2026-09-01» se lee «1 sep». Y si fue ayer, se dice «ayer», que es como lo
+ * diría una persona.
+ *
+ * La fecha se parte a mano en vez de pasarla por `new Date`: una cadena
+ * «2026-09-01» la interpreta el navegador como UTC y en España sale el 31 de
+ * agosto por la noche.
+ */
+function enPalabras(fecha) {
+  const [anio, mes, dia] = fecha.split('-').map(Number);
+  if (!anio || !mes || !dia) return fecha;
+
+  const hoy = new Date();
+  const ayer = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() - 1);
+  if (anio === ayer.getFullYear() && mes === ayer.getMonth() + 1 && dia === ayer.getDate()) {
+    return 'de ayer';
+  }
+
+  return `del ${dia} ${MESES[mes - 1] ?? ''}`.trim();
 }
 
 function destilado(dato) {

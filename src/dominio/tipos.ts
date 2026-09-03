@@ -88,6 +88,14 @@ export type PiezaValorada = Pieza & {
 
 export type PiezaPublicada = PiezaValorada & {
   destilado: Destilado;
+  /**
+   * La fecha de la edición en la que se escribió, si no fue hoy.
+   *
+   * Ausente en lo nuevo, que es lo normal. Lo llevan las piezas heredadas de
+   * una edición anterior para rellenar un día de sequía, y guarda su fecha de
+   * origen aunque hayan pasado por varias ediciones desde entonces.
+   */
+  deOtroDia?: string;
 };
 
 /**
@@ -112,6 +120,13 @@ export type Incidencias = {
    * escribió el de repuesto, que escribe peor.
    */
   cupoAgotado: boolean;
+  /**
+   * Cuántas de las publicadas vienen de ediciones anteriores.
+   *
+   * Ausente en las ediciones anteriores a que se heredara nada. Cero y ausente
+   * significan lo mismo: todo lo de hoy se escribió hoy.
+   */
+  heredadas?: number;
 };
 
 /**

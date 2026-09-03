@@ -25,3 +25,14 @@
   border-radius: 50%;
   background: var(--acento);
 }
+
+/* La fecha de una pieza heredada. Más apagada que la fuente: informa, no
+   compite con ella. */
+.deotrodia {
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  opacity: .55;
+  font-size: 9.5px;
+  letter-spacing: .1em;
+}

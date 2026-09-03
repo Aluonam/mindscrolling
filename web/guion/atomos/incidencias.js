@@ -16,7 +16,16 @@ export function textoDeIncidencia(incidencias) {
 
   const previstas = incidencias.previstas ?? 0;
   const publicadas = incidencias.publicadas ?? 0;
+  const heredadas = incidencias.heredadas ?? 0;
   const faltan = previstas - publicadas;
+
+  // Con piezas heredadas el carril va lleno, así que lo que hay que explicar
+  // no es que falte nada: es que parte de lo leído no es de hoy.
+  if (faltan > 0 && heredadas > 0) {
+    return `Hoy se han escrito ${publicadas} piezas nuevas. Las otras ${heredadas} `
+      + 'vienen de ediciones anteriores, y lo dicen al lado de su fuente: '
+      + 'antes que dejarte el carril a medias, se completa con lo de estos días.';
+  }
 
   if (faltan > 0 && incidencias.cupoAgotado) {
     return `Hoy se han quedado en ${publicadas} de ${previstas}. La inteligencia `
