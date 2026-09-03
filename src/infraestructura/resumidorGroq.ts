@@ -84,6 +84,32 @@ export function aMilisegundos(valor: string | null): number {
   return Number.isFinite(total) ? total : 0;
 }
 
+/**
+ * Cuánto hay que esperar a que en el cubo quepa otra pieza.
+ *
+ * Groq da tres datos en cada respuesta: lo que queda en el cubo, lo que cabe
+ * y cuánto tarda en llenarse del todo. De ahí sale el ritmo de relleno, y de
+ * ahí lo que falta para juntar el coste de una llamada.
+ *
+ * Lo importante es que NO se espera al cubo lleno. Esperar a los 8.000 cuando
+ * hacen falta 2.300 multiplica por tres el tiempo de la edición y la deja a
+ * medias por el tope de minutos. Se espera lo que falta y ni un segundo más.
+ */
+export function esperaNecesaria(
+  cubo: { tokens: number; maximo: number; relleno: number },
+  coste: number,
+): number {
+  const falta = coste - cubo.tokens;
+  if (falta <= 0) return 0;
+
+  // Sin saber el tamaño del cubo no hay ritmo que calcular: se espera el
+  // relleno entero, que es lento pero nunca insuficiente.
+  const hueco = cubo.maximo - cubo.tokens;
+  if (!(hueco > 0) || !(cubo.relleno > 0)) return cubo.relleno;
+
+  return Math.ceil(cubo.relleno * (falta / hueco));
+}
+
 export class ResumidorGroq implements Resumidor {
   private readonly clave: string;
   private ultimaLlamada = 0;
@@ -91,6 +117,8 @@ export class ResumidorGroq implements Resumidor {
   private tokensEnElCubo = Infinity;
   /** Lo que tarda ese cubo en volver a estar lleno. */
   private rellenoEnMs = 0;
+  /** Lo que cabe en el cubo, para saber a qué ritmo se rellena. */
+  private cuboMaximo = 0;
   /** Se cambia al de repuesto para el resto de la edición, no por pieza. */
   private modelo = MODELO;
   /** Si llegó a pasar, el lector lo dice al final de la edición. */
@@ -210,6 +238,10 @@ export class ResumidorGroq implements Resumidor {
     // no viene no es una cabecera que dice cero.
     const quedan = respuesta.headers.get('x-ratelimit-remaining-tokens');
     if (quedan !== null && Number.isFinite(Number(quedan))) this.tokensEnElCubo = Number(quedan);
+
+    const cabe = respuesta.headers.get('x-ratelimit-limit-tokens');
+    if (cabe !== null && Number.isFinite(Number(cabe))) this.cuboMaximo = Number(cabe);
+
     this.rellenoEnMs = aMilisegundos(respuesta.headers.get('x-ratelimit-reset-tokens'));
 
     return respuesta;
@@ -266,10 +298,15 @@ export class ResumidorGroq implements Resumidor {
 
     const desdeLaUltima = Date.now() - this.ultimaLlamada;
 
-    // El cubo no da para otra: se espera al relleno, más un segundo de cortesía
-    // para no llegar justo en el borde.
-    const pausa = this.tokensEnElCubo < COSTE_RESERVADO
-      ? Math.min(this.rellenoEnMs + 1000, PAUSA_MAXIMA)
+    const falta = esperaNecesaria(
+      { tokens: this.tokensEnElCubo, maximo: this.cuboMaximo, relleno: this.rellenoEnMs },
+      COSTE_RESERVADO,
+    );
+
+    // El segundo de cortesía es para no llegar justo en el borde del relleno y
+    // llevarse un 429 por unos pocos tokens.
+    const pausa = falta > 0
+      ? Math.min(falta + 1000, PAUSA_MAXIMA)
       : ESPERA_MINIMA;
 
     if (desdeLaUltima < pausa) await espera(pausa - desdeLaUltima);

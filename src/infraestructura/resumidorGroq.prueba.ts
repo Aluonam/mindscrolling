@@ -11,7 +11,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { SinCupoHoy } from '../dominio/errores.ts';
-import { aMilisegundos, ResumidorGroq } from './resumidorGroq.ts';
+import { aMilisegundos, esperaNecesaria, ResumidorGroq } from './resumidorGroq.ts';
 import type { Pieza } from '../dominio/tipos.ts';
 
 const PIEZA = {
@@ -160,4 +160,33 @@ test('un tiempo que no se entiende no se convierte en una espera eterna', () => 
   // inventada deja la edición sin publicar.
   assert.equal(aMilisegundos(null), 0);
   assert.equal(aMilisegundos('vete tú a saber'), 0);
+});
+
+// ---------------------------------------------------------------------------
+// El ritmo
+// ---------------------------------------------------------------------------
+//
+// Aquí se decide si la edición sale de 100 piezas o de 45: esperar de más no
+// da error, solo deja la edición a medias cuando salta el tope de minutos.
+
+const CUBO_LLENO = { tokens: 8000, maximo: 8000, relleno: 0 };
+
+test('si en el cubo cabe otra pieza no se espera nada', () => {
+  assert.equal(esperaNecesaria(CUBO_LLENO, 2300), 0);
+  assert.equal(esperaNecesaria({ tokens: 2300, maximo: 8000, relleno: 60000 }, 2300), 0);
+});
+
+test('se espera lo que falta, no a que el cubo esté lleno', () => {
+  // Faltan 300 de los 6.000 que el cubo tiene por rellenar, y el relleno
+  // entero son 60 s: 3 s, no 60.
+  assert.equal(esperaNecesaria({ tokens: 2000, maximo: 8000, relleno: 60000 }, 2300), 3000);
+});
+
+test('con el cubo vacío se espera casi el relleno entero', () => {
+  assert.equal(esperaNecesaria({ tokens: 0, maximo: 8000, relleno: 60000 }, 2300), 17250);
+});
+
+test('sin saber el tamaño del cubo se espera el relleno entero', () => {
+  // Prefiere pasarse de prudente: es lento, pero nunca provoca un 429.
+  assert.equal(esperaNecesaria({ tokens: 0, maximo: 0, relleno: 45000 }, 2300), 45000);
 });
