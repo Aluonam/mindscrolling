@@ -31,3 +31,15 @@ export interface Resumidor {
 export interface Publicador {
   publicar(edicion: Edicion): Promise<void>;
 }
+
+/**
+ * Alguien capaz de devolver la última edición que se publicó.
+ *
+ * Es un puerto aparte del Publicador y no un método suyo porque son dos
+ * necesidades distintas: una escribe y la otra lee. Que hoy las cumpla el
+ * mismo fichero es cosa de la infraestructura, no del dominio.
+ */
+export interface Hemeroteca {
+  /** `null` el primer día, cuando todavía no hay ninguna. */
+  ultima(): Promise<Edicion | null>;
+}

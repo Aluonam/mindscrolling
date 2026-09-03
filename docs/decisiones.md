@@ -434,3 +434,34 @@ La proporción se mantiene en cualquier punto donde se corte, y dentro de cada
 **Lo que no cambia: el orden de lectura.** El carril baraja la edición en cada
 apertura (decisión 10), así que esto no altera lo que ves ni en qué orden. Solo
 decide qué piezas llegan a escribirse el día que el cupo se queda corto.
+
+---
+
+## 22. Una edición corta se completa con las anteriores, y se dice cuáles
+
+**Qué.** Si hoy no se llega a las 100 piezas previstas, el hueco se rellena con
+las de la edición anterior que no hayan vuelto a salir. Las nuevas van primero;
+las heredadas después, y cada una lleva al lado de su fuente la fecha del día en
+que se escribió.
+
+**Por qué.** La decisión 14 dice que una edición corta se publica antes que
+perder el día, y eso sigue en pie: el ciclo escribe hasta donde llega el cupo.
+Pero publicar veinte piezas deja un carril que se acaba en veinte deslizamientos,
+y el formato es un reel: si se acaba enseguida, no hay edición que valga.
+Releer algo de ayer es mejor que quedarse sin nada que leer.
+
+**La herencia es en cadena.** Una pieza heredada puede volver a heredarse al día
+siguiente, así que en una sequía larga el carril sigue lleno con lo más reciente
+que haya. Se eligió esto sabiendo lo que cuesta: una pieza puede arrastrarse
+varios días. La alternativa —heredar solo una vez— dejaba el carril corto al
+segundo día malo, que es justo lo que esto viene a evitar.
+
+**Por eso la marca no es opcional.** Si el contenido puede arrastrarse, quien lee
+tiene que poder saber de cuándo es cada cosa sin abrir nada. La fecha aparece
+junto a la fuente, apagada y en una píldora: informa, no interrumpe. Y como la
+pieza guarda su fecha de origen y no la de la edición por la que pasó, dice la
+verdad por muchos saltos que haya dado.
+
+**Lo que no se hereda: una edición vacía.** Si hoy no se escribe ninguna pieza,
+no se publica nada y se conserva la anterior entera (decisión 14). Republicar lo
+de ayer con la fecha de hoy sería fingir que el ciclo funcionó.

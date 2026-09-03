@@ -160,6 +160,12 @@ escrito; el lector lo explica en la última pantalla. Como las piezas van
 entrelazadas por ámbito (decisión 21), una edición cortada a la mitad sigue
 trayendo clínico y gestión, no solo técnico.
 
+**El hueco se rellena con las ediciones anteriores** (decisión 22). En el log
+sale como `Se completan N piezas con las de ediciones anteriores`. No es un
+aviso de nada roto: el carril va lleno y cada pieza heredada lleva su fecha
+junto a la fuente. Lo que sí conviene mirar es que no se repita muchos días
+seguidos — significaría que el cupo se queda corto a diario y no un mal día.
+
 **Lo único que no se publica es una edición vacía.** Cero destilados significa
 que el resumidor está roto, y publicarla dejaría el lector en blanco. Se
 conserva la del día anterior y la acción falla para que te enteres.

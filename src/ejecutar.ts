@@ -6,6 +6,7 @@
 
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { completarConAnteriores, cuantasHeredadas } from './dominio/completarEdicion.ts';
 import { construirEdicion } from './dominio/construirEdicion.ts';
 import { SinCupoHoy } from './dominio/errores.ts';
 import type {
@@ -200,21 +201,37 @@ async function main() {
     );
   }
 
-  // 4. Publicar.
+  // 4. Completar. Si hoy no se ha llegado, lo que falta sale de la anterior.
+  //
+  // Se lee ahora y no al arrancar porque `ultima.json` sigue siendo la de ayer
+  // hasta que publiquemos: leerla aquí es leer justo lo que queremos.
+  const anterior = await publicador.ultima();
+  const completa = completarConAnteriores(piezas, anterior, finalistas.length);
+  const heredadas = cuantasHeredadas(completa);
+
+  if (heredadas > 0) {
+    console.log(`Se completan ${heredadas} piezas con las de ediciones anteriores.`);
+  }
+
+  // 5. Publicar.
   //
   // Las incidencias viajan con la edición porque el lector no tiene otra forma
-  // de enterarse: si hoy salen 60 piezas donde suele haber 100, sin esto las
-  // enseña igual y quien lee no sabe si es que hoy había poco o es que algo
-  // falló.
+  // de enterarse: si hoy salen 60 piezas nuevas donde suele haber 100, sin esto
+  // las enseña igual y quien lee no sabe si es que hoy había poco, si algo
+  // falló o si está releyendo lo de ayer.
   const incidencias = {
     previstas: finalistas.length,
     publicadas: piezas.length,
     cupoAgotado: resumidor.informar?.().cupoAgotado ?? false,
+    heredadas,
   };
 
-  const edicion: Edicion = { fecha, piezas, incidencias };
+  const edicion: Edicion = { fecha, piezas: completa, incidencias };
   await publicador.publicar(edicion);
-  console.log(`\nEdición del ${fecha} publicada con ${piezas.length} piezas.`);
+  console.log(
+    `\nEdición del ${fecha} publicada con ${completa.length} piezas` +
+      (heredadas > 0 ? `, ${heredadas} de ellas heredadas.` : '.'),
+  );
 
   if (incidencias.publicadas < incidencias.previstas || incidencias.cupoAgotado) {
     console.warn(
