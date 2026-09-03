@@ -10,7 +10,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { calcularHuella, deduplicar, entrelazar, seleccionar } from './construirEdicion.ts';
+import { afinidad, calcularHuella, deduplicar, entrelazar, seleccionar, soloLoQueInteresa } from './construirEdicion.ts';
 import type { Ambito, Fuente, Pieza, PiezaValorada } from './tipos.ts';
 
 function fuente(id: string, ambito: Ambito = 'tecnico', autoridad = 1): Fuente {
@@ -209,4 +209,55 @@ test('un ámbito con una sola pieza no se queda para el final', () => {
 test('con un solo ámbito no cambia nada', () => {
   const solas = tantas(5, 'tecnico');
   assert.deepEqual(entrelazar(solas).map(p => p.titulo), solas.map(p => p.titulo));
+});
+
+// ---------------------------------------------------------------------------
+// Afinidad
+// ---------------------------------------------------------------------------
+
+const INTERESES = [
+  { ambito: 'tecnico' as const, peso: 2, terminos: ['rendimiento', 'llm'] },
+  { ambito: 'clinico' as const, peso: 2, terminos: ['autism', 'sensory integration'] },
+];
+
+function conTexto(titulo: string, resumen = '', ambito: Ambito = 'tecnico'): Pieza {
+  return {
+    titulo,
+    resumenOriginal: resumen,
+    enlace: 'https://ejemplo.test/x',
+    publicado: new Date('2026-09-01'),
+    fuente: fuente('f', ambito),
+    huella: titulo,
+  };
+}
+
+test('un término no encaja dentro de otra palabra', () => {
+  // El caso real: «emprendimiento» contiene «rendimiento», y una nota de
+  // prensa de una patronal se colaba entre los trabajos de ingeniería.
+  const nota = conTexto('Encuentro hispano-chino sobre innovación y emprendimiento');
+  assert.equal(afinidad(nota, INTERESES), 0);
+});
+
+test('pero sí encaja con la palabra entera y con sus derivadas', () => {
+  assert.ok(afinidad(conTexto('Mejoras de rendimiento en el compilador'), INTERESES) > 0);
+  // «autism» tiene que encontrar «autismo»: el catálogo publica en tres
+  // idiomas y los términos están en inglés.
+  assert.ok(afinidad(conTexto('Nuevo estudio sobre autismo', '', 'clinico'), INTERESES) > 0);
+});
+
+test('se compite dentro del ámbito, no fuera', () => {
+  // Un término clínico en una pieza técnica no cuenta.
+  assert.equal(afinidad(conTexto('A study on autism', '', 'tecnico'), INTERESES), 0);
+});
+
+test('lo que no encaja con ningún interés no llega a la edición', () => {
+  const valoradas = [
+    { ...conTexto('Dragon Ball Super regresa con el tráiler de su nuevo anime'), puntuacion: 0.45 },
+    { ...conTexto('Cómo medir el rendimiento de un compilador'), puntuacion: 0.40 },
+  ];
+
+  const quedan = soloLoQueInteresa(valoradas, INTERESES);
+
+  assert.equal(quedan.length, 1);
+  assert.match(quedan[0].titulo, /compilador/);
 });

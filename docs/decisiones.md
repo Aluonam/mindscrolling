@@ -523,3 +523,41 @@ tras una sola pasada quedaban 372 «&quot;» y 116 «&lt;».
 reconoce como etiqueta un «<» seguido de letra o de barra. Con un `<[^>]+>` a
 secas, un resumen clínico con «p < 0,05 y n > 30» perdía el trozo de en medio.
 La estadística importa más que apurar la limpieza.
+
+---
+
+## 25. Lo que no toca ingeniería informática o neurodiversidad no entra
+
+**Qué.** Una pieza que no encaja con ningún interés del catálogo se descarta,
+por buena que sea su fuente y por reciente que sea. Y los términos se comparan
+como palabras, no como trozos de palabra.
+
+**Por qué.** La fórmula daba hasta 0,45 de 1 solo por autoridad y frescura, sin
+tocar el tema. Con eso entraban «Dragon Ball Super regresa con el tráiler de su
+nuevo anime» y notas de prensa de patronales, compitiendo con trabajos que sí
+venían al caso. El proyecto va de dos cosas; una pieza que no toca ninguna no
+hace la edición más variada, la hace peor.
+
+**Dos fallos que lo tapaban, y son los interesantes:**
+
+- **El vocabulario estaba solo en inglés** y media web del catálogo publica en
+  castellano y en catalán. Un trabajo sobre autismo puntuaba cero y perdía
+  contra cualquier cosa. Ahora los términos van en los tres idiomas.
+- **No había ni una palabra sobre neurodiversidad.** Ni «autismo», ni «TDAH»,
+  ni «neurodivergente». El tema central del lado clínico no estaba escrito en
+  ninguna parte, así que el sistema no podía reconocerlo.
+
+**Y «design» era el término que colaba el traje espacial.** «NASA is changing
+lunar spacesuit design» encajaba con el interés de arquitectura de software.
+Se han caído los términos que entran en cualquier titular —«design», «team»,
+«risk», «delivery», «culture»— y los que quedan son expresiones completas.
+
+**Los límites de palabra van solo al principio.** «rendimiento» encajaba dentro
+de «emprendimiento» y colaba una nota de prensa. Pero el límite no se pone al
+final a propósito: así «autism» sigue encontrando «autismo» y «sensor»
+encuentra «sensorial», que es lo que se le pide a un término en inglés sobre un
+catálogo que publica en tres idiomas.
+
+**Dónde se paga.** En `config/fuentes.json`, no en el código. Si algo bueno se
+cae, es que le falta el término. Es el sitio correcto: el criterio de qué
+interesa es de quien lee, no del programa.

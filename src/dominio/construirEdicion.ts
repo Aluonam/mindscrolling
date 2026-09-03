@@ -59,6 +59,30 @@ export function deduplicar(piezas: readonly Pieza[]): Pieza[] {
 // 3. Puntuar
 // ---------------------------------------------------------------------------
 
+/**
+ * Un término encaja si aparece como palabra, no como trozo de otra.
+ *
+ * Con `includes` a secas, «rendimiento» encajaba dentro de «emprendimiento» y
+ * colaba una nota de prensa de una patronal en la edición. El límite va solo
+ * al principio: así «autism» sigue encontrando «autismo» y «sensor» encuentra
+ * «sensorial», que es justo lo que queremos de un término en inglés sobre un
+ * catálogo que publica en tres idiomas.
+ *
+ * Las expresiones se guardan porque se usan una vez por pieza y hay miles de
+ * piezas: construirlas cada vez es el gasto tonto de todo el ciclo.
+ */
+const expresiones = new Map<string, RegExp>();
+
+function comoPalabra(termino: string): RegExp {
+  const guardada = expresiones.get(termino);
+  if (guardada) return guardada;
+
+  const escapado = termino.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const nueva = new RegExp('\\b' + escapado, 'i');
+  expresiones.set(termino, nueva);
+  return nueva;
+}
+
 /** Cuánto encaja una pieza con los temas que sigues. */
 export function afinidad(pieza: Pieza, intereses: readonly Interes[]): number {
   const texto = (pieza.titulo + ' ' + pieza.resumenOriginal).toLowerCase();
@@ -67,7 +91,7 @@ export function afinidad(pieza: Pieza, intereses: readonly Interes[]): number {
   for (const interes of intereses) {
     if (interes.ambito !== pieza.fuente.ambito) continue;
 
-    const aciertos = interes.terminos.filter(t => texto.includes(t.toLowerCase())).length;
+    const aciertos = interes.terminos.filter(t => comoPalabra(t).test(texto)).length;
     if (aciertos === 0) continue;
 
     // Los aciertos suman cada vez menos: tres apariciones no valen el triple
@@ -106,6 +130,30 @@ const PESOS = {
   autoridad: 0.20,
   frescura: 0.25,
 } as const;
+
+/**
+ * Fuera lo que no encaja con ningún interés.
+ *
+ * Sin esto, una pieza con afinidad cero seguía sumando por autoridad y por
+ * frescura —hasta 0,45 de 1— y entraba en la edición compitiendo con trabajos
+ * que sí venían al caso. Así se colaron «Dragon Ball Super regresa con el
+ * tráiler de su nuevo anime» y varias notas de prensa de patronales.
+ *
+ * Es un corte duro y a propósito: el proyecto va de dos cosas, ingeniería
+ * informática y neurodiversidad. Una pieza que no toca ninguna de las dos no
+ * es una edición más corta, es una edición peor.
+ *
+ * El precio se paga en el catálogo, no aquí: si algo bueno se cae, es que le
+ * falta el término a `config/fuentes.json`. Por eso los intereses llevan
+ * vocabulario en español y en catalán además de en inglés — media web del
+ * catálogo publica en castellano, y antes puntuaba cero por eso solo.
+ */
+export function soloLoQueInteresa(
+  valoradas: readonly PiezaValorada[],
+  intereses: readonly Interes[],
+): PiezaValorada[] {
+  return valoradas.filter(pieza => afinidad(pieza, intereses) > 0);
+}
 
 export function puntuar(
   piezas: readonly Pieza[],
@@ -260,5 +308,6 @@ export function construirEdicion(
 ): PiezaValorada[] {
   const { limpios } = descartarAnuncios(hallazgos);
   const piezas = deduplicar(identificar(limpios));
-  return entrelazar(seleccionar(puntuar(piezas, intereses, ahora), cupos));
+  const valoradas = soloLoQueInteresa(puntuar(piezas, intereses, ahora), intereses);
+  return entrelazar(seleccionar(valoradas, cupos));
 }

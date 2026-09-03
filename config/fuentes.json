@@ -1278,82 +1278,146 @@
   ],
   "intereses": [
     {
-      "nombre": "IA",
       "ambito": "tecnico",
-      "peso": 1,
+      "peso": 2,
       "terminos": [
         "language model",
         "llm",
-        "neural",
         "transformer",
+        "neural network",
         "inference",
-        "agent",
-        "reasoning"
+        "fine-tuning",
+        "embedding",
+        "retrieval",
+        "reasoning model",
+        "agentic",
+        "modelo de lenguaje",
+        "red neuronal",
+        "aprendizaje profundo"
       ]
     },
     {
-      "nombre": "Arquitectura de software",
       "ambito": "tecnico",
-      "peso": 1,
+      "peso": 2,
       "terminos": [
-        "architecture",
-        "design",
+        "software architecture",
         "microservice",
-        "modular",
+        "distributed system",
+        "event-driven",
+        "api design",
+        "modular monolith",
         "coupling",
-        "domain"
+        "domain-driven",
+        "arquitectura de software",
+        "sistemas distribuidos"
       ]
     },
     {
-      "nombre": "Modelos de software",
+      "ambito": "tecnico",
+      "peso": 2,
+      "terminos": [
+        "compiler",
+        "runtime",
+        "latency",
+        "throughput",
+        "scalability",
+        "observability",
+        "kubernetes",
+        "database",
+        "concurrency",
+        "memory safety",
+        "compilador",
+        "escalabilidad",
+        "base de datos",
+        "rendimiento"
+      ]
+    },
+    {
       "ambito": "tecnico",
       "peso": 1,
       "terminos": [
-        "model-driven",
-        "abstraction",
+        "formal verification",
+        "type system",
+        "static analysis",
         "specification",
-        "formal",
-        "verification"
+        "model checking",
+        "proof assistant",
+        "verificación formal"
       ]
     },
     {
-      "nombre": "Integración sensorial",
       "ambito": "clinico",
-      "peso": 1,
+      "peso": 2,
       "terminos": [
-        "sensory",
+        "autism",
+        "autistic",
+        "adhd",
+        "neurodivergent",
+        "neurodiversity",
+        "dyslexia",
+        "dyspraxia",
+        "tourette",
+        "developmental disorder",
+        "autismo",
+        "autista",
+        "tdah",
+        "neurodivergente",
+        "neurodiversidad",
+        "dislexia",
+        "dispraxia",
+        "trastorno del neurodesarrollo"
+      ]
+    },
+    {
+      "ambito": "clinico",
+      "peso": 2,
+      "terminos": [
+        "sensory integration",
+        "sensory processing",
         "vestibular",
         "proprioception",
+        "interoception",
         "somatosensory",
-        "multisensory"
+        "multisensory",
+        "integración sensorial",
+        "procesamiento sensorial",
+        "propiocepción"
       ]
     },
     {
-      "nombre": "Anatomía y fisiología",
+      "ambito": "clinico",
+      "peso": 2,
+      "terminos": [
+        "occupational therapy",
+        "activities of daily living",
+        "fine motor",
+        "handwriting",
+        "assistive technology",
+        "participation",
+        "terapia ocupacional",
+        "actividades de la vida diaria",
+        "motricidad fina",
+        "producto de apoyo",
+        "teràpia ocupacional"
+      ]
+    },
+    {
       "ambito": "clinico",
       "peso": 1,
       "terminos": [
         "motor control",
-        "posture",
+        "neuroplasticity",
+        "executive function",
         "cortex",
-        "physiology",
-        "neuromuscular"
-      ]
-    },
-    {
-      "nombre": "Terapia ocupacional",
-      "ambito": "clinico",
-      "peso": 1,
-      "terminos": [
-        "occupational",
         "rehabilitation",
-        "daily living",
-        "fine motor",
-        "children"
+        "posture",
+        "control motor",
+        "función ejecutiva",
+        "neuroplasticidad",
+        "rehabilitación"
       ]
     },
     {
-      "nombre": "Scrum y agilidad",
       "ambito": "gestion",
       "peso": 1,
       "terminos": [
@@ -1363,11 +1427,11 @@
         "backlog",
         "kanban",
         "retrospective",
-        "product owner"
+        "product owner",
+        "metodología ágil"
       ]
     },
     {
-      "nombre": "Gestión de proyectos",
       "ambito": "gestion",
       "peso": 1,
       "terminos": [
@@ -1375,23 +1439,23 @@
         "stakeholder",
         "roadmap",
         "estimation",
-        "risk",
-        "delivery",
-        "portfolio"
+        "technical debt",
+        "gestión de proyectos",
+        "deuda técnica"
       ]
     },
     {
-      "nombre": "Equipos y liderazgo",
       "ambito": "gestion",
       "peso": 1,
       "terminos": [
-        "team",
-        "leadership",
-        "culture",
-        "remote work",
+        "engineering team",
+        "tech lead",
         "mentoring",
         "onboarding",
-        "burnout"
+        "burnout",
+        "remote work",
+        "developer experience",
+        "equipo de desarrollo"
       ]
     }
   ]
