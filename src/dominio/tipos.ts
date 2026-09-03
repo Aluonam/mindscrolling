@@ -64,6 +64,14 @@ export type Hallazgo = {
   enlace: string;
   publicado: Date;
   fuente: Fuente;
+  /**
+   * Cómo clasifica el medio su propia pieza, tal cual viene en el feed.
+   *
+   * Ausente en las fuentes que no las publican, que son muchas. Sirve para
+   * reconocer un anuncio sin adivinar: quien etiqueta «Gear / Deals» lo está
+   * diciendo él mismo.
+   */
+  categorias?: readonly string[];
 };
 
 /**

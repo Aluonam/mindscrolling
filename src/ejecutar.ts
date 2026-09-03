@@ -6,6 +6,7 @@
 
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { descartarAnuncios } from './dominio/anuncios.ts';
 import { completarConAnteriores, cuantasHeredadas } from './dominio/completarEdicion.ts';
 import { construirEdicion } from './dominio/construirEdicion.ts';
 import { SinCupoHoy } from './dominio/errores.ts';
@@ -147,6 +148,14 @@ async function main() {
   }
 
   // 2. Decidir. Todo esto es dominio puro: sin red, sin ficheros.
+  //
+  // Se cuentan aparte los anuncios para poder mirarlo: si un día se disparan,
+  // es que una fuente ha cambiado de negocio y toca revisarla.
+  const { anuncios } = descartarAnuncios(hallazgos);
+  if (anuncios.length > 0) {
+    console.log(`  ${anuncios.length} anuncios descartados antes de resumir`);
+  }
+
   const finalistas = construirEdicion(hallazgos, config.intereses, config.cupos, ahora);
   console.log(`  ${finalistas.length} finalistas tras deduplicar, puntuar y repartir cupos`);
 

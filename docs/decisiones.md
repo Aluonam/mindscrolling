@@ -465,3 +465,61 @@ verdad por muchos saltos que haya dado.
 **Lo que no se hereda: una edición vacía.** Si hoy no se escribe ninguna pieza,
 no se publica nada y se conserva la anterior entera (decisión 14). Republicar lo
 de ayer con la fecha de hoy sería fingir que el ciclo funcionó.
+
+---
+
+## 23. Los anuncios se tiran antes de resumirlos, no después
+
+**Qué.** Antes de puntuar nada, se descartan las piezas que son publicidad. Se
+reconocen por tres señales, de la más fiable a la menos: la categoría que el
+propio medio pone, la carpeta donde archiva la pieza y la fórmula del título.
+
+**Por qué.** Los medios de tecnología viven en parte de la afiliación y sus
+feeds no separan lo que informa de lo que vende: por el mismo canal llegaba un
+análisis de arquitectura y «Instacart Promo Code: $15 Off». Sobre el catálogo
+entero salen 36 anuncios al día, 29 solo de Wired. No es un problema de gusto:
+cada uno se llevaba unos 1.400 tokens del cupo diario para escribir el resumen
+de un cupón.
+
+**Por eso va antes del embudo y no después.** Filtrar al final habría dejado el
+feed limpio igual, pero pagando. Aquí no llega ni una a la IA.
+
+**La regla al escribir los patrones: ante la duda, se deja pasar.** Colar un
+anuncio cuesta unos tokens; tirar un trabajo clínico bueno porque su título
+mencionaba un precio no se nota hasta que alguien lo echa de menos. Dos reglas
+de la primera versión se cayeron por eso:
+
+- «Black Friday» en el título descartaba *How to make your next Black Friday
+  stress-free*, de Thoughtworks, que va de aguantar un pico de tráfico.
+- «up to 40%» descartaba *Databricks ❤️ Hugging Face: up to 40% faster
+  training*, que habla de velocidad y no de dinero.
+
+Las dos están en las pruebas, para que no vuelvan.
+
+---
+
+## 24. El texto de los feeds se limpia decodificando y quitando, en ese orden y dos veces
+
+**Qué.** Al leer un feed, el texto se pasa por un ciclo que decodifica las
+entidades y quita las etiquetas, repitiendo mientras algo cambie.
+
+**Por qué.** Se veía en pantalla y de dos formas distintas:
+
+1. **Etiquetas escapadas.** Muchos feeds mandan «&lt;p&gt;» en vez de «<p>».
+   Quitando etiquetas antes de decodificar no había nada que quitar, y la
+   decodificación las devolvía después: el lector enseñaba «<span class=...» al
+   ampliar una pieza. Diez de las treinta y una de una edición salieron así.
+2. **Entidades numéricas.** Se decodificaban seis a mano —`&lt;`, `&gt;`,
+   `&quot;`, `&#39;`, `&nbsp;`, `&amp;`— y las demás llegaban crudas al
+   título: «&#8216;Dragon Ball&#8217;», «&#8230;», «&#x27;». Más de mil sobre
+   el catálogo entero.
+
+**El orden importa y el final también.** Primero decodificar, para que haya
+etiquetas que quitar; y terminar quitando, no decodificando, o un
+«&amp;lt;p&amp;gt;» dejaría la etiqueta puesta. Hay feeds que escapan dos veces:
+tras una sola pasada quedaban 372 «&quot;» y 116 «&lt;».
+
+**Lo que no se quita: los signos de menor y mayor sueltos.** El patrón solo
+reconoce como etiqueta un «<» seguido de letra o de barra. Con un `<[^>]+>` a
+secas, un resumen clínico con «p < 0,05 y n > 30» perdía el trozo de en medio.
+La estadística importa más que apurar la limpieza.

@@ -6,6 +6,7 @@
 // Por eso se puede probar entero en milisegundos con datos inventados, y por
 // eso el día que quieras cambiar la fórmula tienes red de seguridad.
 
+import { descartarAnuncios } from './anuncios.ts';
 import type {
   Ambito, Cupos, Hallazgo, Interes, Pieza, PiezaValorada,
 } from './tipos.ts';
@@ -244,6 +245,10 @@ export function entrelazar(elegidas: readonly PiezaValorada[]): PiezaValorada[] 
  * Todavía no hay destilados: resumir cuesta dinero, así que va después, cuando
  * ya sabemos qué piezas han sobrevivido. La operación cara siempre al final
  * del embudo.
+ *
+ * Los anuncios se van los primeros, antes incluso de deduplicar. No es orden
+ * estético: cuanto antes salgan, menos trabajo arrastran, y sobre todo ninguno
+ * llega a la IA. Un cupón de Instacart no merece un token.
  */
 export function construirEdicion(
   hallazgos: readonly Hallazgo[],
@@ -251,6 +256,7 @@ export function construirEdicion(
   cupos: Cupos,
   ahora: Date,
 ): PiezaValorada[] {
-  const piezas = deduplicar(identificar(hallazgos));
+  const { limpios } = descartarAnuncios(hallazgos);
+  const piezas = deduplicar(identificar(limpios));
   return entrelazar(seleccionar(puntuar(piezas, intereses, ahora), cupos));
 }
