@@ -198,7 +198,44 @@ export function seleccionar(
 }
 
 // ---------------------------------------------------------------------------
-// 5. El recorrido completo
+// 5. Entrelazar
+// ---------------------------------------------------------------------------
+
+/**
+ * Reparte los ámbitos por toda la edición en vez de servirlos por bloques.
+ *
+ * Importa porque la edición puede terminarse antes de tiempo: si el cupo de
+ * tokens se agota en la pieza veinte, esas veinte son la edición del día. Con
+ * los ámbitos en bloque serían veinte técnicas y ni una clínica; entrelazados
+ * salen diez, siete y tres, que es la proporción de los cupos.
+ *
+ * A cada pieza se le da el sitio que ocupa dentro de su ámbito, de 0 a 1, y se
+ * ordena por ese sitio. La quinta de cincuenta técnicas y la cuarta de treinta
+ * y siete clínicas van casi juntas porque van igual de avanzadas en lo suyo,
+ * y así la proporción se mantiene en cualquier punto donde se corte.
+ *
+ * Dentro de cada ámbito no se toca nada: siguen en el orden que dejó el
+ * reparto entre fuentes, del mejor al peor.
+ */
+export function entrelazar(elegidas: readonly PiezaValorada[]): PiezaValorada[] {
+  const porAmbito = new Map<Ambito, PiezaValorada[]>();
+
+  for (const pieza of elegidas) {
+    const cola = porAmbito.get(pieza.fuente.ambito);
+    if (cola) cola.push(pieza);
+    else porAmbito.set(pieza.fuente.ambito, [pieza]);
+  }
+
+  // El medio del hueco y no su principio: con «i / largo» todos los ámbitos
+  // empatarían en 0 y la primera ronda volvería a salir en bloque.
+  return [...porAmbito.values()]
+    .flatMap(cola => cola.map((pieza, i) => ({ pieza, sitio: (i + 0.5) / cola.length })))
+    .sort((a, b) => a.sitio - b.sitio)
+    .map(({ pieza }) => pieza);
+}
+
+// ---------------------------------------------------------------------------
+// 6. El recorrido completo
 // ---------------------------------------------------------------------------
 
 /**
@@ -215,5 +252,5 @@ export function construirEdicion(
   ahora: Date,
 ): PiezaValorada[] {
   const piezas = deduplicar(identificar(hallazgos));
-  return seleccionar(puntuar(piezas, intereses, ahora), cupos);
+  return entrelazar(seleccionar(puntuar(piezas, intereses, ahora), cupos));
 }

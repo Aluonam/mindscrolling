@@ -60,8 +60,11 @@ probabilidad:
 |---|---|---|
 | `Falta GROQ_API_KEY` | El secreto no está o cambió de nombre | Settings → Secrets → `GROQ_API_KEY` |
 | `Ninguna fuente devolvió nada` | Sin red, o el catálogo entero caído | Reintentar; si persiste, revisar `config/fuentes.json` |
-| `Groq sigue limitando tras 3 intentos` | Cupo diario agotado en ambos modelos | Esperar a mañana o bajar cupos |
-| `agotado el cupo diario de llama-3.3-70b` | **No es un fallo.** Siguió con el modelo pequeño | Nada |
+| `agotado el cupo diario de openai/gpt-oss-120b` | **No es un fallo.** Siguió con el modelo pequeño | Nada |
+| `hasta mañana no se escribe más` | **No es un fallo.** Los dos modelos sin cupo; la edición se publicó corta | Nada, o probar menos a mano |
+| `Ninguna de las N piezas se pudo destilar` | Sí es un fallo: el resumidor no responde | Ver el 404 de abajo |
+| `model_not_found` | Groq retiró el modelo | Cambiar `MODELO` en `resumidorGroq.ts` por uno de `GET /openai/v1/models` |
+| `el JSON salió sin cerrar` | **No es un fallo.** El modelo razonó de más; se vuelve a pedir la pieza | Nada |
 
 Los `403` y `521` de fuentes sueltas **son normales**: hay medios que bloquean
 robots. Se saltan y la edición sale igual.
@@ -111,14 +114,30 @@ Salen de contar sobre una edición publicada, no de extrapolar.
 
 | Qué | Cuánto | Margen |
 |---|---|---|
-| Tokens por edición de 100 piezas | **82.110** (73.656 entrada + 8.454 salida) | Cabe en los 100.000 diarios del 70B, con un 18% de holgura |
-| Tiempo de la acción con 100 piezas | ~8 min | Sobrado (el límite son 6 h) |
-| Peticiones por minuto a Groq | 30 permitidas | Se espacian 2 s, unas 24/min |
+| Tokens por pieza | **1.384** (1.061 entrada + 323 salida, de ellos 239 de razonamiento) | Medido sobre una llamada real a `gpt-oss-120b` |
+| Tokens por edición de 100 piezas | ~138.000 | Hay que mirar el cupo diario en la consola de Groq; las cabeceras no lo dicen |
+| Tokens por minuto | **8.000** | Lo dicen las cabeceras `x-ratelimit-limit-tokens`. Es el límite que manda |
+| Tokens que reserva cada llamada | ~2.400 (prompt + `max_tokens`) | Groq descuenta lo que pides, no lo que gastas |
+| Tiempo de la acción con 100 piezas | ~30 min | El trabajo corta a los 60 (`timeout-minutes`) |
+| Espera entre llamadas | La que diga Groq | Se lee de `x-ratelimit-remaining-tokens`; el suelo son 2 s |
 | Fuentes que responden | 59 de 62 | Los `403` son estables |
 
-Esa medición es **anterior al recorte del material a 2.000 caracteres**
-(decisión 18). La entrada real es ahora menor; la cifra se actualizará cuando
-haya una edición publicada con el recorte puesto, no antes.
+**El límite ya no es el número de llamadas, son los tokens por minuto.** Por eso
+la edición tarda media hora y no ocho minutos: no es que el modelo sea lento, es
+que hay que darle tiempo al contador.
+
+**Y se reserva lo que pides, no lo que gastas.** Un destilado sale en unos 320
+tokens, pero la llamada pide `max_tokens: 1200` y Groq descuenta los 1.200
+enteros del cubo del minuto. Por eso subir `max_tokens` alarga la edición
+entera, y por eso está donde está: lo justo para que el modelo razone y cierre
+el JSON, no más.
+
+**El ritmo no está escrito en el código, se pregunta.** Cada respuesta trae
+cuántos tokens quedan en el cubo y cuánto tarda en rellenarse. Si cabe otra
+pieza, se pide ya; si no cabe, se espera al relleno. Se probó primero con una
+espera fija de once segundos y luego de dieciocho: la primera encadenaba 429 y
+la segunda alargaba la edición sin motivo los días que el cubo iba sobrado.
+Un número elegido a mano falla por los dos lados.
 
 **Lo que NO es un límite: leer las fuentes.** Traer 6.700 artículos de 62 sitios
 son peticiones HTTP normales, gratis y sin cupo. El único recurso contado son
@@ -126,14 +145,24 @@ los tokens del modelo que escribe los destilados.
 
 ### El cupo es diario y se comparte
 
-Los 100.000 tokens son de todo el día y de toda la clave, no de cada ejecución.
+El cupo de tokens es de todo el día y de toda la clave, no de cada ejecución.
 Cada `npm run edicion` que lances a mano consume del mismo bote que gastará la
 acción de la madrugada.
 
-Esto ya pasó: probando el cambio a 100 piezas se agotó el cupo del 70B y la
-segunda mitad de la edición se generó con el modelo pequeño, que escribe peor.
-**No fue falta de capacidad, fue haberla gastado antes.** Si vas a probar
-mucho un día, cuenta con que esa noche la edición puede salir más floja.
+Esto ya pasó: probando el cambio a 100 piezas se agotó el cupo del modelo bueno
+y la segunda mitad de la edición la escribió el pequeño, que escribe peor.
+**No fue falta de capacidad, fue haberla gastado antes.** Si vas a probar mucho
+un día, cuenta con que esa noche la edición puede salir más floja.
+
+**Y si se agota del todo, la edición sale corta pero sale.** Cuando los dos
+modelos se quedan sin cupo, el ciclo deja de pedir y publica lo que llevara
+escrito; el lector lo explica en la última pantalla. Como las piezas van
+entrelazadas por ámbito (decisión 21), una edición cortada a la mitad sigue
+trayendo clínico y gestión, no solo técnico.
+
+**Lo único que no se publica es una edición vacía.** Cero destilados significa
+que el resumidor está roto, y publicarla dejaría el lector en blanco. Se
+conserva la del día anterior y la acción falla para que te enteres.
 
 ## Si quieres más calidad en las 100 piezas
 
@@ -145,7 +174,7 @@ cálculo mensual asume una edición de 100 piezas al día, 30 días.
 | **Recortar el material de entrada** — hecho, ver decisión 18 | 0 € | Más margen de cupo, así que probar a mano deja de comprometer la edición de la noche | El modelo ve menos resumen original; en un texto muy largo pierde el final |
 | **Recortar más aún**, a 1.200 caracteres | 0 € | Todavía más margen | Empieza a cortar resúmenes de paper por la mitad |
 | **Groq de pago (plan Developer)** | Por confirmar | Sube los límites con los mismos modelos | Los valores exactos no están publicados: hay que mirarlos en la consola de la cuenta |
-| **Claude Haiku 4.5** | **3,48 $/mes** | Sigue las instrucciones bastante mejor que un 70B abierto | Deja de ser gratis y necesita tarjeta |
+| **Claude Haiku 4.5** | **3,48 $/mes** | Sigue las instrucciones bastante mejor que un modelo abierto | Deja de ser gratis y necesita tarjeta |
 | **Claude Sonnet 5** | 10,43 $/mes | Prosa notablemente mejor | Diez veces el precio de Haiku para un texto de 45 palabras |
 | **Claude Opus 5** | 17,39 $/mes | El techo de calidad | Difícil de justificar para este formato |
 
