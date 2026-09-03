@@ -8,6 +8,7 @@
 // Función pura, como todo el dominio: entran dos listas y sale una. Sin red,
 // sin ficheros, sin reloj.
 
+import { entrelazar } from './construirEdicion.ts';
 import type { Edicion, PiezaPublicada } from './tipos.ts';
 
 /**
@@ -26,6 +27,11 @@ import type { Edicion, PiezaPublicada } from './tipos.ts';
  *
  * La herencia es en cadena a propósito: mientras haya sequía, el carril se
  * completa con lo más reciente que haya, aunque venga de varios días atrás.
+ *
+ * Lo heredado se entrelaza antes de repartirlo, por lo mismo que la edición
+ * del día (decisión 21): si de una edición vieja solo caben 70 de sus 88 y esa
+ * edición venía en bloques, las 70 primeras son casi todas del mismo ámbito.
+ * Pasó al rellenar la del 3 de septiembre: salían 63 técnicas y 5 de gestión.
  */
 export function completarConAnteriores(
   deHoy: readonly PiezaPublicada[],
@@ -37,7 +43,7 @@ export function completarConAnteriores(
 
   const yaEstan = new Set(deHoy.map(p => p.huella));
 
-  for (const pieza of anterior.piezas) {
+  for (const pieza of entrelazar(anterior.piezas)) {
     if (completa.length >= objetivo) break;
     if (yaEstan.has(pieza.huella)) continue;
 

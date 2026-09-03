@@ -214,8 +214,13 @@ async function main() {
   //
   // Se lee ahora y no al arrancar porque `ultima.json` sigue siendo la de ayer
   // hasta que publiquemos: leerla aquí es leer justo lo que queremos.
+  //
+  // Lo heredado se vuelve a filtrar: las ediciones de antes de que existiera
+  // el filtro llevan anuncios dentro, y heredarlos los devolvería al carril
+  // por la puerta de atrás. Un anuncio no entra ni escrito hoy ni reciclado.
   const anterior = await publicador.ultima();
-  const completa = completarConAnteriores(piezas, anterior, finalistas.length);
+  const limpiaAnterior = anterior && { ...anterior, piezas: descartarAnuncios(anterior.piezas).limpios };
+  const completa = completarConAnteriores(piezas, limpiaAnterior, finalistas.length);
   const heredadas = cuantasHeredadas(completa);
 
   if (heredadas > 0) {

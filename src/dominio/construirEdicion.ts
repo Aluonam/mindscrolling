@@ -218,8 +218,10 @@ export function seleccionar(
  * Dentro de cada ámbito no se toca nada: siguen en el orden que dejó el
  * reparto entre fuentes, del mejor al peor.
  */
-export function entrelazar(elegidas: readonly PiezaValorada[]): PiezaValorada[] {
-  const porAmbito = new Map<Ambito, PiezaValorada[]>();
+export function entrelazar<T extends PiezaValorada>(elegidas: readonly T[]): T[] {
+  // Genérico para poder entrelazar también piezas ya publicadas —las que
+  // llevan destilado— sin que el tipo pierda por el camino lo que traían.
+  const porAmbito = new Map<Ambito, T[]>();
 
   for (const pieza of elegidas) {
     const cola = porAmbito.get(pieza.fuente.ambito);

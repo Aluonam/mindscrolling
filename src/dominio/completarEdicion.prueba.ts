@@ -28,6 +28,12 @@ function edicion(fecha: string, huellas: string[], extra: Partial<PiezaPublicada
   return { fecha, piezas: huellas.map(h => pieza(h, extra)) };
 }
 
+function delAmbito(ambito: string, cuantas: number, prefijo: string): PiezaPublicada[] {
+  return Array.from({ length: cuantas }, (_, i) => pieza(`${prefijo}${i}`, {
+    fuente: { id: prefijo, nombre: prefijo, ambito, estado: 'aprobada', autoridad: 1 },
+  } as Partial<PiezaPublicada>));
+}
+
 test('lo que falta hoy se completa con lo de ayer', () => {
   const completa = completarConAnteriores(
     [pieza('a'), pieza('b')],
@@ -103,4 +109,22 @@ test('se cuentan las heredadas, no las de hoy', () => {
 test('una edición entera de hoy no hereda nada', () => {
   const deHoy = [pieza('a'), pieza('b')];
   assert.equal(cuantasHeredadas(completarConAnteriores(deHoy, edicion('2026-09-02', ['x']), 2)), 0);
+});
+
+test('heredar de una edición en bloques no se trae un solo ámbito', () => {
+  // El caso real: al rellenar la edición del 3 de septiembre con la del 17 de
+  // agosto, que venía agrupada por ámbito, entraban 63 técnicas y 5 de
+  // gestión. Lo heredado se entrelaza antes de repartirlo.
+  const enBloques = {
+    fecha: '2026-08-17',
+    piezas: [...delAmbito('tecnico', 44, 't'), ...delAmbito('clinico', 33, 'c'), ...delAmbito('gestion', 11, 'g')],
+  };
+
+  const completa = completarConAnteriores([], enBloques, 22);
+  const cuenta: Record<string, number> = {};
+  for (const p of completa) cuenta[p.fuente.ambito] = (cuenta[p.fuente.ambito] ?? 0) + 1;
+
+  assert.equal(completa.length, 22);
+  assert.ok(cuenta.clinico >= 5, `solo entraron ${cuenta.clinico ?? 0} clínicas`);
+  assert.ok(cuenta.gestion >= 1, 'gestión se quedó fuera entera');
 });
