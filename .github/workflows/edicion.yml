@@ -22,6 +22,10 @@ concurrency:
 jobs:
   publicar:
     runs-on: ubuntu-latest
+    # Escribir cien destilados lleva una media hora, que es el ritmo que impone
+    # el cupo de tokens por minuto de Groq. Sesenta dan margen para los
+    # reintentos y cortan el trabajo si algún día se queda colgado.
+    timeout-minutes: 60
     permissions:
       # Para poder commitear la edición. Nada más.
       contents: write

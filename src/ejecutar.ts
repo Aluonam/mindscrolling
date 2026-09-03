@@ -7,6 +7,7 @@
 import { mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { construirEdicion } from './dominio/construirEdicion.ts';
+import { SinCupoHoy } from './dominio/errores.ts';
 import type {
   Cupos, Edicion, FuenteCatalogada, Hallazgo, Interes, PiezaPublicada,
 } from './dominio/tipos.ts';
@@ -16,6 +17,16 @@ import { ResumidorClaude } from './infraestructura/resumidorClaude.ts';
 import { ResumidorGroq } from './infraestructura/resumidorGroq.ts';
 import { PublicadorFichero } from './infraestructura/publicadorFichero.ts';
 import type { Resumidor } from './dominio/puertos.ts';
+
+/**
+ * Lo que puede durar la escritura antes de cerrar la edición con lo que haya.
+ *
+ * El ritmo lo marca Groq, y un día que vaya lento el trabajo podría pasarse de
+ * los sesenta minutos del `timeout` de la acción. Ese corte mata el proceso
+ * sin publicar nada; este otro publica. Es la misma regla que con el cupo:
+ * una edición corta vale, una edición que no sale no.
+ */
+const MINUTOS_DE_ESCRITURA = 45;
 
 type Configuracion = {
   cupos: Cupos;
@@ -144,16 +155,49 @@ async function main() {
   }
 
   // 3. Resumir. La operación cara, al final y solo sobre lo que sobrevivió.
+  //
+  // Se escribe hasta donde llegue el cupo del día, no hasta donde llegue la
+  // lista. Si los tokens se acaban en la pieza veinte, la edición son esas
+  // veinte: corta, pero publicada. Lo que no se hace nunca es quedarse sin
+  // publicar por no haber podido publicarlo entero.
   console.log('Escribiendo destilados...');
   const piezas: PiezaPublicada[] = [];
+  const seAcaba = Date.now() + MINUTOS_DE_ESCRITURA * 60_000;
+
   for (const pieza of finalistas) {
+    if (Date.now() > seAcaba) {
+      console.warn(`\nSe acabó el tiempo tras ${MINUTOS_DE_ESCRITURA} minutos.`);
+      console.warn(`Se cierra la edición con las ${piezas.length} piezas escritas.`);
+      break;
+    }
+
     try {
       piezas.push({ ...pieza, destilado: await resumidor.destilar(pieza) });
       console.log(`  ✓ ${pieza.titulo.slice(0, 60)}`);
     } catch (error) {
-      // Una pieza que falla no tumba la edición.
+      // Sin cupo no se sigue: las piezas que quedan darían el mismo error, y
+      // pedirlas una por una son veinte minutos para llegar al mismo sitio.
+      if (error instanceof SinCupoHoy) {
+        console.warn(`\n${error.message}`);
+        console.warn(`Se cierra la edición con las ${piezas.length} piezas escritas.`);
+        break;
+      }
+
+      // Una pieza que falla por lo suyo no tumba la edición.
       console.warn(`  ✗ ${pieza.titulo.slice(0, 60)} — ${(error as Error).message}`);
     }
+  }
+
+  // Una edición corta se publica; una edición vacía, no. Cero destilados de
+  // cien finalistas no es un día flojo: o el resumidor está roto o el cupo
+  // estaba agotado antes de empezar. Publicarla dejaría el lector en blanco y
+  // el workflow en verde, que es como estuvo dieciocho días cuando Groq retiró
+  // los modelos. Mejor conservar la edición de ayer y que Actions avise.
+  if (piezas.length === 0) {
+    throw new Error(
+      `Ninguna de las ${finalistas.length} piezas se pudo destilar. ` +
+        'No se publica nada: se queda la edición anterior.',
+    );
   }
 
   // 4. Publicar.

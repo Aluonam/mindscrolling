@@ -210,14 +210,44 @@ todavía y se puede añadir después sin tocar nada.
 
 ## 14. Los resúmenes se hacen con Groq, y con Claude para comparar
 
-**Qué.** Los destilados los escribe Groq (`llama-3.3-70b-versatile`) por defecto.
-Con `RESUMIDOR=claude` los escribe Claude. Ambos comparten instrucciones.
+**Qué.** Los destilados los escribe Groq (`openai/gpt-oss-120b`) por defecto,
+con `openai/gpt-oss-20b` de repuesto. Con `RESUMIDOR=claude` los escribe
+Claude. Los tres comparten instrucciones.
 
-**Por qué.** El plan gratuito de Groq da 100.000 tokens al día en el modelo de
-70B, y una edición de **100 piezas gasta 82.110** —73.656 de entrada y 8.454 de
-salida, contados sobre una edición publicada—. Cabe con un 18% de holgura.
+**Por qué.** Porque es gratis y no pide tarjeta. El plan gratuito da 8.000
+tokens por minuto, y una pieza gasta unos **1.400** —1.061 de entrada, 323 de
+salida, de los cuales 239 son razonamiento—. Una edición de 100 sale por unos
+138.000 tokens y tarda media hora, que es el ritmo que impone el límite por
+minuto, no la velocidad del modelo.
 
-**Corrección de una cifra que estuvo mal.** Durante un tiempo aquí puso que 100
+**El detalle que costó una tarde:** Groq no descuenta del cupo del minuto lo
+que gastas, sino lo que reservas —el prompt más el `max_tokens` entero—. Con
+once segundos entre llamadas se pedían 13.000 tokens por minuto para gastar
+4.600, y el 429 saltaba solo.
+
+**Por eso el ritmo no es una constante.** Cada respuesta dice cuántos tokens
+quedan en el cubo del minuto y cuánto tarda en rellenarse, y el adaptador se
+pace con eso. Probamos antes dos esperas fijas —once segundos y dieciocho— y
+las dos estaban mal: la primera se pasaba de rápida, la segunda frenaba los
+días que había cupo de sobra. Cuando el proveedor publica su propio límite, no
+hay que estimarlo.
+
+**Lo que enseñó el apagón de agosto de 2026.** Groq retiró los Llama de Meta y
+la API empezó a responder `404 model_not_found` a cada pieza. Dieciocho días
+publicando ediciones vacías, con la acción en verde y el lector en blanco. De
+ahí salen tres reglas que ahora están en el código:
+
+- **Una edición vacía no se publica.** Cero destilados de cien finalistas no es
+  un día flojo, es una avería. Se conserva la edición anterior y la acción
+  falla, que es la única forma de enterarse.
+- **Una edición corta sí se publica.** Si el cupo se agota en la pieza veinte,
+  la edición del día son esas veinte. Producir menos es aceptable; no producir,
+  no.
+- **Al proveedor no se le pregunta cien veces lo mismo.** Cuando los dos
+  modelos se quedan sin cupo, el ciclo cierra la edición en vez de recorrer las
+  ochenta piezas restantes para recibir ochenta veces el mismo 429.
+
+**Corrección de una cifra que estuvo mal, en tiempos de los Llama.** Durante un tiempo aquí puso que 100
 piezas gastaban unos 100.000 tokens, «justo el tope». Era una extrapolación
 desde la edición de ocho, no una medición, y sobrestimaba en un 22%. El
 respaldo al modelo pequeño llegó a saltar, pero no por falta de capacidad: el
@@ -242,7 +272,7 @@ dentro de cada adaptador — con reglas distintas, comparar no significa nada.
 **Alternativas a evaluar, no descartadas:**
 - **Ollama** — modelos en local, coste cero y sin límite de peticiones. Se
   descarta de momento por hardware: la máquina de trabajo es un Intel N95 sin
-  gráfica dedicada, donde solo entra un modelo de 3B. Groq da un 70B gratis.
+  gráfica dedicada, donde solo entra un modelo de 3B. Groq da un 120B gratis.
 - **yt-dlp** — permite sacar los subtítulos de un vídeo sin descargarlo, y con
   eso los vídeos también tendrían destilado. YouTube bloquea a menudo las IPs de
   servidores, así que hay que tratarlo como algo que a veces falla.
@@ -380,3 +410,27 @@ se guarden piezas enteras para leerlas sin conexión, y ese día se cambia solo
 
 **Sigue pendiente de la decisión 5:** un botón de exportar lo guardado a un
 fichero. Ahora que hay algo que perder, hace más falta que antes.
+
+---
+
+## 21. La edición se escribe entrelazada, para que un corte no se lleve un ámbito entero
+
+**Qué.** Las piezas se seleccionan por ámbito como siempre (decisión 7), pero
+antes de escribirlas se intercalan: la edición ya no sale en bloques de 50
+técnicas, 37 clínicas y 13 de gestión, sino repartida en esa misma proporción
+de principio a fin.
+
+**Por qué.** Porque la edición puede terminarse antes que la lista. Si el cupo
+de tokens se agota en la pieza veinte, esas veinte son la edición del día
+(decisión 14). En bloques serían veinte técnicas y ni una clínica; entrelazadas
+son diez, siete y tres.
+
+**Cómo.** A cada pieza se le da el sitio que ocupa dentro de su ámbito, de 0 a
+1, y se ordena por ese sitio. La quinta de cincuenta técnicas y la cuarta de
+treinta y siete clínicas caen juntas porque van igual de avanzadas en lo suyo.
+La proporción se mantiene en cualquier punto donde se corte, y dentro de cada
+ámbito no cambia nada: siguen del mejor al peor.
+
+**Lo que no cambia: el orden de lectura.** El carril baraja la edición en cada
+apertura (decisión 10), así que esto no altera lo que ves ni en qué orden. Solo
+decide qué piezas llegan a escribirse el día que el cupo se queda corto.
