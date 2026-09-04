@@ -61,17 +61,56 @@ export function montar(edicion) {
   escucharToques();
 }
 
-/** La pieza que ocupa la pantalla es la que se está leyendo. */
+/**
+ * La pieza que ocupa la pantalla es la que se está leyendo.
+ *
+ * El navegador entrega las entradas en tandas y sin orden garantizado. Al
+ * bajar deprisa, en una misma tanda hay varias piezas que han pasado del 60%
+ * mientras cruzaban, y recorrerlas todas dejaba mandando a la última que
+ * llegara — que podía ser una que ya se había ido por arriba. La barra
+ * saltaba hacia atrás y, con la transición de 250 ms del CSS, se veía como un
+ * vaivén.
+ *
+ * Con varias candidatas se elige mirando dónde están AHORA, no la medida que
+ * el navegador tomó cuando cruzaron: entre el momento de la medida y el de
+ * este aviso ha seguido habiendo desplazamiento.
+ */
 function observar() {
   const observador = new IntersectionObserver(entradas => {
-    for (const entrada of entradas) {
-      if (entrada.isIntersecting && entrada.intersectionRatio > 0.6) {
-        activar(estado.piezas.indexOf(entrada.target));
-      }
-    }
+    const candidatas = entradas.filter(e => e.isIntersecting && e.intersectionRatio > 0.6);
+    if (candidatas.length === 0) return;
+
+    const elegida = candidatas.length === 1 ? candidatas[0] : masCentrada(candidatas);
+    activar(estado.piezas.indexOf(elegida.target));
   }, { root: carril, threshold: [0.6] });
 
   for (const pieza of estado.piezas) observador.observe(pieza);
+}
+
+/**
+ * La candidata cuyo centro está más cerca del centro del carril.
+ *
+ * Solo se miden las candidatas de la tanda —dos o tres—, no las cien piezas:
+ * leer la posición fuerza al navegador a calcular la maquetación, y hacerlo
+ * cien veces en mitad de un deslizamiento se nota.
+ */
+function masCentrada(candidatas) {
+  const caja = carril.getBoundingClientRect();
+  const centro = caja.top + caja.height / 2;
+
+  let mejor = candidatas[0];
+  let menor = Infinity;
+
+  for (const candidata of candidatas) {
+    const suya = candidata.target.getBoundingClientRect();
+    const distancia = Math.abs(suya.top + suya.height / 2 - centro);
+    if (distancia < menor) {
+      menor = distancia;
+      mejor = candidata;
+    }
+  }
+
+  return mejor;
 }
 
 /** Tocar: pausa o reanuda. Si ya terminó, reinicia. */
