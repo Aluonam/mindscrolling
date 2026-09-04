@@ -16,6 +16,18 @@ export const menosMovimiento =
 
 let revelados = [];
 
+/**
+ * La entrada del revelado espera 320 ms, y hay que poder cancelarla.
+ *
+ * Sin guardar el temporizador, bajar deprisa dejaba uno pendiente por cada
+ * pieza que pasaba. Todos disparaban después, cada uno arrancaba el revelado
+ * de SU pieza —parar() solo apaga el temporizador de dentro, no impide que
+ * alguien lo vuelva a arrancar— y acababa habiendo varios corriendo a la vez.
+ * Como cada uno pinta la barra en la posición de su índice, la barra se
+ * quedaba yendo y viniendo un buen rato.
+ */
+let entradaPendiente = null;
+
 /** Orden barajado en cada apertura (decisión 10): nunca de mejor a peor. */
 function barajar(piezas) {
   const orden = [...piezas];
@@ -36,7 +48,12 @@ export function montar(edicion) {
   crearSegmentos(estado.piezas.length);
 
   revelados = estado.piezas.map((pieza, i) => crearRevelado(pieza, {
-    alProgresar: fraccion => pintar(i, fraccion),
+    // Solo pinta quien está en pantalla. El temporizador de arriba ya evita
+    // que corra nadie más, pero la barra es lo que se ve: si un revelado
+    // rezagado colara un progreso, se notaría al instante.
+    alProgresar: fraccion => {
+      if (i === estado.actual) pintar(i, fraccion);
+    },
     alTerminar: () => marcarLeida(i),
   }));
 
@@ -78,6 +95,12 @@ function escucharToques() {
 
 export function activar(indice) {
   if (indice === estado.actual) return;
+
+  // Se cancela la entrada pendiente de la pieza anterior antes que nada: si
+  // llegara a dispararse, arrancaría un revelado que ya no está en pantalla.
+  clearTimeout(entradaPendiente);
+  entradaPendiente = null;
+
   revelados[estado.actual].parar();
   estado.actual = indice;
 
@@ -90,7 +113,7 @@ export function activar(indice) {
   const revelado = revelados[indice];
   revelado.reiniciar();
   if (menosMovimiento) revelado.revelarTodo();
-  else setTimeout(() => revelado.avanzar(), 320);
+  else entradaPendiente = setTimeout(() => revelado.avanzar(), 320);
 
   cambio();
 }
@@ -126,8 +149,11 @@ export function arrancar() {
     '--acento', 'var(--' + (esConocido(ambito) ? ambito : 'tecnico') + ')',
   );
 
+  // Por el mismo temporizador que la entrada de cualquier otra pieza: si se
+  // desliza antes de que pasen los 500 ms, «activar» lo cancela y la primera
+  // no se pone a revelarse por detrás de la que ya está en pantalla.
   if (menosMovimiento) primero.revelarTodo();
-  else setTimeout(() => primero.avanzar(), 500);
+  else entradaPendiente = setTimeout(() => primero.avanzar(), 500);
 
   cambio();
 }
