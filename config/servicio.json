@@ -1,0 +1,4 @@
+{
+  "url": "",
+  "nota": "La direccion del portero, la que da Cloudflare al desplegar servicio/. Vacia mientras no este montado: entonces el panel la pide una vez y la guarda en el dispositivo. No es un secreto; sin la contrasena no hace nada."
+}

@@ -141,23 +141,35 @@
   <!-- Sin identificar no se ve el catálogo: el panel es tuyo. -->
   <div class="identificacion" id="identificacion">
     <p class="identificacion-texto">
-      Este panel cambia de dónde sale la información. Para tocarlo hay que
-      identificarse con GitHub, que es quien de verdad comprueba que eres tú:
-      una contraseña escrita aquí dentro la vería cualquiera, porque el código
-      de esta aplicación es público.
+      Este panel cambia de dónde sale la información. Identifícate para editarlo.
     </p>
-    <label class="credencial" for="credencial">
-      Credencial de GitHub — se queda en este dispositivo
-      <input id="credencial" type="password" autocomplete="off" spellcheck="false"
-             placeholder="github_pat_…">
+
+    <label class="credencial" for="usuario">
+      Usuario
+      <input id="usuario" type="text" autocomplete="username" spellcheck="false"
+             autocapitalize="none" placeholder="tu nombre">
     </label>
+
+    <label class="credencial" for="clave">
+      Contraseña
+      <input id="clave" type="password" autocomplete="current-password" placeholder="••••••••">
+    </label>
+
     <button class="boton principal" id="entrar" type="button">Identificarme</button>
-    <p class="credencial-nota">
-      Usa un token preciso («fine-grained»), limitado a este repositorio y con
-      permiso de Contenido y de Flujos de trabajo. Se revoca desde GitHub cuando
-      quieras.
-    </p>
     <p class="identificacion-aviso" id="avisoIdentificacion" role="status"></p>
+
+    <!-- Solo aparece si el servicio todavía no está configurado. -->
+    <div class="servicio" id="cajaServicio" hidden>
+      <label class="credencial" for="direccionServicio">
+        Dirección del servicio — se pega una vez
+        <input id="direccionServicio" type="url" spellcheck="false"
+               placeholder="https://mindscrolling-panel.….workers.dev">
+      </label>
+      <p class="credencial-nota">
+        La da Cloudflare al desplegar la carpeta <code>servicio/</code>. No es un
+        secreto: sin la contraseña no hace nada.
+      </p>
+    </div>
   </div>
 
   <div class="fuentes-cuerpo" id="cuerpoFuentes" hidden>

@@ -1,0 +1,14 @@
+# Cómo se despliega el portero.
+#
+# Aquí no hay ni un secreto, y es a propósito: este fichero está en un
+# repositorio público. Los cuatro secretos se ponen aparte, con
+# `npx wrangler secret put`, y viven cifrados en Cloudflare.
+
+name = "mindscrolling-panel"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+# Sin almacenamiento, sin base de datos y sin estado: el servicio solo
+# comprueba una contraseña y reenvía a GitHub. Todo lo que recuerda cabe en la
+# sesión firmada que devuelve, y esa la guarda el móvil.
+workers_dev = true

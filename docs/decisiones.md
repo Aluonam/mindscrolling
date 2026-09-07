@@ -614,32 +614,48 @@ está descartado en el repositorio no necesita esconderse: mañana no vendrá.
 
 ---
 
-## 27. La identificación es la de GitHub, porque una nuestra no valdría nada
+## 27. La contraseña la comprueba un portero, no el navegador
 
-**Qué.** El panel de fuentes no enseña nada hasta que te identificas con una
-credencial de GitHub. Se comprueban dos cosas, no una: quién eres —`GET /user`—
-y si esa credencial puede escribir en este repositorio —`permissions.push`—.
+**Qué.** El panel de fuentes pide usuario y contraseña. Los comprueba un
+servicio mínimo en Cloudflare Workers —`servicio/worker.js`, unas doscientas
+líneas— que además guarda el token de GitHub. Ni la contraseña ni el token
+están en este repositorio.
 
-**Por qué no una contraseña propia.** Porque no protegería nada. Esta
-aplicación es pública y su código también: una contraseña escrita en el código
-la ve cualquiera que abra el fichero, y una comprobación hecha en el navegador
-se salta con la consola abierta. No es que sea difícil de proteger; es que no
+**Por qué no se puede comprobar en el navegador.** El lector es una web
+estática y su código se descarga entero en el móvil de quien la abre. Una
+contraseña escrita en el código la lee cualquiera, y un `if (clave === '…')`
+se salta con la consola abierta. No es que sea difícil de proteger: es que no
 hay nada que proteger, porque todo lo que hace el navegador lo controla quien
 tiene el navegador.
 
-Con una credencial de GitHub, en cambio, quien decide si puedes escribir es el
-servidor de GitHub. Se puede leer el código entero y trastear el panel entero:
-sin credencial válida no se cambia una coma del catálogo.
+**Y por qué eso importaba aquí y no en otras pantallas.** Lo que hay detrás del
+panel no es contenido, es escribir en el repositorio. Sin portero solo había
+dos caminos y los dos malos: el token de GitHub dentro de la aplicación —y
+entonces cualquiera podría cambiar las fuentes— o el token pegado a mano en
+cada dispositivo, que es seguro pero no funciona «en el móvil que sea».
 
-**Dos preguntas y no una, por lo que enseña la segunda.** Una credencial válida
-de otra cuenta, o una de solo lectura, pasarían la primera y fallarían la
-segunda. Es mejor saberlo al identificarse que al intentar guardar un cambio.
+**Con el portero, la contraseña viaja y el token no.** El token vive cifrado en
+los secretos de Cloudflare y solo lo usa ese código, en el servidor. Se puede
+leer el repositorio entero sin encontrar ni la contraseña ni el token.
 
-**Dónde vive.** En `localStorage`, en tu dispositivo, y solo viaja a
-`api.github.com`. Conviene un token preciso limitado a este repositorio, con
-permiso de Contenido y de Flujos de trabajo. Si el móvil se pierde, lo que está
-en juego es editar un repositorio público que ya se puede leer entero, y se
-revoca desde la web de GitHub.
+**Detalles que no son adorno:**
+
+- **La comparación tarda lo mismo acierte o falle.** Con un `===` normal se
+  puede adivinar una contraseña letra a letra midiendo cuánto tarda en
+  contestar.
+- **No se dice cuál de los dos está mal.** «El usuario o la contraseña no son
+  correctos» no regala la mitad del trabajo a quien esté probando.
+- **La sesión no se guarda en ninguna parte.** Es una fecha de caducidad
+  firmada: el servicio no tiene memoria entre peticiones, y para inventarse una
+  haría falta el secreto de firma, que no sale de Cloudflare.
+- **Solo acepta llamadas desde el lector.** Sin esa lista, cualquier web podría
+  montar un formulario contra el servicio y probar contraseñas desde el
+  navegador de quien la visitara.
+- **La contraseña se borra del campo en cuanto entra.** No se queda escrita en
+  una pantalla que puede quedarse abierta.
+
+**Si el servicio desaparece no se pierde nada más que el panel.** La edición de
+cada día la genera GitHub Actions por su cuenta y no sabe que esto existe.
 
 ---
 

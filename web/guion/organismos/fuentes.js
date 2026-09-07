@@ -15,7 +15,7 @@ import { avisar } from '../atomos/aviso.js';
 import { nombreDe } from '../atomos/ambitos.js';
 import { refrescar } from './indice.js';
 import * as catalogo from '../atomos/catalogo.js';
-import * as repositorio from '../atomos/repositorio.js';
+import * as servicio from '../atomos/servicio.js';
 import * as sesion from '../atomos/sesion.js';
 
 const panel = document.getElementById('fuentes');
@@ -26,7 +26,10 @@ const botonCerrar = document.getElementById('cerrarFuentes');
 const botonCopiar = document.getElementById('copiarCatalogo');
 const botonPublicar = document.getElementById('publicarCatalogo');
 const botonOlvidar = document.getElementById('olvidarCambios');
-const campoCredencial = document.getElementById('credencial');
+const campoUsuario = document.getElementById('usuario');
+const campoClave = document.getElementById('clave');
+const cajaServicio = document.getElementById('cajaServicio');
+const campoDireccion = document.getElementById('direccionServicio');
 const cajaIdentificacion = document.getElementById('identificacion');
 const cuerpo = document.getElementById('cuerpoFuentes');
 const botonEntrar = document.getElementById('entrar');
@@ -58,7 +61,7 @@ export async function abrir() {
 
   // Si quedaba credencial de la última vez, se revalida sola: identificarse a
   // mano cada vez que se abre el panel cansa y no protege de nada más.
-  if (!sesion.identificada()) await sesion.recordar();
+  if (!sesion.identificada()) sesion.recordar();
   mostrarSegunSesion();
   if (!sesion.identificada()) return;
 
@@ -176,7 +179,7 @@ function pintarResumen() {
   botonPublicar.disabled = cambios === 0;
   botonCopiar.disabled = cambios === 0;
   botonOlvidar.hidden = cambios === 0;
-  botonPublicar.textContent = repositorio.hayCredencial() ? 'Publicar en GitHub' : 'Publicar (falta credencial)';
+  botonPublicar.textContent = 'Publicar los cambios';
 }
 
 async function copiar() {
@@ -189,18 +192,12 @@ async function copiar() {
 }
 
 async function publicar() {
-  if (!repositorio.hayCredencial()) {
-    avisar('Pega abajo una credencial de GitHub con permiso de escritura');
-    campoCredencial.focus();
-    return;
-  }
-
   const cambiadas = catalogo.fuentes().filter(f => f.cambiada).map(f => f.nombre);
   botonPublicar.disabled = true;
   botonPublicar.textContent = 'Publicando…';
 
   try {
-    await repositorio.publicar(
+    await servicio.guardarCatalogo(
       catalogo.comoFichero(),
       `Catálogo: ${cambiadas.join(', ')}`.slice(0, 72),
     );
@@ -210,6 +207,12 @@ async function publicar() {
     avisar('Publicado · la edición de mañana ya lo tendrá en cuenta');
   } catch (err) {
     avisar(err.message);
+    // Una sesión caducada deja de estar identificada: mejor volver a pedirla
+    // que quedarse en un panel que ya no puede guardar nada.
+    if (!servicio.haySesion()) {
+      sesion.salir();
+      mostrarSegunSesion();
+    }
   }
 
   pintar();
@@ -228,17 +231,27 @@ function mostrarSegunSesion() {
 }
 
 async function entrar() {
-  botonEntrar.disabled = true;
-  avisoIdentificacion.textContent = 'Comprobando con GitHub…';
+  if (campoDireccion.value.trim()) servicio.guardarDireccion(campoDireccion.value);
 
-  const { bien, motivo } = await sesion.identificar(campoCredencial.value);
+  botonEntrar.disabled = true;
+  avisoIdentificacion.textContent = 'Comprobando…';
+
+  // La dirección del portero se lee del repositorio al montar, pero eso tarda
+  // unos milisegundos y aquí se llega antes si se escribe deprisa. Sin esta
+  // espera, el primer intento contestaba «falta la dirección del servicio»
+  // aunque estuviera publicada.
+  if (!servicio.hayServicio()) await servicio.cargarDireccion();
+
+  const { bien, motivo } = await sesion.identificar(campoUsuario.value.trim(), campoClave.value);
 
   avisoIdentificacion.textContent = motivo;
   botonEntrar.disabled = false;
+  cajaServicio.hidden = servicio.hayServicio();
 
   if (!bien) return;
 
-  campoCredencial.value = '';
+  // La contraseña no se queda escrita en el campo ni un segundo de más.
+  campoClave.value = '';
   await abrir();
 }
 
@@ -260,7 +273,7 @@ async function comprobarWeb(evento) {
   contar('Lanzando la comprobación…');
 
   try {
-    await repositorio.probarFuente({
+    await servicio.probarFuente({
       web,
       nombre: campoNombre.value.trim(),
       ambito: campoAmbito.value,
@@ -276,7 +289,7 @@ async function comprobarWeb(evento) {
   for (let intento = 0; intento < 24; intento++) {
     await new Promise(r => setTimeout(r, 5000));
 
-    const informe = await repositorio.informe(desde);
+    const informe = await servicio.informe(desde);
     if (!informe) continue;
 
     contarInforme(informe);
@@ -345,9 +358,11 @@ export function montar() {
   buscador.addEventListener('input', () => { if (cargado) pintar(); });
 
   botonEntrar.addEventListener('click', entrar);
-  campoCredencial.addEventListener('keydown', ev => {
-    if (ev.key === 'Enter') entrar();
-  });
+  for (const campo of [campoUsuario, campoClave]) {
+    campo.addEventListener('keydown', ev => {
+      if (ev.key === 'Enter') entrar();
+    });
+  }
 
   botonSalir.addEventListener('click', () => {
     sesion.salir();
@@ -357,6 +372,12 @@ export function montar() {
   });
 
   formularioAlta.addEventListener('submit', comprobarWeb);
+
+  // La dirección del portero puede venir publicada en el repositorio; si no
+  // está, el panel la pide una vez y se queda en el dispositivo.
+  servicio.cargarDireccion().then(() => {
+    cajaServicio.hidden = servicio.hayServicio();
+  });
 
   mostrarSegunSesion();
 }
