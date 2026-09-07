@@ -19,9 +19,37 @@ export function guardarParaSinConexion() {
 }
 
 function registrar() {
+  recargarAlActualizarse();
+
   navigator.serviceWorker.register('sw.js').catch(error => {
     // Sin service worker se lee igual con conexión, así que no se interrumpe
     // nada. Pero se avisa: un fallo mudo aquí es medio día buscándolo.
     console.warn('Sin lectura offline:', error.message);
+  });
+}
+
+/**
+ * Cuando llega una versión nueva, la aplicación se recarga sola. Una vez.
+ *
+ * Sin esto, la aplicación instalada se queda con los módulos que cargó la
+ * primera vez y no se entera de nada: se publica un arreglo, el service worker
+ * se actualiza por detrás, y en pantalla sigue lo de antes hasta que alguien
+ * cierra la aplicación del todo. Pasó con la pestaña de fuentes recién
+ * publicada, que estaba en el servidor y no aparecía en el móvil.
+ *
+ * «Una vez» no es un detalle: `controllerchange` también salta en el primer
+ * registro, cuando no hay nada que recargar, y recargar ahí deja la aplicación
+ * dando vueltas.
+ */
+function recargarAlActualizarse() {
+  // Sin controlador es la primera visita: el cambio que venga es el registro
+  // inicial, no una versión nueva.
+  if (!navigator.serviceWorker.controller) return;
+
+  let recargando = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (recargando) return;
+    recargando = true;
+    location.reload();
   });
 }

@@ -8,7 +8,10 @@
 // un lector viejo con una edición nueva. Cuesta unos milisegundos y se ve
 // siempre lo último; sin conexión no cambia nada.
 
-const VERSION = 'mindscrolling-v1';
+// Se sube el número al publicar algo que el móvil tenga que recoger sí o sí:
+// cambiarlo obliga al navegador a instalar el service worker de nuevo, y eso
+// es lo que dispara la recarga de `sinConexion.js`.
+const VERSION = 'mindscrolling-v2';
 
 // Solo lo imprescindible para arrancar. El resto —las 23 hojas y los módulos
 // del guion— se guarda al vuelo la primera vez que se piden.
