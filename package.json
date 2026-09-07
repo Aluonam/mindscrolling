@@ -11,7 +11,8 @@
     "edicion": "node src/ejecutar.ts",
     "servir": "node servir.mjs",
     "tipos": "tsc --noEmit",
-    "test": "node --test \"src/**/*.prueba.ts\""
+    "test": "node --test \"src/**/*.prueba.ts\"",
+    "probar": "node src/probarFuente.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0"

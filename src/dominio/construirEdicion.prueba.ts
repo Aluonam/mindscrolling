@@ -11,7 +11,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { afinidad, calcularHuella, deduplicar, entrelazar, seleccionar, soloLoQueInteresa } from './construirEdicion.ts';
-import type { Ambito, Fuente, Pieza, PiezaValorada } from './tipos.ts';
+import type { Ambito, Fuente, Interes, Pieza, PiezaValorada } from './tipos.ts';
 
 function fuente(id: string, ambito: Ambito = 'tecnico', autoridad = 1): Fuente {
   return { id, nombre: id, ambito, estado: 'aprobada', autoridad };
@@ -215,9 +215,9 @@ test('con un solo ámbito no cambia nada', () => {
 // Afinidad
 // ---------------------------------------------------------------------------
 
-const INTERESES = [
-  { ambito: 'tecnico' as const, peso: 2, terminos: ['rendimiento', 'llm'] },
-  { ambito: 'clinico' as const, peso: 2, terminos: ['autism', 'sensory integration'] },
+const INTERESES: Interes[] = [
+  { nombre: 'rendimiento', ambito: 'tecnico', peso: 2, terminos: ['rendimiento', 'llm'] },
+  { nombre: 'sensorial', ambito: 'clinico', peso: 2, terminos: ['autism', 'sensory integration'] },
 ];
 
 function conTexto(titulo: string, resumen = '', ambito: Ambito = 'tecnico'): Pieza {

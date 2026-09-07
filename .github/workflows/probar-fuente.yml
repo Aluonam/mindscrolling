@@ -1,0 +1,74 @@
+# Comprobar si una web sirve como fuente, y añadirla si sirve.
+#
+# La lanza el panel del móvil. Vive aquí y no en el navegador porque el
+# navegador no puede leer webs ajenas: lo bloquea él mismo por seguridad. Esta
+# acción sí tiene red de verdad.
+#
+# Escribe siempre `config/informe.json`, sirva o no, y lo commitea: es lo que
+# el panel lee para contarte qué ha pasado.
+
+name: Probar una fuente
+
+on:
+  workflow_dispatch:
+    inputs:
+      web:
+        description: 'La dirección de la web (o de su RSS, si la sabes)'
+        required: true
+        type: string
+      nombre:
+        description: 'Cómo quieres que se llame en la edición'
+        required: false
+        type: string
+      ambito:
+        description: 'De qué va'
+        required: true
+        default: tecnico
+        type: choice
+        options: [tecnico, clinico, gestion]
+
+# Que no se solapen dos comprobaciones escribiendo el mismo fichero.
+concurrency:
+  group: catalogo
+  cancel-in-progress: false
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    # Es una comprobación de red, no una edición: si tarda cinco minutos, algo
+    # va mal y es mejor que lo diga.
+    timeout-minutes: 5
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Probar la web
+        env:
+          WEB: ${{ inputs.web }}
+          NOMBRE: ${{ inputs.nombre }}
+          AMBITO: ${{ inputs.ambito }}
+        # Sin `continue-on-error` la acción se pondría en rojo cuando una web no
+        # sirva, y eso no es un fallo: es la respuesta.
+        continue-on-error: true
+        run: npm run probar
+
+      - name: Guardar el resultado
+        run: |
+          git config user.name 'MindScrolling'
+          git config user.email 'actions@github.com'
+          git add config/
+          if git diff --cached --quiet; then
+            echo 'Sin cambios que guardar.'
+            exit 0
+          fi
+          git commit -m "Fuente probada: ${{ inputs.web }}"
+          git push

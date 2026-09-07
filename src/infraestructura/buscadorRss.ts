@@ -184,21 +184,32 @@ export class BuscadorRss implements BuscadorDeHallazgos {
       return [];
     }
 
-    const xml = await respuesta.text();
-    const bloques = xml.match(/<(?:item|entry)(?:\s[^>]*)?>[\s\S]*?<\/(?:item|entry)>/gi) ?? [];
-
-    return bloques
-      .map(bloque => ({
-        titulo: contenidoDe(bloque, 'title'),
-        resumenOriginal:
-          contenidoDe(bloque, 'description') ||
-          contenidoDe(bloque, 'summary') ||
-          contenidoDe(bloque, 'content'),
-        enlace: enlaceDe(bloque),
-        publicado: fechaDe(bloque),
-        categorias: categoriasDe(bloque),
-        fuente,
-      }))
-      .filter(hallazgo => hallazgo.titulo && hallazgo.enlace);
+    return hallazgosDe(await respuesta.text(), fuente);
   }
+}
+
+/**
+ * Del XML a hallazgos. Exportada porque la usan dos: el ciclo de cada día y
+ * la comprobación de si una web nueva sirve como fuente.
+ *
+ * Si se quedara dentro del buscador habría dos parsers, y el día que uno se
+ * arreglara el otro seguiría roto — que es justo lo que pasó con las entidades
+ * HTML antes de que existiera esto.
+ */
+export function hallazgosDe(xml: string, fuente: Fuente): Hallazgo[] {
+  const bloques = xml.match(/<(?:item|entry)(?:\s[^>]*)?>[\s\S]*?<\/(?:item|entry)>/gi) ?? [];
+
+  return bloques
+    .map(bloque => ({
+      titulo: contenidoDe(bloque, 'title'),
+      resumenOriginal:
+        contenidoDe(bloque, 'description') ||
+        contenidoDe(bloque, 'summary') ||
+        contenidoDe(bloque, 'content'),
+      enlace: enlaceDe(bloque),
+      publicado: fechaDe(bloque),
+      categorias: categoriasDe(bloque),
+      fuente,
+    }))
+    .filter(hallazgo => hallazgo.titulo && hallazgo.enlace);
 }
