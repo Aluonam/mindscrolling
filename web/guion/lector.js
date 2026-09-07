@@ -7,6 +7,7 @@ import * as carril from './organismos/carril.js';
 import * as cierre from './organismos/cierre.js';
 import * as cabecera from './organismos/cabecera.js';
 import * as indice from './organismos/indice.js';
+import * as fuentes from './organismos/fuentes.js';
 import * as detalle from './organismos/detalle.js';
 import * as acciones from './organismos/acciones.js';
 import * as ajustes from './organismos/ajustes.js';
@@ -74,6 +75,7 @@ if (!edicion?.piezas?.length) {
   cierre.montar(edicion, { alVolver: () => carril.irA(0) });
   cabecera.montar(edicion);
   indice.montar();
+  fuentes.montar();
   detalle.montar();
   acciones.montar();
   ajustes.montar();
@@ -85,7 +87,9 @@ if (!edicion?.piezas?.length) {
 
   document.addEventListener('keydown', ev => {
     if (ev.key !== 'Escape') return;
-    if (detalle.estaAbierto()) detalle.cerrar();
+    // De arriba abajo: se cierra lo que está encima.
+    if (fuentes.estaAbierto()) fuentes.cerrar();
+    else if (detalle.estaAbierto()) detalle.cerrar();
     else if (indice.estaAbierto()) indice.cerrar();
   });
 

@@ -49,6 +49,7 @@
 <link rel="stylesheet" href="estilos/organismos/acciones.css">
 <link rel="stylesheet" href="estilos/organismos/cierre.css">
 <link rel="stylesheet" href="estilos/organismos/vacio.css">
+<link rel="stylesheet" href="estilos/organismos/fuentes.css">
 
 <!-- Plantilla -->
 <link rel="stylesheet" href="estilos/plantillas/lector.css">
@@ -122,6 +123,41 @@
   </div>
   <div class="detalle-pie">
     <a class="original" id="detalleEnlace" href="#" target="_blank" rel="noopener">Abrir el original</a>
+  </div>
+</section>
+
+<!-- El panel de fuentes. No se llega a él desde ningún botón: cinco toques
+     en el sello de la cabecera, o «#fuentes» en la dirección. -->
+<section class="fuentes" id="fuentes" aria-hidden="true" aria-label="De dónde sale la información">
+  <div class="fuentes-cabecera">
+    <div class="fuentes-titulo">
+      <b>Fuentes</b>
+      <span id="resumenFuentes">Cargando…</span>
+    </div>
+    <button class="cerrar" id="cerrarFuentes" type="button" aria-label="Cerrar">×</button>
+  </div>
+
+  <input class="buscar" id="buscarFuente" type="search" placeholder="Buscar una fuente" aria-label="Buscar una fuente">
+
+  <div class="lista-fuentes" id="listaFuentes"></div>
+
+  <div class="fuentes-pie">
+    <div class="fuentes-botones">
+      <button class="boton" id="copiarCatalogo" type="button">Copiar el catálogo</button>
+      <button class="boton principal" id="publicarCatalogo" type="button">Publicar en GitHub</button>
+    </div>
+    <button class="enlace-flojo" id="olvidarCambios" type="button" hidden>Olvidar los cambios locales</button>
+
+    <label class="credencial" for="credencial">
+      Credencial de GitHub — se queda en este dispositivo
+      <input id="credencial" type="password" autocomplete="off" spellcheck="false"
+             placeholder="github_pat_… (opcional)">
+    </label>
+    <p class="credencial-nota">
+      Sin ella el panel funciona igual: apaga fuentes aquí y copia el catálogo.
+      Con ella se publica sin salir de la aplicación. Usa un token preciso,
+      limitado a este repositorio y con permiso de Contenido.
+    </p>
   </div>
 </section>
 

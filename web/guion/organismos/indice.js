@@ -8,6 +8,7 @@ import { crearGuardado } from '../moleculas/guardado.js';
 import * as guardados from '../atomos/guardados.js';
 import * as velo from '../moleculas/velo.js';
 import { mostrarPieza, estaVisible, irA } from './carril.js';
+import { apagadas } from '../atomos/catalogo.js';
 
 const panel      = document.getElementById('indice');
 const listado    = document.getElementById('listado');
@@ -124,8 +125,14 @@ function construirFiltros() {
 function aplicarFiltro(nuevo) {
   filtro = nuevo;
 
+  // Una fuente apagada desde el panel deja de verse al momento, sin esperar a
+  // la edición de mañana. Se cruza aquí y no en el carril porque este es el
+  // único sitio que decide qué se ve: dos sitios decidiéndolo se pisarían.
+  const fuera = apagadas();
+
   estado.piezas.forEach((pieza, i) => {
-    const visible = filtro === 'todo' || pieza.dataset.ambito === filtro;
+    const visible = (filtro === 'todo' || pieza.dataset.ambito === filtro)
+      && !fuera.has(pieza.dataset.fuente);
     mostrarPieza(i, visible);
     listado.children[i].style.display = visible ? '' : 'none';
   });
@@ -142,6 +149,11 @@ function aplicarFiltro(nuevo) {
       estado.piezas[primera].scrollIntoView({ behavior: 'auto' });
     }
   }
+}
+
+/** Lo llama el panel de fuentes cuando enciendes o apagas alguna. */
+export function refrescar() {
+  aplicarFiltro(filtro);
 }
 
 export function montar() {

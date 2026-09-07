@@ -561,3 +561,48 @@ catálogo que publica en tres idiomas.
 **Dónde se paga.** En `config/fuentes.json`, no en el código. Si algo bueno se
 cae, es que le falta el término. Es el sitio correcto: el criterio de qué
 interesa es de quien lee, no del programa.
+
+---
+
+## 26. El catálogo se toca desde el móvil, y el panel no disimula lo que cuesta
+
+**Qué.** Un panel dentro de la aplicación lista las 123 fuentes, dice cuántas
+piezas ha puesto cada una en lo que estás leyendo, y deja encenderlas y
+apagarlas. No se llega a él desde ningún botón: cinco toques en el sello de la
+cabecera, o `#fuentes` en la dirección.
+
+**Por qué.** Lo que se ha visto usándolo es que el filtro que de verdad importa
+no es el de los términos, es el de las fuentes. El mapa de cuántos bares hay en
+España no entró por un término mal elegido —«base de datos» es tan técnico como
+el que más—, entró porque venía de un medio generalista (decisión 25). Y esa
+decisión se toma leyendo, no delante del editor de código.
+
+**Lo que el panel no esconde: son dos efectos distintos.**
+
+- **Apagar una fuente aquí** la esconde en lo que estás leyendo, al momento y
+  solo en este dispositivo.
+- **Publicar el catálogo** hace que la acción de la madrugada deje de leerla, y
+  ahí es donde se dejan de gastar tokens.
+
+Esa distancia es de la arquitectura: la aplicación es estática y el navegador
+no puede escribir en el repositorio. El panel lo dice en el resumen —«2 cambios
+sin publicar»— en vez de fingir que apagar algo ya lo arregla.
+
+**Dos caminos para publicar, y el bueno no pide credenciales.** Sin credencial,
+el panel copia el fichero entero al portapapeles y lo pegas en
+`config/fuentes.json`. Con una credencial de GitHub, publica desde el propio
+móvil. La credencial se guarda en `localStorage` y solo viaja a
+`api.github.com`; conviene que sea un token preciso, limitado a este
+repositorio y con permiso de Contenido. Si el móvil se pierde, lo que está en
+juego es editar un repositorio público que ya se puede leer entero, y se revoca
+desde la web de GitHub.
+
+**El panel se ve, pero no manda.** Esta aplicación es pública y el código
+también: esconder el panel es comodidad, no seguridad. Lo que separa a quien
+puede cambiar el catálogo de quien no es la credencial, que no está aquí.
+
+**Se esconde lo que TÚ has apagado, no todo lo que el catálogo tenga sin
+aprobar.** El catálogo solo se descarga al abrir el panel; si el lector mirara
+el catálogo entero, escondería cosas distintas según hubieras abierto el panel
+o no. Una lista que cambia sola es peor que una lista incompleta. Lo que ya
+está descartado en el repositorio no necesita esconderse: mañana no vendrá.
