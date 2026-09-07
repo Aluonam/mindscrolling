@@ -1175,31 +1175,33 @@
       "nombre": "Xataka",
       "ambito": "tecnico",
       "categoria": "Tecnologia e IA en Espana",
-      "estado": "aprobada",
+      "estado": "descartada",
       "autoridad": 0.9,
       "web": "https://www.xataka.com",
       "rss": "https://www.xataka.com/feedburner.xml",
-      "nota": "Generalista y muy de consumo. Autoridad baja."
+      "nota": "Descartada el 7 de septiembre de 2026. El feed va bien y publica mucho, pero es un medio de consumo: en cuatro ediciones aporto un analisis de portatiles, una detencion de la Guardia Civil y un mapa de cuantos bares hay en Espana. Ese ultimo entro con 0,787 de afinidad porque su resumen dice \"base de datos\". El problema no es el termino, es que en un medio generalista cualquier palabra tecnica aparece hablando de cualquier cosa."
     },
     {
       "id": "genbeta",
       "nombre": "Genbeta",
       "ambito": "tecnico",
       "categoria": "Tecnologia e IA en Espana",
-      "estado": "aprobada",
+      "estado": "descartada",
       "autoridad": 0.9,
       "web": "https://www.genbeta.com",
-      "rss": "https://www.genbeta.com/feedburner.xml"
+      "rss": "https://www.genbeta.com/feedburner.xml",
+      "nota": "Descartada el 7 de septiembre de 2026, por lo mismo que Xataka. En cuatro ediciones aporto dos veces la misma declaracion del CEO de Randstad sobre teletrabajo y una noticia de Ubuntu. Actualidad de consumo, no ingenieria."
     },
     {
       "id": "hipertextual",
       "nombre": "Hipertextual",
       "ambito": "tecnico",
       "categoria": "Tecnologia e IA en Espana",
-      "estado": "aprobada",
+      "estado": "descartada",
       "autoridad": 0.9,
       "web": "https://hipertextual.com",
-      "rss": "https://hipertextual.com/feed/"
+      "rss": "https://hipertextual.com/feed/",
+      "nota": "Descartada el 7 de septiembre de 2026, por lo mismo que Xataka. Aporto una pieza en cuatro ediciones, sobre Windows 11 y videojuegos."
     },
     {
       "id": "bsc",
