@@ -93,6 +93,7 @@
   <div class="pestanas" id="pestanas" role="group" aria-label="Qué se ve en el panel">
     <button class="chip activa" id="pestanaEdicion" type="button" aria-pressed="true">Edición</button>
     <button class="chip" id="pestanaGuardados" type="button" aria-pressed="false">Guardados&nbsp;<span id="contadorGuardados">0</span></button>
+    <button class="chip" id="pestanaFuentes" type="button" aria-pressed="false">Fuentes</button>
   </div>
 
   <div class="filtros" id="filtros" role="group" aria-label="Filtrar por ámbito"></div>
@@ -137,9 +138,50 @@
     <button class="cerrar" id="cerrarFuentes" type="button" aria-label="Cerrar">×</button>
   </div>
 
-  <input class="buscar" id="buscarFuente" type="search" placeholder="Buscar una fuente" aria-label="Buscar una fuente">
+  <!-- Sin identificar no se ve el catálogo: el panel es tuyo. -->
+  <div class="identificacion" id="identificacion">
+    <p class="identificacion-texto">
+      Este panel cambia de dónde sale la información. Para tocarlo hay que
+      identificarse con GitHub, que es quien de verdad comprueba que eres tú:
+      una contraseña escrita aquí dentro la vería cualquiera, porque el código
+      de esta aplicación es público.
+    </p>
+    <label class="credencial" for="credencial">
+      Credencial de GitHub — se queda en este dispositivo
+      <input id="credencial" type="password" autocomplete="off" spellcheck="false"
+             placeholder="github_pat_…">
+    </label>
+    <button class="boton principal" id="entrar" type="button">Identificarme</button>
+    <p class="credencial-nota">
+      Usa un token preciso («fine-grained»), limitado a este repositorio y con
+      permiso de Contenido y de Flujos de trabajo. Se revoca desde GitHub cuando
+      quieras.
+    </p>
+    <p class="identificacion-aviso" id="avisoIdentificacion" role="status"></p>
+  </div>
 
-  <div class="lista-fuentes" id="listaFuentes"></div>
+  <div class="fuentes-cuerpo" id="cuerpoFuentes" hidden>
+    <form class="alta" id="alta">
+      <div class="alta-titulo">Añadir una web</div>
+      <input class="alta-web" id="altaWeb" type="url" required
+             placeholder="https://revista-que-quiero.com" aria-label="Dirección de la web">
+      <div class="alta-fila">
+        <input class="alta-nombre" id="altaNombre" type="text"
+               placeholder="Cómo se llamará" aria-label="Nombre de la fuente">
+        <select class="alta-ambito" id="altaAmbito" aria-label="Ámbito">
+          <option value="tecnico">Técnico</option>
+          <option value="clinico">Clínico</option>
+          <option value="gestion">Gestión</option>
+        </select>
+      </div>
+      <button class="boton principal" id="comprobar" type="submit">Comprobar si sirve</button>
+      <div class="alta-resultado" id="altaResultado" role="status"></div>
+    </form>
+
+    <input class="buscar" id="buscarFuente" type="search" placeholder="Buscar una fuente" aria-label="Buscar una fuente">
+
+    <div class="lista-fuentes" id="listaFuentes"></div>
+  </div>
 
   <div class="fuentes-pie">
     <div class="fuentes-botones">
@@ -148,16 +190,7 @@
     </div>
     <button class="enlace-flojo" id="olvidarCambios" type="button" hidden>Olvidar los cambios locales</button>
 
-    <label class="credencial" for="credencial">
-      Credencial de GitHub — se queda en este dispositivo
-      <input id="credencial" type="password" autocomplete="off" spellcheck="false"
-             placeholder="github_pat_… (opcional)">
-    </label>
-    <p class="credencial-nota">
-      Sin ella el panel funciona igual: apaga fuentes aquí y copia el catálogo.
-      Con ella se publica sin salir de la aplicación. Usa un token preciso,
-      limitado a este repositorio y con permiso de Contenido.
-    </p>
+    <button class="enlace-flojo" id="salir" type="button" hidden>Cerrar la sesión</button>
   </div>
 </section>
 

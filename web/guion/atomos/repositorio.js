@@ -64,6 +64,44 @@ async function shaActual() {
   return (await respuesta.json()).sha;
 }
 
+/**
+ * Lanzar la acción que comprueba una web.
+ *
+ * El navegador no puede leer webs ajenas —lo impide él mismo—, así que la
+ * comprobación la hace una acción en los servidores de GitHub. Desde aquí solo
+ * se dispara y luego se espera a que deje su informe.
+ */
+export async function probarFuente({ web, nombre, ambito }) {
+  const respuesta = await fetch(
+    `${API}/repos/${REPO}/actions/workflows/probar-fuente.yml/dispatches`,
+    {
+      method: 'POST',
+      headers: { ...cabeceras(), 'content-type': 'application/json' },
+      body: JSON.stringify({ ref: 'main', inputs: { web, nombre: nombre || '', ambito } }),
+    },
+  );
+
+  // Un 204 sin cuerpo es lo que devuelve GitHub cuando la acción se ha
+  // encolado. No significa que la web sirva, solo que se va a mirar.
+  if (!respuesta.ok) throw new Error(explicar(respuesta.status, 'lanzar la comprobación'));
+}
+
+/**
+ * El informe que deja la acción, o null si todavía no ha llegado el nuevo.
+ *
+ * Se compara la fecha y no el contenido: si pruebas dos veces la misma web, el
+ * informe sale igual y por contenido pareceria que no ha pasado nada.
+ */
+export async function informe(desde) {
+  const respuesta = await fetch('../config/informe.json?t=' + Date.now(), { cache: 'no-store' });
+  if (!respuesta.ok) return null;
+
+  const informe = await respuesta.json();
+  if (desde && informe.cuando && informe.cuando <= desde) return null;
+
+  return informe;
+}
+
 /** Base64 de un texto con acentos: btoa solo entiende bytes. */
 function aBase64(texto) {
   const bytes = new TextEncoder().encode(texto);

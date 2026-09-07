@@ -1,9 +1,9 @@
 // El panel de fuentes: de dónde sale lo que lees, y qué entra y qué no.
 //
-// No aparece por ninguna parte a la vista. Se abre pulsando cinco veces
-// seguidas el sello de la cabecera, o con `#fuentes` en la dirección. Es una
-// aplicación pública y el panel se ve si alguien lo busca; lo que no puede
-// hacer sin credencial es cambiar nada de lo publicado.
+// Se abre desde la pestaña «Fuentes» del menú, junto a Edición y Guardados.
+// Estuvo escondido detrás de cinco toques en el sello y duró lo que tardó
+// alguien en buscarlo y no encontrarlo: esconder una pantalla no la protege,
+// solo la hace inútil. Lo que la protege es que sin identificarse no se ve.
 //
 // Dos efectos distintos, y el panel lo dice todo el rato:
 //   · Apagar una fuente aquí la esconde en lo que estás leyendo, al momento.
@@ -16,6 +16,7 @@ import { nombreDe } from '../atomos/ambitos.js';
 import { refrescar } from './indice.js';
 import * as catalogo from '../atomos/catalogo.js';
 import * as repositorio from '../atomos/repositorio.js';
+import * as sesion from '../atomos/sesion.js';
 
 const panel = document.getElementById('fuentes');
 const lista = document.getElementById('listaFuentes');
@@ -26,6 +27,17 @@ const botonCopiar = document.getElementById('copiarCatalogo');
 const botonPublicar = document.getElementById('publicarCatalogo');
 const botonOlvidar = document.getElementById('olvidarCambios');
 const campoCredencial = document.getElementById('credencial');
+const cajaIdentificacion = document.getElementById('identificacion');
+const cuerpo = document.getElementById('cuerpoFuentes');
+const botonEntrar = document.getElementById('entrar');
+const botonSalir = document.getElementById('salir');
+const avisoIdentificacion = document.getElementById('avisoIdentificacion');
+const formularioAlta = document.getElementById('alta');
+const campoWeb = document.getElementById('altaWeb');
+const campoNombre = document.getElementById('altaNombre');
+const campoAmbito = document.getElementById('altaAmbito');
+const botonComprobar = document.getElementById('comprobar');
+const resultadoAlta = document.getElementById('altaResultado');
 
 /**
  * Cuántas piezas ha puesto cada fuente en lo que estás leyendo hoy.
@@ -43,6 +55,12 @@ export function estaAbierto() {
 export async function abrir() {
   panel.classList.add('abierta');
   panel.setAttribute('aria-hidden', 'false');
+
+  // Si quedaba credencial de la última vez, se revalida sola: identificarse a
+  // mano cada vez que se abre el panel cansa y no protege de nada más.
+  if (!sesion.identificada()) await sesion.recordar();
+  mostrarSegunSesion();
+  if (!sesion.identificada()) return;
 
   if (!cargado) {
     lista.textContent = 'Cargando el catálogo…';
@@ -147,9 +165,13 @@ function pintarResumen() {
   const cambios = catalogo.cuantosCambios();
   const activas = catalogo.fuentes().filter(f => f.estado === 'aprobada').length;
 
-  resumen.textContent = cambios === 0
+  // Quién eres va aquí y no en otro sitio porque este es el único renglón que
+  // se repinta con todo, y antes lo borraba cada vez que se tocaba una fuente.
+  const quien = sesion.identificada() ? `@${sesion.nombre()} · ` : '';
+
+  resumen.textContent = quien + (cambios === 0
     ? `${activas} fuentes activas. Sin cambios pendientes.`
-    : `${activas} fuentes activas · ${cambios} ${cambios === 1 ? 'cambio' : 'cambios'} sin publicar: ya se notan aquí, pero la edición de mañana no los verá hasta publicarlos.`;
+    : `${activas} activas · ${cambios} ${cambios === 1 ? 'cambio' : 'cambios'} sin publicar: ya se notan aquí, pero la edición de mañana no los verá hasta publicarlos.`);
 
   botonPublicar.disabled = cambios === 0;
   botonCopiar.disabled = cambios === 0;
@@ -193,30 +215,113 @@ async function publicar() {
   pintar();
 }
 
+
+/** Enseña la pantalla que toque: identificarse, o el catálogo. */
+function mostrarSegunSesion() {
+  const dentro = sesion.identificada();
+
+  cajaIdentificacion.hidden = dentro;
+  cuerpo.hidden = !dentro;
+  botonSalir.hidden = !dentro;
+
+  if (!dentro) document.getElementById('resumenFuentes').textContent = 'Sin identificar';
+}
+
+async function entrar() {
+  botonEntrar.disabled = true;
+  avisoIdentificacion.textContent = 'Comprobando con GitHub…';
+
+  const { bien, motivo } = await sesion.identificar(campoCredencial.value);
+
+  avisoIdentificacion.textContent = motivo;
+  botonEntrar.disabled = false;
+
+  if (!bien) return;
+
+  campoCredencial.value = '';
+  await abrir();
+}
+
 /**
- * Cinco toques en el sello. Ni menos —se abriría sin querer— ni un gesto que
- * haya que recordar. Se olvida la cuenta si pasan dos segundos sin tocar.
+ * Comprobar una web y esperar el veredicto.
+ *
+ * La comprobación la hace una acción en GitHub, así que esto lanza y espera.
+ * Se pregunta cada cinco segundos durante dos minutos: encolar y arrancar un
+ * trabajo suele llevar medio minuto, y una web lenta se come otro.
  */
-function escucharLaEntrada() {
-  const sello = document.querySelector('.cabecera .sello');
-  if (!sello) return;
+async function comprobarWeb(evento) {
+  evento.preventDefault();
 
-  let toques = 0;
-  let olvido = null;
+  const web = campoWeb.value.trim();
+  if (!web) return;
 
-  sello.style.pointerEvents = 'auto';
-  sello.addEventListener('click', () => {
-    toques++;
-    clearTimeout(olvido);
-    olvido = setTimeout(() => { toques = 0; }, 2000);
+  const desde = new Date().toISOString();
+  botonComprobar.disabled = true;
+  contar('Lanzando la comprobación…');
 
-    if (toques >= 5) {
-      toques = 0;
-      abrir();
+  try {
+    await repositorio.probarFuente({
+      web,
+      nombre: campoNombre.value.trim(),
+      ambito: campoAmbito.value,
+    });
+  } catch (err) {
+    contar(err.message, 'mal');
+    botonComprobar.disabled = false;
+    return;
+  }
+
+  contar('Comprobando la web… puede tardar un minuto.');
+
+  for (let intento = 0; intento < 24; intento++) {
+    await new Promise(r => setTimeout(r, 5000));
+
+    const informe = await repositorio.informe(desde);
+    if (!informe) continue;
+
+    contarInforme(informe);
+    botonComprobar.disabled = false;
+
+    // Si ha entrado, el catálogo de arriba ya no vale: se vuelve a leer.
+    if (informe.sirve) {
+      cargado = false;
+      campoWeb.value = '';
+      campoNombre.value = '';
+      await abrir();
     }
-  });
+    return;
+  }
 
-  if (location.hash === '#fuentes') abrir();
+  contar('La comprobación tarda más de lo normal. Mírala en la pestaña Actions de GitHub.', 'mal');
+  botonComprobar.disabled = false;
+}
+
+function contar(texto, clase = '') {
+  resultadoAlta.className = 'alta-resultado ' + clase;
+  resultadoAlta.textContent = texto;
+}
+
+/** El informe, en una lista de frases: es lo que se lee, no un JSON. */
+function contarInforme(informe) {
+  resultadoAlta.className = 'alta-resultado ' + (informe.sirve ? 'bien' : 'mal');
+  resultadoAlta.textContent = '';
+
+  const titulo = document.createElement('b');
+  titulo.textContent = (informe.sirve ? '✓ ' : '✗ ') + informe.titulo;
+  resultadoAlta.appendChild(titulo);
+
+  for (const linea of [...informe.problemas, ...informe.bien]) {
+    const parrafo = document.createElement('p');
+    parrafo.textContent = linea;
+    resultadoAlta.appendChild(parrafo);
+  }
+
+  if (informe.feed) {
+    const feed = document.createElement('p');
+    feed.className = 'alta-feed';
+    feed.textContent = informe.feed;
+    resultadoAlta.appendChild(feed);
+  }
 }
 
 export function montar() {
@@ -239,12 +344,19 @@ export function montar() {
 
   buscador.addEventListener('input', () => { if (cargado) pintar(); });
 
-  campoCredencial.value = repositorio.credencial();
-  campoCredencial.addEventListener('change', () => {
-    repositorio.guardarCredencial(campoCredencial.value);
-    pintarResumen();
-    avisar(campoCredencial.value ? 'Credencial guardada en este dispositivo' : 'Credencial borrada');
+  botonEntrar.addEventListener('click', entrar);
+  campoCredencial.addEventListener('keydown', ev => {
+    if (ev.key === 'Enter') entrar();
   });
 
-  escucharLaEntrada();
+  botonSalir.addEventListener('click', () => {
+    sesion.salir();
+    cargado = false;
+    mostrarSegunSesion();
+    avisar('Sesión cerrada en este dispositivo');
+  });
+
+  formularioAlta.addEventListener('submit', comprobarWeb);
+
+  mostrarSegunSesion();
 }

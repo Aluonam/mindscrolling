@@ -9,6 +9,7 @@ import * as guardados from '../atomos/guardados.js';
 import * as velo from '../moleculas/velo.js';
 import { mostrarPieza, estaVisible, irA } from './carril.js';
 import { apagadas } from '../atomos/catalogo.js';
+import { abrir as abrirFuentes } from './fuentes.js';
 
 const panel      = document.getElementById('indice');
 const listado    = document.getElementById('listado');
@@ -160,6 +161,13 @@ export function montar() {
   construirListado();
   construirFiltros();
   aplicarFiltro('todo');
+
+  // La tercera pestaña no cambia lo que se ve en este panel: abre otro. Se
+  // pone aquí porque es donde se busca, no porque sea del mismo tipo.
+  document.getElementById('pestanaFuentes').addEventListener('click', () => {
+    cerrar();
+    abrirFuentes();
+  });
 
   pestanaEdicion.addEventListener('click', () => ver('edicion'));
   pestanaGuardados.addEventListener('click', () => ver('guardados'));

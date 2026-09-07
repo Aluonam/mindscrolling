@@ -567,9 +567,14 @@ interesa es de quien lee, no del programa.
 ## 26. El catálogo se toca desde el móvil, y el panel no disimula lo que cuesta
 
 **Qué.** Un panel dentro de la aplicación lista las 123 fuentes, dice cuántas
-piezas ha puesto cada una en lo que estás leyendo, y deja encenderlas y
-apagarlas. No se llega a él desde ningún botón: cinco toques en el sello de la
-cabecera, o `#fuentes` en la dirección.
+piezas ha puesto cada una en lo que estás leyendo, deja encenderlas y apagarlas,
+y añadir webs nuevas. Se abre desde la pestaña «Fuentes» del menú, junto a
+Edición y Guardados.
+
+**Estuvo escondido tras cinco toques en el sello, y duró un día.** La primera
+versión escondía la entrada a propósito. No la encontró nadie —ni buscándola— y
+el panel entero valió para nada. Esconder una pantalla no la protege: solo la
+hace inútil. Lo que la protege es que sin identificarse no se ve.
 
 **Por qué.** Lo que se ha visto usándolo es que el filtro que de verdad importa
 no es el de los términos, es el de las fuentes. El mapa de cuántos bares hay en
@@ -606,3 +611,59 @@ aprobar.** El catálogo solo se descarga al abrir el panel; si el lector mirara
 el catálogo entero, escondería cosas distintas según hubieras abierto el panel
 o no. Una lista que cambia sola es peor que una lista incompleta. Lo que ya
 está descartado en el repositorio no necesita esconderse: mañana no vendrá.
+
+---
+
+## 27. La identificación es la de GitHub, porque una nuestra no valdría nada
+
+**Qué.** El panel de fuentes no enseña nada hasta que te identificas con una
+credencial de GitHub. Se comprueban dos cosas, no una: quién eres —`GET /user`—
+y si esa credencial puede escribir en este repositorio —`permissions.push`—.
+
+**Por qué no una contraseña propia.** Porque no protegería nada. Esta
+aplicación es pública y su código también: una contraseña escrita en el código
+la ve cualquiera que abra el fichero, y una comprobación hecha en el navegador
+se salta con la consola abierta. No es que sea difícil de proteger; es que no
+hay nada que proteger, porque todo lo que hace el navegador lo controla quien
+tiene el navegador.
+
+Con una credencial de GitHub, en cambio, quien decide si puedes escribir es el
+servidor de GitHub. Se puede leer el código entero y trastear el panel entero:
+sin credencial válida no se cambia una coma del catálogo.
+
+**Dos preguntas y no una, por lo que enseña la segunda.** Una credencial válida
+de otra cuenta, o una de solo lectura, pasarían la primera y fallarían la
+segunda. Es mejor saberlo al identificarse que al intentar guardar un cambio.
+
+**Dónde vive.** En `localStorage`, en tu dispositivo, y solo viaja a
+`api.github.com`. Conviene un token preciso limitado a este repositorio, con
+permiso de Contenido y de Flujos de trabajo. Si el móvil se pierde, lo que está
+en juego es editar un repositorio público que ya se puede leer entero, y se
+revoca desde la web de GitHub.
+
+---
+
+## 28. Para añadir una fuente se pega una dirección, y contesta qué le falta
+
+**Qué.** Un formulario con la dirección de la web. Si sirve, entra en el
+catálogo; si no, dice por qué en frases, no en códigos de error.
+
+**Por qué lo comprueba una acción y no el navegador.** El navegador no puede
+leer webs ajenas: lo impide él mismo. Así que el formulario lanza la acción
+«Probar una fuente» con la credencial que ya tienes, y espera su informe. Es el
+mismo motivo por el que el catálogo se publica por la API en vez de escribirse
+directamente.
+
+**Qué se comprueba, y qué no.** No si la web es buena —eso lo decide una
+persona leyendo— sino si es utilizable: que publique un feed, que traiga al
+menos tres entradas, que esas entradas traigan resumen y no solo el titular,
+que las fechas sirvan y que haya publicado algo en los últimos seis meses.
+
+**Los motivos se distinguen, porque piden cosas distintas.** No responder, no
+publicar feed, y publicarlo pero no dejarlo leer son tres cosas. Lo último le
+pasa a Nature, que declara su RSS en la cabecera y luego sirve una pantalla
+antirrobots; con un «no se encuentra ningún feed» nadie sabría qué hacer.
+
+**El parser es el mismo que el de cada día.** Se sacó a `hallazgosDe` para
+eso: con dos parsers, el día que se arregle uno el otro sigue roto — que es
+exactamente lo que pasó con las entidades HTML (decisión 24).

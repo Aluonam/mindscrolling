@@ -232,3 +232,97 @@
 /* El sello de la cabecera es la entrada al panel: que se note que se puede
    tocar, sin anunciar para qué. */
 .cabecera .sello { cursor: pointer; }
+
+/* La pantalla de identificación, que es lo primero que se ve. */
+.identificacion {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.identificacion-texto {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--texto-tenue);
+}
+
+.identificacion-aviso {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--acento);
+}
+
+.fuentes-cuerpo {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* El formulario de añadir. Va arriba del todo: es lo que se viene a hacer. */
+.alta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.alta-titulo {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--acento);
+}
+
+.alta input,
+.alta select {
+  padding: 10px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--texto);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.alta input:focus-visible,
+.alta select:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 1px;
+}
+
+.alta-fila { display: flex; gap: 8px; }
+.alta-fila .alta-nombre { flex: 1; min-width: 0; }
+.alta-fila .alta-ambito { flex: 0 0 auto; }
+
+/* El veredicto. Se escribe entero, no en un código de colores: lo que hay que
+   leer es qué le falta a la web, no si el borde está verde o rojo. */
+.alta-resultado:empty { display: none; }
+
+.alta-resultado {
+  margin-top: 4px;
+  padding: 11px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--borde);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.alta-resultado b { display: block; margin-bottom: 6px; }
+.alta-resultado p { margin: 5px 0 0; color: var(--texto-tenue); }
+.alta-resultado.bien { border-color: var(--acento); }
+.alta-resultado.mal { border-color: color-mix(in srgb, var(--texto-tenue) 60%, transparent); }
+
+.alta-feed {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  word-break: break-all;
+}
