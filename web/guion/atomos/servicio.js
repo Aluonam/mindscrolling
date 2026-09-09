@@ -171,7 +171,7 @@ export function guardarCatalogo(contenido, resumen) {
  */
 const CRUDO = 'https://raw.githubusercontent.com/Aluonam/mindscrolling/main/config/informe.json';
 
-export async function informe(desde) {
+export async function informe(desde, web) {
   let respuesta;
   try {
     respuesta = await fetch(CRUDO + '?t=' + Date.now(), { cache: 'no-store' });
@@ -183,7 +183,17 @@ export async function informe(desde) {
 
   const informe = await respuesta.json().catch(() => null);
   if (!informe) return null;
-  if (desde && informe.cuando && informe.cuando <= desde) return null;
+
+  // Sin fecha es el informe de relleno, el que está ahí desde el primer día.
+  // Antes se colaba por la comprobación —«null» no es mayor que nada— y el
+  // panel enseñaba «todavía no se ha probado ninguna web» en la primera
+  // pregunta, medio minuto antes de que llegara el resultado de verdad.
+  if (!informe.cuando) return null;
+  if (desde && informe.cuando <= desde) return null;
+
+  // Y que sea el de la web que hemos preguntado, no el de una comprobación
+  // que estuviera corriendo por otro lado.
+  if (web && informe.web && informe.web !== web) return null;
 
   return informe;
 }

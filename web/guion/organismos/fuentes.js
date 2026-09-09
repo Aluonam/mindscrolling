@@ -304,7 +304,7 @@ async function comprobarWeb(evento) {
   for (let intento = 0; intento < 60; intento++) {
     await new Promise(r => setTimeout(r, 5000));
 
-    const informe = await servicio.informe(desde);
+    const informe = await servicio.informe(desde, web);
     if (!informe) continue;
 
     contarInforme(informe);

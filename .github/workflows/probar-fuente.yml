@@ -71,4 +71,18 @@ jobs:
             exit 0
           fi
           git commit -m "Fuente probada: ${{ inputs.web }}"
-          git push
+
+          # Dos comprobaciones seguidas se pisaban al subir: la segunda moría
+          # con un «fetch first» y su informe se perdía, así que el panel se
+          # quedaba esperando un resultado que ya no iba a llegar. Se reintenta
+          # poniéndose encima de lo que haya entrado mientras tanto.
+          for intento in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "Alguien subió antes; se reintenta ($intento de 3)."
+            git pull --rebase origin main
+          done
+
+          echo 'No se ha podido guardar el informe tras tres intentos.'
+          exit 1
