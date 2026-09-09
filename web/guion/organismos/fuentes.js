@@ -30,6 +30,8 @@ const campoUsuario = document.getElementById('usuario');
 const campoClave = document.getElementById('clave');
 const cajaServicio = document.getElementById('cajaServicio');
 const campoDireccion = document.getElementById('direccionServicio');
+const botonComprobarServicio = document.getElementById('comprobarServicio');
+const avisoServicio = document.getElementById('avisoServicio');
 const cajaIdentificacion = document.getElementById('identificacion');
 const cuerpo = document.getElementById('cuerpoFuentes');
 const botonEntrar = document.getElementById('entrar');
@@ -230,6 +232,19 @@ function mostrarSegunSesion() {
   if (!dentro) document.getElementById('resumenFuentes').textContent = 'Sin identificar';
 }
 
+/** Guarda la dirección y dice si el portero está ahí. */
+async function comprobarServicio() {
+  if (campoDireccion.value.trim()) servicio.guardarDireccion(campoDireccion.value);
+
+  botonComprobarServicio.disabled = true;
+  avisoServicio.textContent = 'Llamando al servicio…';
+
+  const { motivo } = await servicio.comprobar();
+
+  avisoServicio.textContent = motivo;
+  botonComprobarServicio.disabled = false;
+}
+
 async function entrar() {
   if (campoDireccion.value.trim()) servicio.guardarDireccion(campoDireccion.value);
 
@@ -246,7 +261,6 @@ async function entrar() {
 
   avisoIdentificacion.textContent = motivo;
   botonEntrar.disabled = false;
-  cajaServicio.hidden = servicio.hayServicio();
 
   if (!bien) return;
 
@@ -376,12 +390,15 @@ export function montar() {
 
   // La dirección del portero puede venir publicada en el repositorio; si no
   // está, el panel la pide una vez y se queda en el dispositivo.
-  servicio.cargarDireccion().then(() => {
-    cajaServicio.hidden = servicio.hayServicio();
+  botonComprobarServicio.addEventListener('click', comprobarServicio);
 
-    // Y se dice antes de escribir nada, no después de intentar entrar: sin
-    // servicio no hay contraseña que valga, y quedarse mirando un formulario
-    // que no puede funcionar es lo peor que puede hacer una pantalla.
+  // La dirección se enseña siempre, no solo cuando falta. Estaba escondida en
+  // cuanto había una guardada, y con una dirección mal escrita no había forma
+  // de verla ni de cambiarla: solo un «no se ha podido hablar con el servicio»
+  // que no decía dónde mirar.
+  servicio.cargarDireccion().then(() => {
+    campoDireccion.value = servicio.direccion();
+
     if (!servicio.hayServicio() && !sesion.identificada()) {
       avisoIdentificacion.textContent =
         'Falta montar el servicio que comprueba la contraseña. Está en la carpeta ' +

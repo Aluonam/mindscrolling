@@ -158,13 +158,14 @@
     <button class="boton principal" id="entrar" type="button">Identificarme</button>
     <p class="identificacion-aviso" id="avisoIdentificacion" role="status"></p>
 
-    <!-- Solo aparece si el servicio todavía no está configurado. -->
-    <div class="servicio" id="cajaServicio" hidden>
+    <div class="servicio" id="cajaServicio">
       <label class="credencial" for="direccionServicio">
-        Dirección del servicio — se pega una vez
+        Dirección del servicio
         <input id="direccionServicio" type="url" spellcheck="false"
                placeholder="https://mindscrolling-panel.….workers.dev">
       </label>
+      <button class="boton" id="comprobarServicio" type="button">Comprobar el servicio</button>
+      <p class="identificacion-aviso" id="avisoServicio" role="status"></p>
       <p class="credencial-nota">
         La da Cloudflare al desplegar la carpeta <code>servicio/</code>. No es un
         secreto: sin la contraseña no hace nada.

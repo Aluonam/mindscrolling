@@ -95,6 +95,48 @@ async function pedir(ruta, cuerpo) {
   return datos;
 }
 
+/**
+ * ¿Está el portero ahí y contesta lo que debe?
+ *
+ * Se le hace un GET, que él rechaza con un 405 y un «Solo POST.». Esa
+ * respuesta es la señal de que está vivo, que la dirección es la buena y que
+ * deja hablar a esta web. Distingue los cuatro fallos que se dan en la
+ * práctica, porque cada uno se arregla de una forma distinta.
+ */
+export async function comprobar() {
+  if (!hayServicio()) {
+    return { bien: false, motivo: 'No hay ninguna dirección guardada. Pégala aquí abajo.' };
+  }
+
+  let respuesta;
+  try {
+    respuesta = await fetch(direccion(), { method: 'GET' });
+  } catch (err) {
+    // El navegador no distingue entre «no existe» y «existe pero no me deja»:
+    // las dos llegan aquí como un fallo de red sin más detalle.
+    return {
+      bien: false,
+      motivo:
+        'No contesta. O la dirección tiene una errata, o el despliegue no ' +
+        'terminó, o Cloudflare no tiene activado workers.dev en tu cuenta. ' +
+        'Ábrela en el navegador: si no sale {"error":"Solo POST."}, es una de esas tres.',
+    };
+  }
+
+  const texto = await respuesta.text().catch(() => '');
+
+  if (texto.includes('Solo POST')) {
+    return { bien: true, motivo: 'El servicio responde. Ya puedes identificarte.' };
+  }
+
+  return {
+    bien: false,
+    motivo:
+      `Contesta ${respuesta.status}, pero no es nuestro servicio. ` +
+      'Comprueba que la dirección es la que dio «wrangler deploy».',
+  };
+}
+
 /** Identificarse. Devuelve el nombre con el que has entrado. */
 export async function entrar(usuario, clave) {
   const datos = await pedir('/entrar', { usuario, clave });
