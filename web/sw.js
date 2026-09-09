@@ -11,7 +11,7 @@
 // Se sube el número al publicar algo que el móvil tenga que recoger sí o sí:
 // cambiarlo obliga al navegador a instalar el service worker de nuevo, y eso
 // es lo que dispara la recarga de `sinConexion.js`.
-const VERSION = 'mindscrolling-v4';
+const VERSION = 'mindscrolling-v5';
 
 // Solo lo imprescindible para arrancar. El resto —las 23 hojas y los módulos
 // del guion— se guarda al vuelo la primera vez que se piden.
