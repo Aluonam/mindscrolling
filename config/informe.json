@@ -1,15 +1,15 @@
 {
-  "web": "https://simonwillison.net",
-  "feed": "https://simonwillison.net/atom/everything/",
+  "web": "https://share.google/1syKHadMV7jjfGhiQ",
+  "feed": "https://feeds.elpais.com/mrss-s/list/ep/site/elpais.com/section/tecnologia",
   "sirve": true,
-  "titulo": "Simon willison añadida al catálogo",
+  "titulo": "National geographic añadida al catálogo",
   "problemas": [],
   "bien": [
-    "El feed responde y trae 30 entradas.",
-    "29 de 30 entradas traen resumen suficiente.",
+    "El feed responde y trae 25 entradas.",
+    "19 de 25 entradas traen resumen suficiente.",
     "Lo último es del 2026-09-09.",
-    "Trae categorías en 30 entradas: sirven para filtrar publicidad.",
+    "Trae categorías en 25 entradas: sirven para filtrar publicidad.",
     "Entrará en la edición de mañana."
   ],
-  "cuando": "2026-09-09T11:14:50.200Z"
+  "cuando": "2026-09-09T11:21:18.077Z"
 }

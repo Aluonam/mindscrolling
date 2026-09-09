@@ -1287,6 +1287,17 @@
       "web": "https://simonwillison.net",
       "rss": "https://simonwillison.net/atom/everything/",
       "nota": "Anadida el 2026-09-09 desde el panel. Feed declarado en la página. Al comprobarla traia 30 entradas, 29 con resumen suficiente, la ultima del 2026-09-09."
+    },
+    {
+      "id": "share",
+      "nombre": "National geographic",
+      "ambito": "tecnico",
+      "estado": "aprobada",
+      "autoridad": 1,
+      "categoria": "Anadida desde el panel",
+      "web": "https://share.google/1syKHadMV7jjfGhiQ",
+      "rss": "https://feeds.elpais.com/mrss-s/list/ep/site/elpais.com/section/tecnologia",
+      "nota": "Anadida el 2026-09-09 desde el panel. Feed declarado en la página. Al comprobarla traia 25 entradas, 19 con resumen suficiente, la ultima del 2026-09-09."
     }
   ],
   "intereses": [
