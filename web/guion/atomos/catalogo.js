@@ -40,19 +40,32 @@ function escribir() {
 }
 
 /**
- * Se pide sin caché a propósito.
+ * Se pide a raw.githubusercontent.com y sin caché, las dos cosas a propósito.
  *
- * Si acabas de publicar un cambio desde el panel, lo siguiente que quieres ver
- * es el catálogo con ese cambio dentro, no el de hace un rato.
+ * Sin caché porque si acabas de cambiar algo, lo que quieres ver es el
+ * catálogo con ese cambio dentro. Y a «raw» porque nuestra propia web lo
+ * sirve con uno a tres minutos de retraso: Pages tiene que reconstruirse
+ * entero cada vez. Leyéndolo de casa, el panel decía «añadida» y la fuente
+ * nueva no aparecía en la lista hasta un rato después.
+ *
+ * No hace falta credencial: el repositorio es público.
  */
+const CRUDO = 'https://raw.githubusercontent.com/Aluonam/mindscrolling/main/config/fuentes.json';
+
 export async function cargar() {
   if (publicado) return publicado;
 
-  const respuesta = await fetch('../config/fuentes.json', { cache: 'no-store' });
+  const respuesta = await fetch(CRUDO + '?t=' + Date.now(), { cache: 'no-store' });
   if (!respuesta.ok) throw new Error(`El catálogo respondió ${respuesta.status}`);
 
   publicado = await respuesta.json();
   return publicado;
+}
+
+/** Volver a leerlo de arriba, después de haber cambiado algo. */
+export async function recargar() {
+  publicado = null;
+  return cargar();
 }
 
 /** Las fuentes con los cambios locales ya aplicados encima. */

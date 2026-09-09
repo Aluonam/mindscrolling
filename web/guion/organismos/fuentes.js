@@ -205,7 +205,7 @@ async function publicar() {
     );
     // Se vuelve a leer lo que ha quedado arriba en vez de dar por hecho que es
     // lo que mandamos: si algo se ha quedado por el camino, mejor verlo.
-    catalogo.darPorPublicado(await (await fetch('../config/fuentes.json', { cache: 'no-store' })).json());
+    catalogo.darPorPublicado(await catalogo.recargar());
     avisar('Publicado · la edición de mañana ya lo tendrá en cuenta');
   } catch (err) {
     avisar(err.message);
@@ -310,12 +310,15 @@ async function comprobarWeb(evento) {
     contarInforme(informe);
     botonComprobar.disabled = false;
 
-    // Si ha entrado, el catálogo de arriba ya no vale: se vuelve a leer.
+    // Si ha entrado, el catálogo de arriba ya no vale: se vuelve a leer de
+    // verdad. Con «cargado = false» no bastaba: el catálogo se guarda en
+    // memoria dentro del átomo, así que volvía a devolver el de antes y la
+    // fuente recién añadida no aparecía en la lista.
     if (informe.sirve) {
-      cargado = false;
       campoWeb.value = '';
       campoNombre.value = '';
-      await abrir();
+      await catalogo.recargar();
+      pintar();
     }
     return;
   }
