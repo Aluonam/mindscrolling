@@ -4,7 +4,10 @@
 .fuentes {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  /* Por encima del menú lateral (41) y del velo (40). Estaba en 40 y la
+     primera vez que se abría quedaba debajo del menú, que ocupa casi toda la
+     pantalla mientras se va: parecía que el botón no hacía nada. */
+  z-index: 45;
   display: flex;
   flex-direction: column;
   background: var(--fondo);

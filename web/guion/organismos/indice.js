@@ -165,6 +165,8 @@ export function montar() {
   // La tercera pestaña no cambia lo que se ve en este panel: abre otro. Se
   // pone aquí porque es donde se busca, no porque sea del mismo tipo.
   document.getElementById('pestanaFuentes').addEventListener('click', () => {
+    // Se cierra este panel antes de abrir el otro, y sin esperar a que
+    // termine de deslizarse: el de fuentes ocupa la pantalla entera y lo tapa.
     cerrar();
     abrirFuentes();
   });
