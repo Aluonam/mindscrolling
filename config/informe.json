@@ -1,15 +1,10 @@
 {
-  "web": "https://share.google/1syKHadMV7jjfGhiQ",
-  "feed": "https://feeds.elpais.com/mrss-s/list/ep/site/elpais.com/section/tecnologia",
-  "sirve": true,
-  "titulo": "National geographic añadida al catálogo",
-  "problemas": [],
-  "bien": [
-    "El feed responde y trae 25 entradas.",
-    "19 de 25 entradas traen resumen suficiente.",
-    "Lo último es del 2026-09-09.",
-    "Trae categorías en 25 entradas: sirven para filtrar publicidad.",
-    "Entrará en la edición de mañana."
+  "web": "https://www.nationalgeographic.com.es/tecnologia",
+  "sirve": false,
+  "titulo": "La web no responde",
+  "problemas": [
+    "No ha contestado en quince segundos. Puede estar caída, o la dirección puede tener una errata."
   ],
-  "cuando": "2026-09-09T11:21:18.077Z"
+  "bien": [],
+  "cuando": "2026-09-09T11:25:52.620Z"
 }
