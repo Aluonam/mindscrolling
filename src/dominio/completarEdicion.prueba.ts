@@ -41,7 +41,11 @@ test('lo que falta hoy se completa con lo de ayer', () => {
     4,
   );
 
-  assert.deepEqual(completa.map(p => p.huella), ['a', 'b', 'x', 'y']);
+  // Las de hoy, en su sitio y en su orden. Lo heredado va detrás y barajado,
+  // así que se comprueba cuánto entra y de dónde viene, no cuál toca.
+  assert.deepEqual(completa.slice(0, 2).map(p => p.huella), ['a', 'b']);
+  assert.equal(completa.length, 4);
+  assert.ok(completa.slice(2).every(p => ['x', 'y', 'z'].includes(p.huella)));
 });
 
 test('las de hoy van primero y ninguna se cae', () => {

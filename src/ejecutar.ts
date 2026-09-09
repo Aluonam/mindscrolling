@@ -11,7 +11,7 @@ import { completarConAnteriores, cuantasHeredadas } from './dominio/completarEdi
 import { construirEdicion } from './dominio/construirEdicion.ts';
 import { SinCupoHoy } from './dominio/errores.ts';
 import type {
-  Cupos, Edicion, FuenteCatalogada, Hallazgo, Interes, PiezaPublicada,
+  Edicion, FuenteCatalogada, Hallazgo, Interes, PiezaPublicada,
 } from './dominio/tipos.ts';
 import { BuscadorRss } from './infraestructura/buscadorRss.ts';
 import { BuscadorEuropePmc } from './infraestructura/buscadorEuropePmc.ts';
@@ -31,7 +31,8 @@ import type { Resumidor } from './dominio/puertos.ts';
 const MINUTOS_DE_ESCRITURA = 45;
 
 type Configuracion = {
-  cupos: Cupos;
+  /** Cuántas piezas quiere traer la edición de cada día. */
+  piezasPorEdicion: number;
   fuentes: FuenteCatalogada[];
   intereses: Interes[];
 };
@@ -156,7 +157,7 @@ async function main() {
     console.log(`  ${anuncios.length} anuncios descartados antes de resumir`);
   }
 
-  const finalistas = construirEdicion(hallazgos, config.intereses, config.cupos, ahora);
+  const finalistas = construirEdicion(hallazgos, config.intereses, config.piezasPorEdicion, ahora);
   console.log(`  ${finalistas.length} finalistas tras deduplicar, puntuar y repartir cupos`);
 
   if (finalistas.length === 0) {

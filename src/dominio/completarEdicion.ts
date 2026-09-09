@@ -8,7 +8,6 @@
 // Función pura, como todo el dominio: entran dos listas y sale una. Sin red,
 // sin ficheros, sin reloj.
 
-import { entrelazar } from './construirEdicion.ts';
 import type { Edicion, PiezaPublicada } from './tipos.ts';
 
 /**
@@ -28,22 +27,23 @@ import type { Edicion, PiezaPublicada } from './tipos.ts';
  * La herencia es en cadena a propósito: mientras haya sequía, el carril se
  * completa con lo más reciente que haya, aunque venga de varios días atrás.
  *
- * Lo heredado se entrelaza antes de repartirlo, por lo mismo que la edición
- * del día (decisión 21): si de una edición vieja solo caben 70 de sus 88 y esa
- * edición venía en bloques, las 70 primeras son casi todas del mismo ámbito.
- * Pasó al rellenar la del 3 de septiembre: salían 63 técnicas y 5 de gestión.
+ * Lo heredado se baraja antes de repartirlo. Si de una edición vieja solo
+ * caben 70 de sus 88 y esa edición venía ordenada por ámbito, las 70 primeras
+ * son casi todas del mismo. Pasó al rellenar la del 3 de septiembre: salían 63
+ * técnicas y 5 de gestión.
  */
 export function completarConAnteriores(
   deHoy: readonly PiezaPublicada[],
   anterior: Edicion | null,
   objetivo: number,
+  azar: () => number = Math.random,
 ): PiezaPublicada[] {
   const completa = [...deHoy];
   if (!anterior) return completa;
 
   const yaEstan = new Set(deHoy.map(p => p.huella));
 
-  for (const pieza of entrelazar(anterior.piezas)) {
+  for (const pieza of barajar(anterior.piezas, azar)) {
     if (completa.length >= objetivo) break;
     if (yaEstan.has(pieza.huella)) continue;
 
@@ -57,4 +57,14 @@ export function completarConAnteriores(
 /** Cuántas de la lista no se escribieron hoy. Para contarlo en las incidencias. */
 export function cuantasHeredadas(piezas: readonly PiezaPublicada[]): number {
   return piezas.filter(p => p.deOtroDia !== undefined).length;
+}
+
+/** Una baraja de las de toda la vida, para no sacar siempre lo mismo. */
+function barajar<T>(piezas: readonly T[], azar: () => number): T[] {
+  const orden = [...piezas];
+  for (let i = orden.length - 1; i > 0; i--) {
+    const j = Math.floor(azar() * (i + 1));
+    [orden[i], orden[j]] = [orden[j], orden[i]];
+  }
+  return orden;
 }

@@ -8,7 +8,7 @@
 
 import { descartarAnuncios } from './anuncios.ts';
 import type {
-  Ambito, Cupos, Hallazgo, Interes, Pieza, PiezaValorada,
+  Ambito, Hallazgo, Interes, Pieza, PiezaValorada,
 } from './tipos.ts';
 
 // ---------------------------------------------------------------------------
@@ -236,70 +236,55 @@ function repartirEntreFuentes(
 }
 
 /**
- * Se compite DENTRO del ámbito, nunca entre ámbitos.
+ * Cien piezas, repartidas al azar entre los ámbitos que tengan algo que dar.
  *
- * Si esto fuera un ranking único, lo técnico se comería la edición entera: no
- * por ser mejor, sino por ser cien veces más. Un cupo que no se llena no se
- * cede al otro ámbito; se queda corto y ya.
+ * Antes cada ámbito tenía su cupo fijo —cincuenta técnicas, treinta y siete
+ * clínicas, trece de gestión— y había que revisar los números cada vez que se
+ * añadía un ámbito. Ahora no hay números que mantener: para cada hueco se
+ * echa a suertes de qué ámbito sale, entre los que aún tengan piezas.
+ *
+ * Sigue compitiendo DENTRO del ámbito y no entre ámbitos, que es lo que
+ * importaba de la decisión 7: si fuera un ranking único, lo técnico se
+ * comería la edición entera por publicar cien veces más, no por ser mejor. El
+ * sorteo es entre ámbitos, con las mismas papeletas para cada uno; dentro de
+ * cada uno manda la puntuación y el reparto entre fuentes.
+ *
+ * Un ámbito que se queda sin piezas deja de entrar en el sorteo, y los demás
+ * se reparten lo que queda. Por eso la edición sale entera aunque un día uno
+ * de ellos no tenga nada.
  */
 export function seleccionar(
   valoradas: readonly PiezaValorada[],
-  cupos: Cupos,
+  objetivo: number,
+  azar: () => number = Math.random,
 ): PiezaValorada[] {
-  const elegidas: PiezaValorada[] = [];
+  const colas = new Map<Ambito, PiezaValorada[]>();
 
-  for (const ambito of Object.keys(cupos) as Ambito[]) {
+  for (const ambito of new Set(valoradas.map(p => p.fuente.ambito))) {
     const delAmbito = valoradas
       .filter(p => p.fuente.ambito === ambito)
       .sort((a, b) => b.puntuacion - a.puntuacion);
 
-    elegidas.push(...repartirEntreFuentes(delAmbito, cupos[ambito]));
+    // El objetivo entero como tope: si es el único ámbito con material, que
+    // pueda llenar la edición él solo en vez de dejarla coja.
+    colas.set(ambito, repartirEntreFuentes(delAmbito, objetivo));
+  }
+
+  const elegidas: PiezaValorada[] = [];
+
+  while (elegidas.length < objetivo) {
+    const conPiezas = [...colas.values()].filter(cola => cola.length > 0);
+    if (conPiezas.length === 0) break;
+
+    const cola = conPiezas[Math.floor(azar() * conPiezas.length)];
+    elegidas.push(cola.shift()!);
   }
 
   return elegidas;
 }
 
 // ---------------------------------------------------------------------------
-// 5. Entrelazar
-// ---------------------------------------------------------------------------
-
-/**
- * Reparte los ámbitos por toda la edición en vez de servirlos por bloques.
- *
- * Importa porque la edición puede terminarse antes de tiempo: si el cupo de
- * tokens se agota en la pieza veinte, esas veinte son la edición del día. Con
- * los ámbitos en bloque serían veinte técnicas y ni una clínica; entrelazados
- * salen diez, siete y tres, que es la proporción de los cupos.
- *
- * A cada pieza se le da el sitio que ocupa dentro de su ámbito, de 0 a 1, y se
- * ordena por ese sitio. La quinta de cincuenta técnicas y la cuarta de treinta
- * y siete clínicas van casi juntas porque van igual de avanzadas en lo suyo,
- * y así la proporción se mantiene en cualquier punto donde se corte.
- *
- * Dentro de cada ámbito no se toca nada: siguen en el orden que dejó el
- * reparto entre fuentes, del mejor al peor.
- */
-export function entrelazar<T extends PiezaValorada>(elegidas: readonly T[]): T[] {
-  // Genérico para poder entrelazar también piezas ya publicadas —las que
-  // llevan destilado— sin que el tipo pierda por el camino lo que traían.
-  const porAmbito = new Map<Ambito, T[]>();
-
-  for (const pieza of elegidas) {
-    const cola = porAmbito.get(pieza.fuente.ambito);
-    if (cola) cola.push(pieza);
-    else porAmbito.set(pieza.fuente.ambito, [pieza]);
-  }
-
-  // El medio del hueco y no su principio: con «i / largo» todos los ámbitos
-  // empatarían en 0 y la primera ronda volvería a salir en bloque.
-  return [...porAmbito.values()]
-    .flatMap(cola => cola.map((pieza, i) => ({ pieza, sitio: (i + 0.5) / cola.length })))
-    .sort((a, b) => a.sitio - b.sitio)
-    .map(({ pieza }) => pieza);
-}
-
-// ---------------------------------------------------------------------------
-// 6. El recorrido completo
+// 5. El recorrido completo
 // ---------------------------------------------------------------------------
 
 /**
@@ -316,11 +301,14 @@ export function entrelazar<T extends PiezaValorada>(elegidas: readonly T[]): T[]
 export function construirEdicion(
   hallazgos: readonly Hallazgo[],
   intereses: readonly Interes[],
-  cupos: Cupos,
+  objetivo: number,
   ahora: Date,
 ): PiezaValorada[] {
   const { limpios } = descartarAnuncios(hallazgos);
   const piezas = deduplicar(identificar(limpios));
   const valoradas = soloLoQueInteresa(puntuar(piezas, intereses, ahora), intereses);
-  return entrelazar(seleccionar(valoradas, cupos));
+
+  // Ya no hace falta entrelazar: el sorteo de «seleccionar» deja los ámbitos
+  // mezclados por construcción, y ordenarlos después desharía el azar.
+  return seleccionar(valoradas, objetivo);
 }

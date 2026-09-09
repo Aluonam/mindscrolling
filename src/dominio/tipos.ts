@@ -148,5 +148,6 @@ export type Edicion = {
   incidencias?: Incidencias;
 };
 
-/** Cuántas piezas puede aportar cada ámbito. Se compite dentro, no entre. */
-export type Cupos = Record<Ambito, number>;
+// Aquí vivía «Cupos», un número de piezas por ámbito. Se fue el día que el
+// reparto pasó a echarse a suertes: no había números que mantener, y cada
+// ámbito nuevo obligaba a repartir de nuevo los cien huecos a mano.

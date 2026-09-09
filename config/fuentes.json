@@ -1,10 +1,188 @@
 {
-  "cupos": {
-    "tecnico": 40,
-    "clinico": 37,
-    "gestion": 13,
-    "otros": 10
-  },
+  "piezasPorEdicion": 100,
+  "intereses": [
+    {
+      "ambito": "tecnico",
+      "peso": 2,
+      "terminos": [
+        "language model",
+        "llm",
+        "transformer",
+        "neural network",
+        "inference",
+        "fine-tuning",
+        "embedding",
+        "retrieval",
+        "reasoning model",
+        "agentic",
+        "modelo de lenguaje",
+        "red neuronal",
+        "aprendizaje profundo"
+      ]
+    },
+    {
+      "ambito": "tecnico",
+      "peso": 2,
+      "terminos": [
+        "software architecture",
+        "microservice",
+        "distributed system",
+        "event-driven",
+        "api design",
+        "modular monolith",
+        "coupling",
+        "domain-driven",
+        "arquitectura de software",
+        "sistemas distribuidos"
+      ]
+    },
+    {
+      "ambito": "tecnico",
+      "peso": 2,
+      "terminos": [
+        "compiler",
+        "runtime",
+        "latency",
+        "throughput",
+        "scalability",
+        "observability",
+        "kubernetes",
+        "database",
+        "concurrency",
+        "memory safety",
+        "compilador",
+        "escalabilidad",
+        "base de datos",
+        "rendimiento"
+      ]
+    },
+    {
+      "ambito": "tecnico",
+      "peso": 1,
+      "terminos": [
+        "formal verification",
+        "type system",
+        "static analysis",
+        "specification",
+        "model checking",
+        "proof assistant",
+        "verificación formal"
+      ]
+    },
+    {
+      "ambito": "clinico",
+      "peso": 2,
+      "terminos": [
+        "autism",
+        "autistic",
+        "adhd",
+        "neurodivergent",
+        "neurodiversity",
+        "dyslexia",
+        "dyspraxia",
+        "tourette",
+        "developmental disorder",
+        "autismo",
+        "autista",
+        "tdah",
+        "neurodivergente",
+        "neurodiversidad",
+        "dislexia",
+        "dispraxia",
+        "trastorno del neurodesarrollo"
+      ]
+    },
+    {
+      "ambito": "clinico",
+      "peso": 2,
+      "terminos": [
+        "sensory integration",
+        "sensory processing",
+        "vestibular",
+        "proprioception",
+        "interoception",
+        "somatosensory",
+        "multisensory",
+        "integración sensorial",
+        "procesamiento sensorial",
+        "propiocepción"
+      ]
+    },
+    {
+      "ambito": "clinico",
+      "peso": 2,
+      "terminos": [
+        "occupational therapy",
+        "activities of daily living",
+        "fine motor",
+        "handwriting",
+        "assistive technology",
+        "participation",
+        "terapia ocupacional",
+        "actividades de la vida diaria",
+        "motricidad fina",
+        "producto de apoyo",
+        "teràpia ocupacional"
+      ]
+    },
+    {
+      "ambito": "clinico",
+      "peso": 1,
+      "terminos": [
+        "motor control",
+        "neuroplasticity",
+        "executive function",
+        "cortex",
+        "rehabilitation",
+        "posture",
+        "control motor",
+        "función ejecutiva",
+        "neuroplasticidad",
+        "rehabilitación"
+      ]
+    },
+    {
+      "ambito": "gestion",
+      "peso": 1,
+      "terminos": [
+        "scrum",
+        "agile",
+        "sprint",
+        "backlog",
+        "kanban",
+        "retrospective",
+        "product owner",
+        "metodología ágil"
+      ]
+    },
+    {
+      "ambito": "gestion",
+      "peso": 1,
+      "terminos": [
+        "project management",
+        "stakeholder",
+        "roadmap",
+        "estimation",
+        "technical debt",
+        "gestión de proyectos",
+        "deuda técnica"
+      ]
+    },
+    {
+      "ambito": "gestion",
+      "peso": 1,
+      "terminos": [
+        "engineering team",
+        "tech lead",
+        "mentoring",
+        "onboarding",
+        "burnout",
+        "remote work",
+        "developer experience",
+        "equipo de desarrollo"
+      ]
+    }
+  ],
   "fuentes": [
     {
       "id": "pubmed",
@@ -1299,189 +1477,6 @@
       "web": "https://share.google/1syKHadMV7jjfGhiQ",
       "rss": "https://feeds.elpais.com/mrss-s/list/ep/site/elpais.com/section/tecnologia",
       "nota": "Anadida el 2026-09-09 desde el panel. Feed declarado en la página. Al comprobarla traia 25 entradas, 19 con resumen suficiente, la ultima del 2026-09-09."
-    }
-  ],
-  "intereses": [
-    {
-      "ambito": "tecnico",
-      "peso": 2,
-      "terminos": [
-        "language model",
-        "llm",
-        "transformer",
-        "neural network",
-        "inference",
-        "fine-tuning",
-        "embedding",
-        "retrieval",
-        "reasoning model",
-        "agentic",
-        "modelo de lenguaje",
-        "red neuronal",
-        "aprendizaje profundo"
-      ]
-    },
-    {
-      "ambito": "tecnico",
-      "peso": 2,
-      "terminos": [
-        "software architecture",
-        "microservice",
-        "distributed system",
-        "event-driven",
-        "api design",
-        "modular monolith",
-        "coupling",
-        "domain-driven",
-        "arquitectura de software",
-        "sistemas distribuidos"
-      ]
-    },
-    {
-      "ambito": "tecnico",
-      "peso": 2,
-      "terminos": [
-        "compiler",
-        "runtime",
-        "latency",
-        "throughput",
-        "scalability",
-        "observability",
-        "kubernetes",
-        "database",
-        "concurrency",
-        "memory safety",
-        "compilador",
-        "escalabilidad",
-        "base de datos",
-        "rendimiento"
-      ]
-    },
-    {
-      "ambito": "tecnico",
-      "peso": 1,
-      "terminos": [
-        "formal verification",
-        "type system",
-        "static analysis",
-        "specification",
-        "model checking",
-        "proof assistant",
-        "verificación formal"
-      ]
-    },
-    {
-      "ambito": "clinico",
-      "peso": 2,
-      "terminos": [
-        "autism",
-        "autistic",
-        "adhd",
-        "neurodivergent",
-        "neurodiversity",
-        "dyslexia",
-        "dyspraxia",
-        "tourette",
-        "developmental disorder",
-        "autismo",
-        "autista",
-        "tdah",
-        "neurodivergente",
-        "neurodiversidad",
-        "dislexia",
-        "dispraxia",
-        "trastorno del neurodesarrollo"
-      ]
-    },
-    {
-      "ambito": "clinico",
-      "peso": 2,
-      "terminos": [
-        "sensory integration",
-        "sensory processing",
-        "vestibular",
-        "proprioception",
-        "interoception",
-        "somatosensory",
-        "multisensory",
-        "integración sensorial",
-        "procesamiento sensorial",
-        "propiocepción"
-      ]
-    },
-    {
-      "ambito": "clinico",
-      "peso": 2,
-      "terminos": [
-        "occupational therapy",
-        "activities of daily living",
-        "fine motor",
-        "handwriting",
-        "assistive technology",
-        "participation",
-        "terapia ocupacional",
-        "actividades de la vida diaria",
-        "motricidad fina",
-        "producto de apoyo",
-        "teràpia ocupacional"
-      ]
-    },
-    {
-      "ambito": "clinico",
-      "peso": 1,
-      "terminos": [
-        "motor control",
-        "neuroplasticity",
-        "executive function",
-        "cortex",
-        "rehabilitation",
-        "posture",
-        "control motor",
-        "función ejecutiva",
-        "neuroplasticidad",
-        "rehabilitación"
-      ]
-    },
-    {
-      "ambito": "gestion",
-      "peso": 1,
-      "terminos": [
-        "scrum",
-        "agile",
-        "sprint",
-        "backlog",
-        "kanban",
-        "retrospective",
-        "product owner",
-        "metodología ágil"
-      ]
-    },
-    {
-      "ambito": "gestion",
-      "peso": 1,
-      "terminos": [
-        "project management",
-        "stakeholder",
-        "roadmap",
-        "estimation",
-        "technical debt",
-        "gestión de proyectos",
-        "deuda técnica"
-      ]
-    },
-    {
-      "ambito": "gestion",
-      "peso": 1,
-      "terminos": [
-        "engineering team",
-        "tech lead",
-        "mentoring",
-        "onboarding",
-        "burnout",
-        "remote work",
-        "developer experience",
-        "equipo de desarrollo"
-      ]
     }
   ]
 }

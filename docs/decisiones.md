@@ -683,3 +683,35 @@ antirrobots; con un «no se encuentra ningún feed» nadie sabría qué hacer.
 **El parser es el mismo que el de cada día.** Se sacó a `hallazgosDe` para
 eso: con dos parsers, el día que se arregle uno el otro sigue roto — que es
 exactamente lo que pasó con las entidades HTML (decisión 24).
+
+---
+
+## 29. El reparto entre ámbitos se echa a suertes
+
+**Qué.** Se acabaron los cupos fijos por ámbito. La edición pide cien piezas y,
+para cada hueco, sortea de qué ámbito sale entre los que aún tengan material.
+
+**Por qué.** Los cupos eran cincuenta técnicas, treinta y siete clínicas y
+trece de gestión, y había que rehacer la cuenta cada vez que se tocaba algo. Al
+añadir «otros intereses» hubo que quitarle diez a lo técnico, y la edición se
+quedó en noventa hasta que ese ámbito tuviera fuentes. Números que mantener a
+mano, y un fallo silencioso cada vez que no cuadraban.
+
+**Lo que sí se conserva de la decisión 7.** Se sigue compitiendo DENTRO del
+ámbito y no entre ámbitos. Si fuera un ranking único, lo técnico se llevaría la
+edición entera por publicar cien veces más, no por ser mejor. El sorteo es
+entre ámbitos, con las mismas papeletas cada uno; dentro de cada uno mandan la
+puntuación y el reparto entre fuentes.
+
+**Un ámbito que se queda sin piezas deja de entrar en el sorteo** y los demás se
+reparten lo que queda. Por eso la edición sale entera aunque un día uno de ellos
+no tenga nada — que es justo lo que no pasaba con los cupos.
+
+**Medido sobre los feeds reales, tres ediciones seguidas:** 40/28/32, 37/35/28 y
+39/37/24. Reparte y varía, sin que nadie se coma a nadie.
+
+**Se cae «entrelazar» (decisión 21).** Existía para que un corte por falta de
+cupo no se llevara un ámbito entero, ordenando las piezas por su posición
+relativa dentro de cada ámbito. Con el sorteo eso ya viene resuelto de fábrica:
+la lista sale mezclada por construcción, y ordenarla después desharía el azar.
+Lo heredado de ediciones anteriores se baraja, por el mismo motivo.

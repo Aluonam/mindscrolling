@@ -10,7 +10,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { afinidad, calcularHuella, deduplicar, entrelazar, seleccionar, soloLoQueInteresa } from './construirEdicion.ts';
+import { afinidad, calcularHuella, deduplicar, seleccionar, soloLoQueInteresa } from './construirEdicion.ts';
 import type { Ambito, Fuente, Interes, Pieza, PiezaValorada } from './tipos.ts';
 
 function fuente(id: string, ambito: Ambito = 'tecnico', autoridad = 1): Fuente {
@@ -61,32 +61,72 @@ test('ante dos piezas iguales gana la fuente más fiable', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Seleccionar: los cupos por ámbito
+// Seleccionar: el sorteo entre ámbitos
 // ---------------------------------------------------------------------------
 
-test('un ámbito no invade el cupo de otro aunque puntúe más alto', () => {
+/** Un azar de mentira, para que la prueba dé siempre lo mismo. */
+const siempre = (valor: number) => () => valor;
+
+test('se llenan las piezas pedidas, ni una más', () => {
+  const tec = fuente('tec', 'tecnico');
+  const elegidas = seleccionar(
+    Array.from({ length: 20 }, (_, i) => pieza(`t${i}`, tec, 1 - i / 100)),
+    5,
+  );
+
+  assert.equal(elegidas.length, 5);
+});
+
+test('si no hay bastante, la edición sale más corta y no se cuelga', () => {
+  const elegidas = seleccionar([pieza('t1', fuente('tec', 'tecnico'), 0.9)], 4);
+
+  assert.equal(elegidas.length, 1);
+});
+
+test('un ámbito con mucho material no ahoga a los demás', () => {
+  // Lo técnico publica cien veces más y puntúa más alto. Aun así, el sorteo
+  // reparte: es lo que impide que se coma la edición entera.
   const tec = fuente('tec', 'tecnico');
   const cli = fuente('cli', 'clinico');
 
   const elegidas = seleccionar(
     [
-      pieza('t1', tec, 0.99), pieza('t2', tec, 0.98), pieza('t3', tec, 0.97),
-      pieza('c1', cli, 0.10),
+      ...Array.from({ length: 200 }, (_, i) => pieza(`t${i}`, tec, 0.99)),
+      ...Array.from({ length: 200 }, (_, i) => pieza(`c${i}`, cli, 0.10)),
     ],
-    { tecnico: 1, clinico: 1, gestion: 1, otros: 0 },
+    100,
   );
 
-  const ambitos = elegidas.map(p => p.fuente.ambito);
-  assert.deepEqual(ambitos.sort(), ['clinico', 'tecnico']);
+  const clinicas = elegidas.filter(p => p.fuente.ambito === 'clinico').length;
+  assert.ok(clinicas > 30, `solo entraron ${clinicas} clínicas de 100`);
+  assert.ok(clinicas < 70, `entraron ${clinicas} clínicas de 100`);
 });
 
-test('un cupo que no se llena no se cede: la edición sale más corta', () => {
+test('un ámbito que se queda sin piezas deja el hueco a los demás', () => {
+  const tec = fuente('tec', 'tecnico');
+  const cli = fuente('cli', 'clinico');
+
   const elegidas = seleccionar(
-    [pieza('t1', fuente('tec', 'tecnico'), 0.9)],
-    { tecnico: 4, clinico: 3, gestion: 1, otros: 0 },
+    [...Array.from({ length: 10 }, (_, i) => pieza(`t${i}`, tec, 0.9)), pieza('c1', cli, 0.9)],
+    8,
   );
 
-  assert.equal(elegidas.length, 1);
+  // La clínica se agota enseguida y las técnicas llenan lo que falta.
+  assert.equal(elegidas.length, 8);
+  assert.equal(elegidas.filter(p => p.fuente.ambito === 'clinico').length, 1);
+});
+
+test('dentro de un ámbito sigue mandando la puntuación', () => {
+  const tec = fuente('tec', 'tecnico');
+
+  // Con el azar clavado en el primer ámbito, salen en su orden interno.
+  const elegidas = seleccionar(
+    [pieza('flojo', tec, 0.10), pieza('bueno', tec, 0.95)],
+    1,
+    siempre(0),
+  );
+
+  assert.equal(elegidas[0].titulo, 'bueno');
 });
 
 // ---------------------------------------------------------------------------
@@ -105,7 +145,7 @@ test('una fuente prolífica no se lleva el cupo entero', () => {
       pieza('a3', arxiv, 0.88), pieza('a4', arxiv, 0.87),
       pieza('b1', blog, 0.50),
     ],
-    { tecnico: 4, clinico: 0, gestion: 0, otros: 0 },
+    4,
   );
 
   assert.equal(elegidas.length, 4);
@@ -122,7 +162,7 @@ test('dentro de una ronda sigue mandando la puntuación', () => {
       pieza('flojo', fuente('uno'), 0.40),
       pieza('bueno', fuente('dos'), 0.95),
     ],
-    { tecnico: 2, clinico: 0, gestion: 0, otros: 0 },
+    2,
   );
 
   assert.equal(primera.titulo, 'bueno');
@@ -133,7 +173,7 @@ test('si solo publica una fuente, esa fuente llena el cupo', () => {
 
   const elegidas = seleccionar(
     [pieza('u1', sola, 0.9), pieza('u2', sola, 0.8), pieza('u3', sola, 0.7)],
-    { tecnico: 3, clinico: 0, gestion: 0, otros: 0 },
+    3,
   );
 
   assert.equal(elegidas.length, 3);
@@ -142,73 +182,10 @@ test('si solo publica una fuente, esa fuente llena el cupo', () => {
 test('el reparto no se cuelga cuando hay menos piezas que cupo', () => {
   const elegidas = seleccionar(
     [pieza('a', fuente('uno'), 0.9), pieza('b', fuente('dos'), 0.8)],
-    { tecnico: 10, clinico: 0, gestion: 0, otros: 0 },
+    10,
   );
 
   assert.equal(elegidas.length, 2);
-});
-
-// ---------------------------------------------------------------------------
-// Entrelazado
-// ---------------------------------------------------------------------------
-//
-// Estas pruebas existen por el cupo de tokens: la edición puede terminarse a
-// medias, y lo que importa entonces es qué hay en las primeras veinte piezas.
-
-/** Cuántas de cada ámbito hay en las primeras `cuantas`. */
-function reparto(piezas: readonly PiezaValorada[], cuantas: number): Record<string, number> {
-  const cuenta: Record<string, number> = {};
-  for (const p of piezas.slice(0, cuantas)) {
-    cuenta[p.fuente.ambito] = (cuenta[p.fuente.ambito] ?? 0) + 1;
-  }
-  return cuenta;
-}
-
-function tantas(n: number, ambito: Ambito): PiezaValorada[] {
-  return Array.from({ length: n }, (_, i) => pieza(`${ambito}-${i}`, fuente(`f-${ambito}`, ambito), 1 - i / 100));
-}
-
-test('un corte a la mitad respeta la proporción de los ámbitos', () => {
-  // Los cupos reales: 50 técnicas, 37 clínicas, 13 de gestión.
-  const edicion = entrelazar([...tantas(50, 'tecnico'), ...tantas(37, 'clinico'), ...tantas(13, 'gestion')]);
-
-  assert.deepEqual(reparto(edicion, 20), { tecnico: 10, clinico: 7, gestion: 3 });
-});
-
-test('las primeras piezas no son todas del mismo ámbito', () => {
-  const edicion = entrelazar([...tantas(50, 'tecnico'), ...tantas(37, 'clinico'), ...tantas(13, 'gestion')]);
-  const primeros = new Set(edicion.slice(0, 5).map(p => p.fuente.ambito));
-
-  assert.ok(primeros.size > 1, 'cinco piezas seguidas del mismo ámbito son un bloque, no un feed');
-});
-
-test('dentro de un ámbito se conserva el orden que traía', () => {
-  const edicion = entrelazar([...tantas(4, 'tecnico'), ...tantas(4, 'clinico')]);
-  const tecnicas = edicion.filter(p => p.fuente.ambito === 'tecnico').map(p => p.titulo);
-
-  assert.deepEqual(tecnicas, ['tecnico-0', 'tecnico-1', 'tecnico-2', 'tecnico-3']);
-});
-
-test('no se pierde ni se duplica ninguna pieza', () => {
-  const entran = [...tantas(50, 'tecnico'), ...tantas(37, 'clinico'), ...tantas(13, 'gestion')];
-  const salen = entrelazar(entran);
-
-  assert.equal(salen.length, entran.length);
-  assert.equal(new Set(salen.map(p => p.titulo)).size, entran.length);
-});
-
-test('un ámbito con una sola pieza no se queda para el final', () => {
-  // Si lo clínico rinde poco un día, su única pieza tiene que caer por el
-  // medio de la edición: al final se la comería cualquier corte por cupo.
-  const edicion = entrelazar([...tantas(20, 'tecnico'), ...tantas(1, 'clinico')]);
-  const sitio = edicion.findIndex(p => p.fuente.ambito === 'clinico');
-
-  assert.ok(sitio > 5 && sitio < 15, `la clínica cayó en el puesto ${sitio}`);
-});
-
-test('con un solo ámbito no cambia nada', () => {
-  const solas = tantas(5, 'tecnico');
-  assert.deepEqual(entrelazar(solas).map(p => p.titulo), solas.map(p => p.titulo));
 });
 
 // ---------------------------------------------------------------------------
