@@ -1,10 +1,15 @@
 {
-  "web": "https://share.google/1syKHadMV7jjfGhiQ",
-  "sirve": false,
-  "titulo": "La web no responde",
-  "problemas": [
-    "No ha contestado en quince segundos. Puede estar caída, o la dirección puede tener una errata."
+  "web": "https://simonwillison.net",
+  "feed": "https://simonwillison.net/atom/everything/",
+  "sirve": true,
+  "titulo": "Simon willison añadida al catálogo",
+  "problemas": [],
+  "bien": [
+    "El feed responde y trae 30 entradas.",
+    "29 de 30 entradas traen resumen suficiente.",
+    "Lo último es del 2026-09-09.",
+    "Trae categorías en 30 entradas: sirven para filtrar publicidad.",
+    "Entrará en la edición de mañana."
   ],
-  "bien": [],
-  "cuando": "2026-09-09T11:05:01.194Z"
+  "cuando": "2026-09-09T11:14:50.200Z"
 }

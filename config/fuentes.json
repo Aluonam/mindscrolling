@@ -1276,6 +1276,17 @@
       "autoridad": 1.1,
       "web": "https://www.codemotion.com/es",
       "rss": "https://www.codemotion.com/magazine/feed/"
+    },
+    {
+      "id": "simonwillison",
+      "nombre": "Simon willison",
+      "ambito": "tecnico",
+      "estado": "aprobada",
+      "autoridad": 1,
+      "categoria": "Anadida desde el panel",
+      "web": "https://simonwillison.net",
+      "rss": "https://simonwillison.net/atom/everything/",
+      "nota": "Anadida el 2026-09-09 desde el panel. Feed declarado en la página. Al comprobarla traia 30 entradas, 29 con resumen suficiente, la ultima del 2026-09-09."
     }
   ],
   "intereses": [
