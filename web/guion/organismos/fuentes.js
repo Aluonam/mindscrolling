@@ -89,7 +89,7 @@ function pintar() {
 
   lista.textContent = '';
 
-  for (const ambito of ['tecnico', 'clinico', 'gestion']) {
+  for (const ambito of ['tecnico', 'clinico', 'gestion', 'otros']) {
     const suyas = todas.filter(f => f.ambito === ambito && encaja(f, busqueda));
     if (suyas.length === 0) continue;
 

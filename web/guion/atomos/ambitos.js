@@ -5,6 +5,7 @@ const NOMBRES = {
   tecnico: 'Técnico',
   clinico: 'Clínico',
   gestion: 'Gestión',
+  otros: 'Otros intereses',
 };
 
 export function nombreDe(ambito) {

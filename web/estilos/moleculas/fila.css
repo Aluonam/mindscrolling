@@ -30,6 +30,7 @@
 .fila[data-ambito="tecnico"] .punto { background: var(--tecnico); }
 .fila[data-ambito="clinico"] .punto { background: var(--clinico); }
 .fila[data-ambito="gestion"] .punto { background: var(--gestion); }
+.fila[data-ambito="otros"] .punto { background: var(--otros); }
 
 .fila .fuente {
   display: block;

@@ -117,6 +117,9 @@ const VIDA_MEDIA_HORAS: Record<Ambito, number> = {
   // caduca en dos días como una noticia técnica, pero tampoco aguanta años
   // como un trabajo clínico. Una semana.
   gestion: 24 * 7,
+  // Lo que no encaja en los otros tres no tiene una caducidad propia: una
+  // semana es el término medio, y se ajusta el día que se sepa de qué va.
+  otros: 24 * 7,
 };
 
 export function frescura(pieza: Pieza, ahora: Date): number {
@@ -147,12 +150,22 @@ const PESOS = {
  * falta el término a `config/fuentes.json`. Por eso los intereses llevan
  * vocabulario en español y en catalán además de en inglés — media web del
  * catálogo publica en castellano, y antes puntuaba cero por eso solo.
+ *
+ * **Un ámbito sin intereses declarados no se filtra.** Es el caso de «otros
+ * intereses»: ahí no hay una lista de términos que cumplir, porque el criterio
+ * es que tú añadiste esa fuente a propósito. Sin esta excepción, todo lo que
+ * entrara por ahí puntuaría cero y se caería entero, que es lo contrario de lo
+ * que significa el ámbito.
  */
 export function soloLoQueInteresa(
   valoradas: readonly PiezaValorada[],
   intereses: readonly Interes[],
 ): PiezaValorada[] {
-  return valoradas.filter(pieza => afinidad(pieza, intereses) > 0);
+  const conCriterio = new Set(intereses.map(interes => interes.ambito));
+
+  return valoradas.filter(
+    pieza => !conCriterio.has(pieza.fuente.ambito) || afinidad(pieza, intereses) > 0,
+  );
 }
 
 export function puntuar(

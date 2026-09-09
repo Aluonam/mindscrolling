@@ -34,6 +34,7 @@
   --clinico:      #FFB454;
   /* Verde y no violeta: violeta y azul se confunden en pantalla oscura. */
   --gestion:      #6FDCA0;
+  --otros:        #B98CFF;
 
   /* Verdana por delante: x alta, letras anchas, y está en los tres sistemas. */
   --sans: "Dislexia", Verdana, "Segoe UI", Tahoma, Geneva, -apple-system, Roboto, sans-serif;

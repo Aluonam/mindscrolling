@@ -40,6 +40,7 @@
 .pieza[data-ambito="tecnico"] { --acento: var(--tecnico); --halo: 90,180,255; }
 .pieza[data-ambito="clinico"] { --acento: var(--clinico); --halo: 255,180,84; }
 .pieza[data-ambito="gestion"] { --acento: var(--gestion); --halo: 111,220,160; }
+.pieza[data-ambito="otros"] { --acento: var(--otros); --halo: 185,140,255; }
 
 .pieza::before {
   content: "";

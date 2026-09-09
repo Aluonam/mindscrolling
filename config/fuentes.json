@@ -1,8 +1,9 @@
 {
   "cupos": {
-    "tecnico": 50,
+    "tecnico": 40,
     "clinico": 37,
-    "gestion": 13
+    "gestion": 13,
+    "otros": 10
   },
   "fuentes": [
     {

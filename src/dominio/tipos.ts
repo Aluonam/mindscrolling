@@ -5,7 +5,7 @@
 // Este fichero no importa nada. Ni red, ni ficheros, ni librerías. Es la
 // definición del problema, no de la solución.
 
-export type Ambito = 'tecnico' | 'clinico' | 'gestion';
+export type Ambito = 'tecnico' | 'clinico' | 'gestion' | 'otros';
 
 export type Interes = {
   nombre: string;

@@ -18,6 +18,7 @@
 .guardado[data-ambito="tecnico"] .punto { background: var(--tecnico); }
 .guardado[data-ambito="clinico"] .punto { background: var(--clinico); }
 .guardado[data-ambito="gestion"] .punto { background: var(--gestion); }
+.guardado[data-ambito="otros"] .punto { background: var(--otros); }
 
 .guardado-texto {
   flex: 1;

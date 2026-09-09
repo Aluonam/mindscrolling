@@ -73,7 +73,7 @@ test('un ámbito no invade el cupo de otro aunque puntúe más alto', () => {
       pieza('t1', tec, 0.99), pieza('t2', tec, 0.98), pieza('t3', tec, 0.97),
       pieza('c1', cli, 0.10),
     ],
-    { tecnico: 1, clinico: 1, gestion: 1 },
+    { tecnico: 1, clinico: 1, gestion: 1, otros: 0 },
   );
 
   const ambitos = elegidas.map(p => p.fuente.ambito);
@@ -83,7 +83,7 @@ test('un ámbito no invade el cupo de otro aunque puntúe más alto', () => {
 test('un cupo que no se llena no se cede: la edición sale más corta', () => {
   const elegidas = seleccionar(
     [pieza('t1', fuente('tec', 'tecnico'), 0.9)],
-    { tecnico: 4, clinico: 3, gestion: 1 },
+    { tecnico: 4, clinico: 3, gestion: 1, otros: 0 },
   );
 
   assert.equal(elegidas.length, 1);
@@ -105,7 +105,7 @@ test('una fuente prolífica no se lleva el cupo entero', () => {
       pieza('a3', arxiv, 0.88), pieza('a4', arxiv, 0.87),
       pieza('b1', blog, 0.50),
     ],
-    { tecnico: 4, clinico: 0, gestion: 0 },
+    { tecnico: 4, clinico: 0, gestion: 0, otros: 0 },
   );
 
   assert.equal(elegidas.length, 4);
@@ -122,7 +122,7 @@ test('dentro de una ronda sigue mandando la puntuación', () => {
       pieza('flojo', fuente('uno'), 0.40),
       pieza('bueno', fuente('dos'), 0.95),
     ],
-    { tecnico: 2, clinico: 0, gestion: 0 },
+    { tecnico: 2, clinico: 0, gestion: 0, otros: 0 },
   );
 
   assert.equal(primera.titulo, 'bueno');
@@ -133,7 +133,7 @@ test('si solo publica una fuente, esa fuente llena el cupo', () => {
 
   const elegidas = seleccionar(
     [pieza('u1', sola, 0.9), pieza('u2', sola, 0.8), pieza('u3', sola, 0.7)],
-    { tecnico: 3, clinico: 0, gestion: 0 },
+    { tecnico: 3, clinico: 0, gestion: 0, otros: 0 },
   );
 
   assert.equal(elegidas.length, 3);
@@ -142,7 +142,7 @@ test('si solo publica una fuente, esa fuente llena el cupo', () => {
 test('el reparto no se cuelga cuando hay menos piezas que cupo', () => {
   const elegidas = seleccionar(
     [pieza('a', fuente('uno'), 0.9), pieza('b', fuente('dos'), 0.8)],
-    { tecnico: 10, clinico: 0, gestion: 0 },
+    { tecnico: 10, clinico: 0, gestion: 0, otros: 0 },
   );
 
   assert.equal(elegidas.length, 2);
