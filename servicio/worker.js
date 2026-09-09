@@ -9,16 +9,18 @@
 // Aquí, en cambio, la contraseña viaja y la llave no: la llave vive en los
 // secretos de Cloudflare y solo la usa este código, en el servidor.
 //
-// Se despliega con `npx wrangler deploy` desde esta carpeta. Los secretos se
-// ponen una vez, con `npx wrangler secret put NOMBRE`:
+// Se despliega con `npx wrangler deploy` desde esta carpeta. Hacen falta dos
+// secretos, y se ponen una vez con `npx wrangler secret put NOMBRE`:
 //
-//   USUARIO        el nombre de quien puede editar
-//   CLAVE          su contraseña
-//   FIRMA          cualquier texto largo e inventado, para firmar las sesiones
+//   CLAVE          la contraseña
 //   GITHUB_TOKEN   el token de GitHub con permiso de Contenido y Flujos
 //
-// Ninguno de los cuatro está en este fichero, y por eso este fichero puede
-// estar en un repositorio público sin que pase nada.
+// Ninguno de los dos está en este fichero, y por eso este fichero puede estar
+// en un repositorio público sin que pase nada.
+//
+// El usuario es «pau» salvo que se ponga otro en el secreto USUARIO, y la
+// firma de las sesiones se saca de la propia contraseña. Empezaron siendo
+// secretos aparte y era pedir cuatro cosas para configurar dos.
 
 const REPO = 'Aluonam/mindscrolling';
 const FICHERO = 'config/fuentes.json';
@@ -26,6 +28,18 @@ const GITHUB = 'https://api.github.com';
 
 /** Lo que dura una sesión antes de volver a pedir la contraseña. */
 const HORAS_DE_SESION = 12;
+
+/** Con una sola persona usando esto, el usuario no merece un secreto propio. */
+const USUARIO_POR_DEFECTO = 'pau';
+
+/**
+ * De qué se firman las sesiones.
+ *
+ * Sale de la contraseña, que ya es un secreto y ya está puesta. Tiene un
+ * efecto secundario que viene bien: cambiar la contraseña tira todas las
+ * sesiones abiertas, que es justo lo que se quiere al cambiarla.
+ */
+const secretoDeFirma = entorno => 'mindscrolling.' + (entorno.CLAVE ?? '');
 
 /**
  * Quién puede llamar a este servicio.
@@ -81,14 +95,26 @@ async function entrar(peticion, entorno, cabeceras) {
   // Se comparan las dos aunque falle la primera, y se tarda lo mismo acierte o
   // no: si contestara antes con el usuario mal, se podría averiguar cuál es el
   // usuario bueno midiendo el tiempo.
-  const bienUsuario = igual(String(usuario ?? ''), entorno.USUARIO);
-  const bienClave = igual(String(clave ?? ''), entorno.CLAVE);
+  const bienUsuario = igual(String(usuario ?? ''), entorno.USUARIO || USUARIO_POR_DEFECTO);
+  const bienClave = igual(String(clave ?? ''), entorno.CLAVE ?? '');
+
+  if (!entorno.CLAVE) {
+    return contestar(
+      { error: 'El servicio está desplegado pero sin contraseña: falta «npx wrangler secret put CLAVE».' },
+      503,
+      cabeceras,
+    );
+  }
 
   if (!bienUsuario || !bienClave) {
     return contestar({ error: 'El usuario o la contraseña no son correctos.' }, 401, cabeceras);
   }
 
-  return contestar({ sesion: await firmar(entorno), usuario: entorno.USUARIO }, 200, cabeceras);
+  return contestar(
+    { sesion: await firmar(entorno), usuario: entorno.USUARIO || USUARIO_POR_DEFECTO },
+    200,
+    cabeceras,
+  );
 }
 
 /**
@@ -114,7 +140,7 @@ function igual(uno, otro = '') {
  */
 async function firmar(entorno) {
   const caduca = Date.now() + HORAS_DE_SESION * 3600_000;
-  return `${caduca}.${await hmac(String(caduca), entorno.FIRMA)}`;
+  return `${caduca}.${await hmac(String(caduca), secretoDeFirma(entorno))}`;
 }
 
 async function comprobarSesion(sesion, entorno) {
@@ -122,7 +148,7 @@ async function comprobarSesion(sesion, entorno) {
   if (!caduca || !firma) return false;
   if (Number(caduca) < Date.now()) return false;
 
-  return igual(firma, await hmac(caduca, entorno.FIRMA));
+  return igual(firma, await hmac(caduca, secretoDeFirma(entorno)));
 }
 
 async function hmac(texto, secreto) {

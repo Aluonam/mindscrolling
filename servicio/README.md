@@ -33,15 +33,15 @@ npx wrangler deploy
 Al terminar da una dirección tipo `https://mindscrolling-panel.TU-CUENTA.workers.dev`.
 Guárdala: es lo único que hay que meter en la aplicación.
 
-**3. Los cuatro secretos.** Cada comando pregunta el valor y no lo enseña por
+**3. Los dos secretos.** Cada comando pregunta el valor y no lo enseña por
 pantalla. **Ninguno se escribe en un fichero ni llega a GitHub.**
 
 ```
-npx wrangler secret put USUARIO        # el nombre con el que entras
 npx wrangler secret put CLAVE          # tu contraseña
-npx wrangler secret put FIRMA          # un texto largo inventado, para firmar las sesiones
 npx wrangler secret put GITHUB_TOKEN   # el token de GitHub
 ```
+
+El usuario es `pau`. Si quieres otro, `npx wrangler secret put USUARIO`.
 
 El token de GitHub se saca en Settings → Developer settings → Fine-grained
 tokens, limitado a `Aluonam/mindscrolling`, con permiso de **Contents** y
@@ -54,12 +54,19 @@ la primera vez. Se queda guardada.
 ## Cambiar la contraseña
 
 `npx wrangler secret put CLAVE` otra vez. Tiene efecto en el siguiente intento,
-en todos los dispositivos.
+en todos los dispositivos, y cierra las sesiones que hubiera abiertas.
+
+## Comprobar que está bien montado
+
+Abre la dirección del paso 2 en el navegador. Tiene que salir
+`{"error":"Solo POST."}`. Cualquier otra cosa —un error de Cloudflare, una
+página en blanco— significa que el despliegue no ha terminado bien.
 
 ## Si alguna vez sospechas
 
 Revoca el token en GitHub y saca otro; luego `npx wrangler secret put GITHUB_TOKEN`
-con el nuevo. Las sesiones abiertas se caen solas cambiando `FIRMA`.
+con el nuevo. Cambiar la contraseña ya tira todas las sesiones abiertas: las
+sesiones se firman con ella.
 
 ## Lo que este servicio NO hace
 
