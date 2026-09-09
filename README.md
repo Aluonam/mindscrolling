@@ -1,3 +1,4 @@
+
 # MindScrolling
 
 Un feed vertical, como los reels de Instagram o los shorts de YouTube, pero con
@@ -7,7 +8,20 @@ para leerse en diez segundos.
 La idea es aprovechar el enganche del scroll para algo que te deja algo:
 aprender y enterarte de lo que importa en tus temas.
 
-**Cada día se publica una edición nueva. Cuando se acaba, se acaba.**
+<img width="921" height="2048" alt="b5379417-9ead-4888-b609-ca53cd2e0b49" src="https://github.com/user-attachments/assets/966b3b12-2dd0-4870-af9a-118aec431d9d" />
+
+**Cada día una edición nueva con 100 publicaciones.**
+
+**Configura la letra y activa las ondas alfa para leer con facilidad.**
+
+<img width="921" height="2048" alt="fedb48c8-225c-4a8a-883a-832741980f52" src="https://github.com/user-attachments/assets/3fdd75a0-2a2c-46b1-9fb0-869e6243078d" />
+
+**Si te resulta interesante puedes leer un resumen amplio o ¡abrir la fuente!**
+
+<img width="921" height="2048" alt="800632b2-fc19-4681-a302-ecd209427da8" src="https://github.com/user-attachments/assets/54678a14-bb1e-492d-bfab-c86b34576176" />
+
+
+
 
 ## Estado
 
@@ -24,19 +38,13 @@ una edición con mucho margen. **El proyecto no cuesta dinero.**
 
 Queda automatizarlo: hoy la edición se genera a mano con `npm run edicion`.
 
-## Para generar una edición
 
-Hace falta una clave gratuita de [Groq](https://console.groq.com):
+## Temas
 
-```
-GROQ_API_KEY=gsk_...   npm run edicion
-npm run servir         # y abrir http://localhost:8731
-```
+El administrador puede añadir fuentes nuevas de información:
 
-Con `RESUMIDOR=claude` y `ANTHROPIC_API_KEY` los escribe Claude, para comparar
-calidad (decisión 14).
+<img width="921" height="2048" alt="74c5058e-c7fd-4d29-bad7-7583bcfb9f16" src="https://github.com/user-attachments/assets/1353ed87-d078-40ed-b6ef-bbe1c6b44f40" />
 
-## Temas que cubre
 
 | Ámbito | Temas | Cupo diario |
 |---|---|---|
@@ -47,19 +55,11 @@ calidad (decisión 14).
 Se compite dentro del ámbito, nunca entre ámbitos. Un cupo que no se llena no
 se cede: la edición sale más corta y ya.
 
-## Cómo funciona, en corto
+## Cómo funciona
 
 1. Cada madrugada, un proceso automático lee las fuentes aprobadas.
 2. Descarta lo repetido y puntúa lo que queda.
-3. La IA escribe un resumen corto de lo seleccionado y marca las palabras clave.
+3. La IA filtra eliminando anuncios, escribe un resumen corto de lo seleccionado y marca las palabras clave.
 4. Se publica la edición del día como un fichero.
 5. Tu móvil se la descarga y la reordena según lo que sueles leer.
 
-## Documentación
-
-- [**Índice de la documentación**](docs/README.md) — por dónde empezar según lo que busques.
-- [Operación](docs/operacion.md) — qué hacer cuando algo falla, y los límites reales medidos.
-- [Glosario](docs/glosario.md) — las palabras que usamos y qué significa cada una.
-- [Decisiones](docs/decisiones.md) — qué decidimos, por qué, y qué descartamos.
-- [Estructura](docs/estructura.md) — cómo está organizado el código y por qué.
-- [Fuentes](docs/fuentes.md) — el catálogo, qué se lee y qué no, y por qué.
