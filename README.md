@@ -8,17 +8,17 @@ para leerse en diez segundos.
 La idea es aprovechar el enganche del scroll para algo que te deja algo:
 aprender y enterarte de lo que importa en tus temas.
 
-<img width="921" height="2048" alt="b5379417-9ead-4888-b609-ca53cd2e0b49" src="https://github.com/user-attachments/assets/966b3b12-2dd0-4870-af9a-118aec431d9d" />
+<img width="421" height="1048" alt="b5379417-9ead-4888-b609-ca53cd2e0b49" src="https://github.com/user-attachments/assets/966b3b12-2dd0-4870-af9a-118aec431d9d" />
 
 **Cada día una edición nueva con 100 publicaciones.**
 
 **Configura la letra y activa las ondas alfa para leer con facilidad.**
 
-<img width="921" height="2048" alt="fedb48c8-225c-4a8a-883a-832741980f52" src="https://github.com/user-attachments/assets/3fdd75a0-2a2c-46b1-9fb0-869e6243078d" />
+<img width="421" height="1048" alt="fedb48c8-225c-4a8a-883a-832741980f52" src="https://github.com/user-attachments/assets/3fdd75a0-2a2c-46b1-9fb0-869e6243078d" />
 
 **Si te resulta interesante puedes leer un resumen amplio o ¡abrir la fuente!**
 
-<img width="921" height="2048" alt="800632b2-fc19-4681-a302-ecd209427da8" src="https://github.com/user-attachments/assets/54678a14-bb1e-492d-bfab-c86b34576176" />
+<img width="421" height="1048" alt="800632b2-fc19-4681-a302-ecd209427da8" src="https://github.com/user-attachments/assets/54678a14-bb1e-492d-bfab-c86b34576176" />
 
 
 
@@ -43,7 +43,7 @@ Queda automatizarlo: hoy la edición se genera a mano con `npm run edicion`.
 
 El administrador puede añadir fuentes nuevas de información:
 
-<img width="921" height="2048" alt="74c5058e-c7fd-4d29-bad7-7583bcfb9f16" src="https://github.com/user-attachments/assets/1353ed87-d078-40ed-b6ef-bbe1c6b44f40" />
+<img width="421" height="1048" alt="74c5058e-c7fd-4d29-bad7-7583bcfb9f16" src="https://github.com/user-attachments/assets/1353ed87-d078-40ed-b6ef-bbe1c6b44f40" />
 
 
 | Ámbito | Temas | Cupo diario |
