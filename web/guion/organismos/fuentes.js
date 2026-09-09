@@ -23,9 +23,6 @@ const lista = document.getElementById('listaFuentes');
 const buscador = document.getElementById('buscarFuente');
 const resumen = document.getElementById('resumenFuentes');
 const botonCerrar = document.getElementById('cerrarFuentes');
-const botonCopiar = document.getElementById('copiarCatalogo');
-const botonPublicar = document.getElementById('publicarCatalogo');
-const botonOlvidar = document.getElementById('olvidarCambios');
 const campoUsuario = document.getElementById('usuario');
 const campoClave = document.getElementById('clave');
 const cajaServicio = document.getElementById('cajaServicio');
@@ -147,11 +144,7 @@ function fila(fuente) {
   const activa = fuente.estado === 'aprobada';
   interruptor.setAttribute('aria-pressed', String(activa));
   interruptor.setAttribute('aria-label', `${activa ? 'Apagar' : 'Encender'} ${fuente.nombre}`);
-  interruptor.addEventListener('click', () => {
-    catalogo.cambiar(fuente.id, activa ? 'descartada' : 'aprobada');
-    refrescar();
-    pintar();
-  });
+  interruptor.addEventListener('click', () => cambiarFuente(fuente, activa));
 
   // La nota explica por qué está donde está. Es lo que evita volver a aprobar
   // dentro de un mes algo que se descartó por un motivo que ya no recuerdas.
@@ -166,59 +159,53 @@ function fila(fuente) {
   return caja;
 }
 
-function pintarResumen() {
-  const cambios = catalogo.cuantosCambios();
-  const activas = catalogo.fuentes().filter(f => f.estado === 'aprobada').length;
+/**
+ * Apagar o encender una fuente, y publicarlo en el momento.
+ *
+ * Antes se apuntaba el cambio y había que darle a un botón de publicar. Eran
+ * dos pasos para una decisión que ya está tomada al pulsar el interruptor, y
+ * el segundo era fácil de olvidar: la fuente se veía apagada en el móvil y la
+ * edición de la madrugada seguía leyéndola.
+ *
+ * Si no se puede guardar, se deshace. Un interruptor que se queda apagado sin
+ * haberse guardado miente sobre lo que va a pasar mañana.
+ */
+async function cambiarFuente(fuente, estabaActiva) {
+  const nuevo = estabaActiva ? 'descartada' : 'aprobada';
 
-  // Quién eres va aquí y no en otro sitio porque este es el único renglón que
-  // se repinta con todo, y antes lo borraba cada vez que se tocaba una fuente.
-  const quien = sesion.identificada() ? `@${sesion.nombre()} · ` : '';
-
-  resumen.textContent = quien + (cambios === 0
-    ? `${activas} fuentes activas. Sin cambios pendientes.`
-    : `${activas} activas · ${cambios} ${cambios === 1 ? 'cambio' : 'cambios'} sin publicar: ya se notan aquí, pero la edición de mañana no los verá hasta publicarlos.`);
-
-  botonPublicar.disabled = cambios === 0;
-  botonCopiar.disabled = cambios === 0;
-  botonOlvidar.hidden = cambios === 0;
-  botonPublicar.textContent = 'Publicar los cambios';
-}
-
-async function copiar() {
-  try {
-    await navigator.clipboard.writeText(catalogo.comoFichero());
-    avisar('Catálogo copiado · pégalo en config/fuentes.json');
-  } catch (err) {
-    avisar('No se ha podido copiar');
-  }
-}
-
-async function publicar() {
-  const cambiadas = catalogo.fuentes().filter(f => f.cambiada).map(f => f.nombre);
-  botonPublicar.disabled = true;
-  botonPublicar.textContent = 'Publicando…';
+  catalogo.cambiar(fuente.id, nuevo);
+  refrescar();
+  pintar();
 
   try {
     await servicio.guardarCatalogo(
       catalogo.comoFichero(),
-      `Catálogo: ${cambiadas.join(', ')}`.slice(0, 72),
+      `${estabaActiva ? 'Fuera' : 'Vuelve'} ${fuente.nombre}`.slice(0, 72),
     );
-    // Se vuelve a leer lo que ha quedado arriba en vez de dar por hecho que es
-    // lo que mandamos: si algo se ha quedado por el camino, mejor verlo.
     catalogo.darPorPublicado(await catalogo.recargar());
-    avisar('Publicado · la edición de mañana ya lo tendrá en cuenta');
+    avisar(`${fuente.nombre}: ${estabaActiva ? 'apagada' : 'encendida'}`);
   } catch (err) {
-    avisar(err.message);
-    // Una sesión caducada deja de estar identificada: mejor volver a pedirla
-    // que quedarse en un panel que ya no puede guardar nada.
-    if (!servicio.haySesion()) {
-      sesion.salir();
-      mostrarSegunSesion();
-    }
+    catalogo.cambiar(fuente.id, fuente.estado);
+    avisar('No se ha podido guardar: ' + err.message);
+
+    if (!servicio.haySesion()) sesion.salir();
+    mostrarSegunSesion();
   }
 
+  refrescar();
   pintar();
 }
+
+function pintarResumen() {
+  const activas = catalogo.fuentes().filter(f => f.estado === 'aprobada').length;
+
+  // Quién eres va aquí y no en otro sitio porque este es el único renglón que
+  // se repinta con todo, y antes lo borraba cada vez que se tocaba una fuente.
+  const quien = sesion.identificada() ? `${sesion.nombre()} · ` : '';
+
+  resumen.textContent = `${quien}${activas} fuentes activas`;
+}
+
 
 
 /** Enseña la pantalla que toque: identificarse, o el catálogo. */
@@ -364,15 +351,6 @@ export function montar() {
   }
 
   botonCerrar.addEventListener('click', cerrar);
-  botonCopiar.addEventListener('click', copiar);
-  botonPublicar.addEventListener('click', publicar);
-  botonOlvidar.addEventListener('click', () => {
-    catalogo.olvidarCambios();
-    refrescar();
-    pintar();
-    avisar('Cambios locales olvidados');
-  });
-
   buscador.addEventListener('input', () => { if (cargado) pintar(); });
 
   botonEntrar.addEventListener('click', entrar);

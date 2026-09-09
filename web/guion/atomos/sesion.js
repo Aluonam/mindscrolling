@@ -50,6 +50,9 @@ export function salir() {
  */
 export function recordar() {
   if (!servicio.haySesion()) return false;
-  quien = 'ti';
+
+  // El nombre se guardó al entrar. Antes se ponía «ti» aquí a falta de algo
+  // mejor y el panel saludaba con «@ti», que no significaba nada.
+  quien = servicio.quienEntro() || 'pau';
   return true;
 }

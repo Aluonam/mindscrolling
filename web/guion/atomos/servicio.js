@@ -9,6 +9,7 @@
 
 const CAJON_DIRECCION = 'mindscrolling:servicio';
 const CAJON_SESION = 'mindscrolling:sesion';
+const CAJON_QUIEN = 'mindscrolling:quien';
 
 const leer = (cajon) => {
   try {
@@ -69,6 +70,7 @@ export function haySesion() {
 
 export function olvidarSesion() {
   escribir(CAJON_SESION, '');
+  escribir(CAJON_QUIEN, '');
 }
 
 async function pedir(ruta, cuerpo) {
@@ -145,7 +147,13 @@ export async function comprobar() {
 export async function entrar(usuario, clave) {
   const datos = await pedir('/entrar', { usuario, clave });
   escribir(CAJON_SESION, datos.sesion);
+  escribir(CAJON_QUIEN, datos.usuario);
   return datos.usuario;
+}
+
+/** Con quién se entró la última vez. Se guarda para no tener que preguntarlo. */
+export function quienEntro() {
+  return leer(CAJON_QUIEN);
 }
 
 /** Pedir que se compruebe una web. La comprobación tarda; esto solo la lanza. */
