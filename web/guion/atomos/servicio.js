@@ -28,13 +28,17 @@ const escribir = (cajon, valor) => {
 /**
  * Dónde vive el portero.
  *
- * Se guarda en el dispositivo en vez de escribirla en el código porque la
- * dirección la da Cloudflare al desplegar, y hasta que no se despliega no
- * existe. No es un secreto: es una dirección pública que sin la contraseña no
- * hace nada.
+ * Manda la publicada en el repositorio, y la del dispositivo solo sirve
+ * mientras no haya ninguna publicada. Al revés estuvo un rato y era una
+ * trampa: una dirección mal pegada en el móvil se quedaba mandando para
+ * siempre, y por mucho que se publicara la buena, el móvil seguía llamando a
+ * la que no existía y contestando «no se ha podido hablar con el servicio».
+ *
+ * No es un secreto: es una dirección pública que sin la contraseña no hace
+ * nada.
  */
 export function direccion() {
-  return leer(CAJON_DIRECCION) || DIRECCION_PUBLICADA;
+  return DIRECCION_PUBLICADA || leer(CAJON_DIRECCION);
 }
 
 /** La que quede escrita en el repositorio cuando el servicio esté montado. */
