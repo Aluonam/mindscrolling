@@ -115,14 +115,28 @@ export function guardarCatalogo(contenido, resumen) {
 /**
  * El informe que deja la acción al terminar de mirar una web.
  *
- * Se lee del repositorio y no del servicio: es un fichero público que ya está
- * publicado, y hacerlo pasar por el portero sería dar un rodeo para nada.
+ * Se pide a raw.githubusercontent.com y no a nuestra propia web, aunque el
+ * fichero esté en las dos. El motivo es el tiempo: cuando la acción hace el
+ * commit, «raw» lo sirve al instante, pero Pages tarda entre uno y tres
+ * minutos en reconstruir el sitio. Leyéndolo de casa, el panel se cansaba de
+ * esperar y decía que tardaba demasiado justo cuando ya estaba hecho.
+ *
+ * No hace falta credencial: el repositorio es público.
  */
+const CRUDO = 'https://raw.githubusercontent.com/Aluonam/mindscrolling/main/config/informe.json';
+
 export async function informe(desde) {
-  const respuesta = await fetch('../config/informe.json?t=' + Date.now(), { cache: 'no-store' });
+  let respuesta;
+  try {
+    respuesta = await fetch(CRUDO + '?t=' + Date.now(), { cache: 'no-store' });
+  } catch (err) {
+    return null;
+  }
+
   if (!respuesta.ok) return null;
 
-  const informe = await respuesta.json();
+  const informe = await respuesta.json().catch(() => null);
+  if (!informe) return null;
   if (desde && informe.cuando && informe.cuando <= desde) return null;
 
   return informe;

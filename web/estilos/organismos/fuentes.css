@@ -169,8 +169,12 @@
 
 .fuentes-botones { display: flex; gap: 10px; }
 
+/* El reparto a lo ancho es cosa de esta fila, no del botón. Cuando estaba en
+   «.boton», el de identificarse —que vive solo en una columna— crecía hasta
+   llenar la pantalla entera. */
+.fuentes-botones .boton { flex: 1; }
+
 .boton {
-  flex: 1;
   padding: 11px 12px;
   border: 1px solid var(--borde);
   border-radius: 6px;
@@ -249,6 +253,8 @@
   line-height: 1.55;
   color: var(--texto-tenue);
 }
+
+.identificacion .boton { align-self: flex-start; }
 
 .identificacion-aviso {
   margin: 0;

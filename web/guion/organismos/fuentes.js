@@ -259,8 +259,9 @@ async function entrar() {
  * Comprobar una web y esperar el veredicto.
  *
  * La comprobación la hace una acción en GitHub, así que esto lanza y espera.
- * Se pregunta cada cinco segundos durante dos minutos: encolar y arrancar un
- * trabajo suele llevar medio minuto, y una web lenta se come otro.
+ * Se pregunta cada cinco segundos durante cinco minutos: encolar el trabajo,
+ * arrancarlo, instalar las dependencias y mirar la web se va a minuto y medio
+ * en un día tranquilo, y a bastante más si GitHub anda cargado.
  */
 async function comprobarWeb(evento) {
   evento.preventDefault();
@@ -284,9 +285,9 @@ async function comprobarWeb(evento) {
     return;
   }
 
-  contar('Comprobando la web… puede tardar un minuto.');
+  contar('Comprobando la web… suele tardar un par de minutos.');
 
-  for (let intento = 0; intento < 24; intento++) {
+  for (let intento = 0; intento < 60; intento++) {
     await new Promise(r => setTimeout(r, 5000));
 
     const informe = await servicio.informe(desde);
@@ -305,7 +306,7 @@ async function comprobarWeb(evento) {
     return;
   }
 
-  contar('La comprobación tarda más de lo normal. Mírala en la pestaña Actions de GitHub.', 'mal');
+  contar('La comprobación tarda más de cinco minutos. Mírala en la pestaña Actions de GitHub.', 'mal');
   botonComprobar.disabled = false;
 }
 
@@ -377,6 +378,16 @@ export function montar() {
   // está, el panel la pide una vez y se queda en el dispositivo.
   servicio.cargarDireccion().then(() => {
     cajaServicio.hidden = servicio.hayServicio();
+
+    // Y se dice antes de escribir nada, no después de intentar entrar: sin
+    // servicio no hay contraseña que valga, y quedarse mirando un formulario
+    // que no puede funcionar es lo peor que puede hacer una pantalla.
+    if (!servicio.hayServicio() && !sesion.identificada()) {
+      avisoIdentificacion.textContent =
+        'Falta montar el servicio que comprueba la contraseña. Está en la carpeta ' +
+        'servicio/ del repositorio, con sus instrucciones. Cuando lo despliegues, ' +
+        'pega aquí abajo la dirección que te dé.';
+    }
   });
 
   mostrarSegunSesion();
