@@ -8,6 +8,9 @@ para leerse en diez segundos.
 La idea es aprovechar el enganche del scroll para algo útil:
 aprender y enterarte de los temas que te importan.
 
+**Vista desde PWA** 
+¡Instala en tu móvil!
+
 <img width="461" height="1048" alt="b5379417-9ead-4888-b609-ca53cd2e0b49" src="https://github.com/user-attachments/assets/966b3b12-2dd0-4870-af9a-118aec431d9d" />
 
 **Cada día una edición nueva con 100 publicaciones.**
