@@ -45,25 +45,17 @@ El administrador puede añadir fuentes nuevas de información:
 <img width="461" height="1048" alt="74c5058e-c7fd-4d29-bad7-7583bcfb9f16" src="https://github.com/user-attachments/assets/1353ed87-d078-40ed-b6ef-bbe1c6b44f40" />
 
 
-| Infraestructura |
+## Infraestructura
 
-  ┌─────────┬───────────────────────────────────────────────────────────────────────────────────────┐
-  │  Capa   │                                      Qué se usa                                       │
-  ├─────────┼───────────────────────────────────────────────────────────────────────────────────────┤                      
-  │ Front   │ HTML + CSS + JS atomic design en carpetas PWA (manifest.json + service worker propio) │
-  ├─────────┼───────────────────────────────────────────────────────────────────────────────────────┤
-  │ Back    │ TypeScript + Node                                                                     │
-  ├─────────┼───────────────────────────────────────────────────────────────────────────────────────┤
-  │ Datos   │ Ficheros JSON en ediciones/, versionados en git. Sin base de datos                    │
-  ├─────────┼───────────────────────────────────────────────────────────────────────────────────────┤
-  │ IA      │ Groq · openai/gpt-oss-120b (respaldo 20b).                                            │
-  ├─────────┼───────────────────────────────────────────────────────────────────────────────────────┤
-  │ Fuentes │ Customizables                                                                         │
-  ├─────────┼───────────────────────────────────────────────────────────────────────────────────────┤
-  │ Cómputo │ GitHub Actions, cron 03:00 UTC                                                        │
-  ├─────────┼───────────────────────────────────────────────────────────────────────────────────────┤
-  │ Hosting │ GitHub Pages                                                                          │
-  └─────────┴───────────────────────────────────────────────────────────────────────────────────────┘
+| Capa | Qué se usa |
+|---|---|
+| Front | HTML + CSS + JS atomic design en carpetas PWA (manifest.json + service worker propio) |
+| Back | TypeScript + Node |
+| Datos | Ficheros JSON en ediciones/, versionados en git. Sin base de datos |
+| IA | Groq · openai/gpt-oss-120b (respaldo 20b). |
+| Fuentes | Customizables |
+| Cómputo | GitHub Actions, cron 03:00 UTC |
+| Hosting | GitHub Pages |
 
 ## Cómo funciona
 
@@ -77,18 +69,16 @@ El administrador puede añadir fuentes nuevas de información:
 
 Enlace de la PWA: **https://aluonam.github.io/mindscrolling/**
 
-  Se instala desde el propio navegador: Chrome ⋮ → Añadir a pantalla de inicio; (en iOS desde Safari).
-        
-  ---
+Se instala desde el propio navegador: Chrome ⋮ → Añadir a pantalla de inicio; (en iOS desde Safari).
+
+---
 
 ¿Quieres tu propio MindScrolling?
 
-  1. Clave gratuita de Groq — console.groq.com, con cuenta de Google o GitHub. Sin tarjeta. Da 8.000 tokens/minuto y un cupo diario por clave. Una  
-  edición de 100 piezas gasta ~138.000 tokens y tarda ~30 min.
+1. Clave gratuita de Groq — console.groq.com, con cuenta de Google o GitHub. Sin tarjeta. Da 8.000 tokens/minuto y un cupo diario por clave. Una edición de 100 piezas gasta ~138.000 tokens y tarda ~30 min.
 
-  2. Fork del repo → Settings → Secrets and variables → Actions → GROQ_API_KEY.
+2. Fork del repo → Settings → Secrets and variables → Actions → GROQ_API_KEY.
 
-  3. Activar Actions. Detalle importante: GitHub desactiva los workflows programados en los forks. Hay que entrar en la pestaña Actions, aceptar el 
-  aviso y activar "Edición diaria" a mano.
+3. Activar Actions. Detalle importante: GitHub desactiva los workflows programados en los forks. Hay que entrar en la pestaña Actions, aceptar el aviso y activar "Edición diaria" a mano.
 
-  4. Pages → Settings → Pages → main / root. La URL pasa a ser https://TU-USUARIO.github.io/mindscrolling/.
+4. Pages → Settings → Pages → main / root. La URL pasa a ser https://TU-USUARIO.github.io/mindscrolling/.
