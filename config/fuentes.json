@@ -433,6 +433,38 @@
       "nota": "Portal divulgativo de TO en espanol. El feed funciona, pero su ultima entrada es de marzo de 2020: mientras no publique, la frescura la deja fuera de las ediciones."
     },
     {
+      "id": "libro-objetivos-to",
+      "nombre": "Objetivos de Tratamiento y Documentacion de Terapia Ocupacional (Pellegrini)",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.4,
+      "web": "https://www.medicapanamericana.com/es-AR/libros/objetivos-de-tratamiento-y-documentacion-de-terapia-ocupacional-metodo-practico-para-su-elaboracion",
+      "nota": "Libro de Mariel Pellegrini Spangenbergarti (Panamericana, ISBN 9788411062848): redaccion de objetivos (SMART, RHUMBA, COAST, GAS) y documentacion del proceso. Es un libro, no publica: no hay feed ni consulta posible. Queda de referencia."
+    },
+    {
+      "id": "integracion-sensorial-epmc",
+      "nombre": "Integracion sensorial en la literatura clinica",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "aprobada",
+      "autoridad": 1.7,
+      "web": "https://europepmc.org",
+      "consulta": "(TITLE:\"sensory integration therapy\" OR TITLE:\"sensory integration intervention\" OR TITLE:\"Ayres\" OR TITLE:\"sensory processing disorder\" OR TITLE:\"sensory modulation\" OR TITLE:\"sensory over-responsivity\" OR TITLE:\"sensory-based\" OR TITLE:\"sensory processing difficulties\" OR TITLE:\"sensory differences\" OR TITLE:\"integración sensorial\")",
+      "diasAtras": 90,
+      "nota": "Consulta a Europe PMC limitada al titulo. \"sensory integration\" suelto no sirve: en neurociencia es otra cosa y traia hormigas y arbitros de beisbol. Con estos terminos, 6 entradas en 60 dias, todas de integracion sensorial clinica. Puede coincidir con PubMed; la deduplicacion lo resuelve."
+    },
+    {
+      "id": "aeis",
+      "nombre": "AEIS - Asociacion Espanola de Integracion Sensorial",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.6,
+      "web": "https://integracionsensorial.es",
+      "nota": "Referente de Ayres en Espana. La web responde 503 al robot y su blog (el-blog-de-la-aeis.blogspot.com) tiene feed pero no publica desde 2012."
+    },
+    {
       "id": "canchild",
       "nombre": "CanChild",
       "ambito": "clinico",
