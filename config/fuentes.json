@@ -443,6 +443,16 @@
       "nota": "Libro de Mariel Pellegrini Spangenbergarti (Panamericana, ISBN 9788411062848): redaccion de objetivos (SMART, RHUMBA, COAST, GAS) y documentacion del proceso. Es un libro, no publica: no hay feed ni consulta posible. Queda de referencia."
     },
     {
+      "id": "libro-fundamentos-kielhofner",
+      "nombre": "Fundamentos Conceptuales de la Terapia Ocupacional (Kielhofner)",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "candidata",
+      "autoridad": 1.8,
+      "web": "https://dialnet.unirioja.es/servlet/libro?codigo=302498",
+      "nota": "Libro de Gary Kielhofner (Panamericana, 3.a ed., ISBN 9789500612586), autor del Modelo de Ocupacion Humana. Es un libro, no publica: no hay feed ni consulta posible. Queda de referencia."
+    },
+    {
       "id": "integracion-sensorial-epmc",
       "nombre": "Integracion sensorial en la literatura clinica",
       "ambito": "clinico",
