@@ -422,6 +422,17 @@
       "rss": "https://www.yourtherapysource.com/blog1/feed/"
     },
     {
+      "id": "to-para-todos",
+      "nombre": "Terapia Ocupacional para Todos",
+      "ambito": "clinico",
+      "categoria": "Terapia ocupacional e integracion sensorial",
+      "estado": "aprobada",
+      "autoridad": 1,
+      "web": "https://terapiaocupacionalparatodos.org",
+      "rss": "https://terapiaocupacionalparatodos.org/feed/",
+      "nota": "Portal divulgativo de TO en espanol. El feed funciona, pero su ultima entrada es de marzo de 2020: mientras no publique, la frescura la deja fuera de las ediciones."
+    },
+    {
       "id": "canchild",
       "nombre": "CanChild",
       "ambito": "clinico",
